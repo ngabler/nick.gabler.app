@@ -1,2 +1,2 @@
 /*
-  Content-Security-Policy: default-src 'unsafe-inline' gabler.app *.gabler.app static.cloudflareinsights.com
+  Content-Security-Policy: default-src 'unsafe-inline' gabler.app *.gabler.app static.cloudflareinsights.com;
