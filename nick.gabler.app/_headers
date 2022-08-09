@@ -1,0 +1,2 @@
+https://nick.gabler.app/*
+  Content-Security-Policy: script-src-elem 'self' static.cloudflareinsights.com
