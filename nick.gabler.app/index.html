@@ -1,0 +1,41 @@
+---
+firstname: NICK
+lastname: GABLER
+website: nick.gabler.app
+linklist:
+  Contact: mailto:nick@gabler.app
+  GitHub: https://github.com/ngabler
+  Instagram: https://www.instagram.com/swappiness0/
+  Linkedin: https://www.linkedin.com/in/nick-gabler-505b9453/
+  Twitter: https://twitter.com/swappiness0
+---
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Nick Gabler, Links, Resume, Instagram, Twitter, Email, Github, systems engineer, systems administrator, how to hire a systems engineer, how to hire a systems administrator, website designer">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="preload" href="/fonts/jetbrains-mono.woff2" crossorigin="anonymous" as="font" type="font/woff2">
+  <link rel="stylesheet" href="/css/main.css">
+  <title>{{ firstname }} {{ lastname }}</title>
+</head>
+
+<body>
+  <h1>{{ firstname }}</h1><br>
+  <h1>{{ lastname }}</h1><br>
+  {% for link in linklist %}
+  {% if forloop.last == true %}
+  <ul>
+    <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
+  </ul><br>
+  {% else %}
+  <ul>
+    <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
+  </ul><br>
+  {% endif %}
+  {% endfor %}
+</body>
+
+</html>
