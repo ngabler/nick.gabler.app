@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self' gabler.app *.gabler.app static.cloudflareinsights.com cloudflareinsights.com cloudflare.com *.cloudflare.com
+  Content-Security-Policy: default-src 'self' gabler.app *.gabler.app; script-src gabler.app *.gabler.app static.cloudflareinsights.com; connect-src cloudflareinsights.com
   Cache-Control: max-age=2629746, public
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
