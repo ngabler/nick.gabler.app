@@ -3,38 +3,165 @@ firstname: NICK
 lastname: GABLER
 website: nick.gabler.app
 linklist:
-  Contact: mailto:nick@gabler.app
-  GitHub: https://github.com/ngabler
-  Instagram: https://www.instagram.com/swappiness0/
-  Linkedin: https://www.linkedin.com/in/nick-gabler-505b9453/
-  Twitter: https://twitter.com/swappiness0
+Contact: mailto:nick@gabler.app
+GitHub: https://github.com/ngabler
+Instagram: https://www.instagram.com/swappiness0/
+Linkedin: https://www.linkedin.com/in/nick-gabler-505b9453/
+Twitter: https://twitter.com/swappiness0
 ---
 <!doctype html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Nick Gabler, Nicholas Gabler, Links, Resume, Instagram, Twitter, Email, Github, Systems Engineer, Systems Administrator, Linux Administrator, How to hire a systems engineer, How to hire a systems administrator, Website designer, AWS cloud practitioner, AWS certified cloud practitioner, Las Vegas, Vegas, Remote">
+  <meta name="description"
+    content="Nick Gabler, Nicholas Gabler, Links, Resume, Instagram, Twitter, Email, Github, Systems Engineer, Systems Administrator, Linux Administrator, How to hire a systems engineer, How to hire a systems administrator, Website designer, AWS cloud practitioner, AWS certified cloud practitioner, Las Vegas, Vegas, Remote">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-  <title>{{ firstname }} {{ lastname }}</title>
-  <style>h1,ul{margin-block-start:0%;margin-block-end:0%;margin-inline-start:0;margin-inline-end:0}body,html{font-family:'JetBrains Mono',monospace;font-style:normal;font-weight:800;color:#fff;background-color:#000;font-size:100%;margin:0;padding:0;resize:none;width:1200px}h1{display:block;font-size:160px;font-weight:700;margin-left:5%}ul{display:list-item;font-size:48px;list-style-type:"\2500\0020";padding-inline-start:0%;padding-top:1.25%;margin-left:10%}a:link{color:#fff;text-decoration-line:none}a:visited{color:grey}a:hover{color:#e6e6e6}a:active{color:#999}</style>
+  <title>{{ firstname }} {{ lastname }}</title>\
+  <style>
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    #title {
+      font-size: 8rem;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 4rem;
+      color: white;
+      flex: 1;
+      text-shadow: -1px 1px 0 #000,
+        1px 1px 0 #000,
+        1px -1px 0 #000;
+      -1px -1px 0 #000;
+    }
+
+
+    #social-links {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      color: white;
+    }
+
+    #social-links a {
+      text-decoration: none;
+      margin: 0.5rem 0;
+      color: white;
+      font-size: 3rem;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: -1px 1px 0 #000,
+        1px 1px 0 #000,
+        1px -1px 0 #000;
+      -1px -1px 0 #000;
+    }
+
+    @media (min-width: 768px) {
+      #social-links a {
+        flex-basis: calc(25% - 1rem);
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <h1>{{ firstname }}</h1><br>
-  <h1>{{ lastname }}</h1><br>
-  {% for link in linklist %}
-  {% if forloop.last == true %}
-  <ul>
-    <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
-  </ul><br>
-  {% else %}
-  <ul>
-    <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
-  </ul><br>
-  {% endif %}
-  {% endfor %}
-</body>
+  <canvas id="bgCanvas"></canvas>
+  <h1 id="title">{{ firstname }} {{ lastname }}</h1>
+  <div id="social-links">
+    {% for link in linklist %}
+    {% if forloop.last == true %}
+    <ul>
+      <a href="{{ link[1] }}" target="_blank">{{ link[0] }}</a>
+    </ul><br>
+    {% else %}
+    <ul>
+      <a href="{{ link[1] }}" target="_blank">{{ link[0] }}</a>
+    </ul><br>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <script>
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
+    const stars = [];
+    let mouseX = canvas.width / 2;
+    let mouseY = canvas.height / 2;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+
+    class Star {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speed = Math.random() * 5 + 0.1;
+        this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+      }
+
+      draw() {
+        this.x += (mouseX - canvas.width / 2) * 0.001 * this.speed;
+        this.y += (mouseY - canvas.height / 2) * 0.001 * this.speed;
+
+        // Check if the star is off the canvas boundaries
+        if (this.x < -this.size) this.x = canvas.width + this.size;
+        if (this.x > canvas.width + this.size) this.x = -this.size;
+        if (this.y < -this.size) this.y = canvas.height + this.size;
+        if (this.y > canvas.height + this.size) this.y = -this.size;
+
+        ctx.fillStyle = this.color;
+        ctx.strokeStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 1000; i++) {
+      stars.push(new Star());
+    }
+
+    function animateStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        star.draw();
+      });
+      requestAnimationFrame(animateStars);
+    }
+
+    animateStars();
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+    });
+
+  </script>
+</body>
 </html>
