@@ -85,13 +85,9 @@ Twitter: https://twitter.com/swappiness0
   <div id="social-links">
     {% for link in linklist %}
     {% if forloop.last == true %}
-    <ul>
       <a href="{{ link[1] }}" target="_blank">{{ link[0] }}</a>
-    </ul><br>
     {% else %}
-    <ul>
       <a href="{{ link[1] }}" target="_blank">{{ link[0] }}</a>
-    </ul><br>
     {% endif %}
     {% endfor %}
   </div>
