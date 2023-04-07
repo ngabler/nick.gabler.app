@@ -26,7 +26,7 @@ linklist:
       padding: 0;
       overflow: hidden;
       background: black;
-      overflow-y: auto; 
+      overflow-y: auto;
     }
 
     canvas {
@@ -110,10 +110,26 @@ linklist:
     let tiltX = 0;
     let tiltY = 0;
 
-    window.addEventListener('deviceorientation', (e) => {
+    function handleDeviceOrientation(e) {
       tiltX = e.gamma; // Tilting left and right
       tiltY = e.beta;  // Tilting front and back
-    });
+    }
+
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      // Request permission for iOS 13+ devices
+      DeviceOrientationEvent.requestPermission()
+        .then((permissionState) => {
+          if (permissionState === 'granted') {
+            window.addEventListener('deviceorientation', handleDeviceOrientation);
+          }
+        })
+        .catch((error) => {
+          console.error('DeviceOrientationEvent requestPermission error:', error);
+        });
+    } else {
+      // Register the event listener for devices that don't require permission
+      window.addEventListener('deviceorientation', handleDeviceOrientation);
+    }
 
     class Star {
       constructor() {
