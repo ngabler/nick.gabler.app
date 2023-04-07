@@ -124,8 +124,8 @@ linklist:
       }
 
       draw() {
-        this.x += (mouseX - canvas.width / 2) * 0.001 * this.speed + tiltX * 0.01;
-        this.y += (mouseY - canvas.height / 2) * 0.001 * this.speed + tiltY * 0.01;
+        this.x += (mouseX - canvas.width / 2) * 0.001 * this.speed * 0.01;
+        this.y += (mouseY - canvas.height / 2) * 0.001 * this.speed * 0.01;
 
         if (this.x < -this.size) this.x = canvas.width + this.size;
         if (this.x > canvas.width + this.size) this.x = -this.size;
