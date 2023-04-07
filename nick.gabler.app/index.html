@@ -85,9 +85,9 @@ linklist:
   <div id="social-links">
     {% for link in linklist %}
     {% if forloop.last == true %}
-      <a href="{{ link[1] }}" target="_blank">{{ link[0] }}</a>
+    <a href="{{ link[1] }}" target="_blank">{{ link[0] }}</a>
     {% else %}
-      <a href="{{ link[1] }}" target="_blank">{{ link[0] }}</a>
+    <a href="{{ link[1] }}" target="_blank">{{ link[0] }}</a>
     {% endif %}
     {% endfor %}
   </div>
@@ -106,6 +106,13 @@ linklist:
       mouseY = e.clientY;
     });
 
+    let tiltX = 0;
+    let tiltY = 0;
+
+    window.addEventListener('deviceorientation', (e) => {
+      tiltX = e.gamma; // Tilting left and right
+      tiltY = e.beta;  // Tilting front and back
+    });
 
     class Star {
       constructor() {
@@ -117,10 +124,9 @@ linklist:
       }
 
       draw() {
-        this.x += (mouseX - canvas.width / 2) * 0.001 * this.speed;
-        this.y += (mouseY - canvas.height / 2) * 0.001 * this.speed;
+        this.x += (mouseX - canvas.width / 2) * 0.001 * this.speed + tiltX * 0.01;
+        this.y += (mouseY - canvas.height / 2) * 0.001 * this.speed + tiltY * 0.01;
 
-        // Check if the star is off the canvas boundaries
         if (this.x < -this.size) this.x = canvas.width + this.size;
         if (this.x > canvas.width + this.size) this.x = -this.size;
         if (this.y < -this.size) this.y = canvas.height + this.size;
@@ -134,6 +140,7 @@ linklist:
         ctx.fill();
       }
     }
+
 
     for (let i = 0; i < 1000; i++) {
       stars.push(new Star());
@@ -160,4 +167,5 @@ linklist:
 
   </script>
 </body>
+
 </html>
