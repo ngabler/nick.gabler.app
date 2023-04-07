@@ -107,30 +107,13 @@ linklist:
       mouseY = e.clientY;
     });
 
-    let tiltX = 0;
-    let tiltY = 0;
-
-    function handleDeviceOrientation(e) {
-      tiltX = e.gamma; // Tilting left and right
-      tiltY = e.beta;  // Tilting front and back
-    }
-
-    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-      // Request permission for iOS 13+ devices
-      DeviceOrientationEvent.requestPermission()
-        .then((permissionState) => {
-          if (permissionState === 'granted') {
-            window.addEventListener('deviceorientation', handleDeviceOrientation);
-          }
-        })
-        .catch((error) => {
-          console.error('DeviceOrientationEvent requestPermission error:', error);
-        });
-    } else {
-      // Register the event listener for devices that don't require permission
-      window.addEventListener('deviceorientation', handleDeviceOrientation);
-    }
-
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        mouseX = e.touches[0].clientX;
+        mouseY = e.touches[0].clientY;
+      }
+    });
+    
     class Star {
       constructor() {
         this.x = Math.random() * canvas.width;
