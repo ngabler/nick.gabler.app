@@ -4,7 +4,7 @@ lastname: GABLER
 website: nick.gabler.app
 linklist:
   Contact: mailto:nick@gabler.app
-  GitHub: https://github.com/ngabler
+  itHub: https://github.com/ngabler
   Instagram: https://www.instagram.com/swappiness0/
   Linkedin: https://www.linkedin.com/in/nick-gabler-505b9453/
   Twitter: https://twitter.com/swappiness0
@@ -102,17 +102,28 @@ linklist:
     let mouseX = canvas.width / 2;
     let mouseY = canvas.height / 2;
 
-    window.addEventListener('mousemove', (e) => {
+    function throttle(func, delay) {
+      let lastCall = 0;
+      return function (...args) {
+        const now = new Date().getTime();
+        if (now - lastCall < delay) {
+          return;
+        }
+        lastCall = now;
+        return func(...args);
+      };
+    }
+
+    window.addEventListener('mousemove', throttle((e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-    });
+    }, 50));
 
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches && e.touches.length > 0) {
-        mouseX = e.touches[0].clientX;
-        mouseY = e.touches[0].clientY;
-      }
-    });
+    window.addEventListener('touchmove', throttle((e) => {
+      e.preventDefault();
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
+    }, 50), { passive: false });
 
     class Star {
       constructor() {
@@ -147,15 +158,13 @@ linklist:
       stars.push(new Star());
     }
 
-    function animateStars() {
+    function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach(star => {
-        star.draw();
-      });
-      requestAnimationFrame(animateStars);
+      stars.forEach((star) => star.draw());
+      requestAnimationFrame(animate);
     }
 
-    animateStars();
+    requestAnimationFrame(animate);
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
