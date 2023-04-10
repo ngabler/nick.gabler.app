@@ -99,6 +99,7 @@ linklist:
   const canvas = document.getElementById('bgCanvas');
   const ctx = canvas.getContext('2d');
   const devicePixelRatio = window.devicePixelRatio || 1;
+  const numStars = Math.floor(window.innerWidth * window.innerHeight / 5000);
   
   function throttle(func, delay) {
     let lastCall = 0;
@@ -172,15 +173,29 @@ linklist:
     }
   }
 
-  for (let i = 0; i < 1500; i++) {
+  for (let i = 0; i < numStars; i++) {
     stars.push(new Star());
   }
 
+  // Custom frame rate
+  let fps = 60;
+  let now;
+  let then = Date.now();
+  let interval = 1000 / fps;
+  let delta;
+
   function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    stars.sort((a, b) => a.size - b.size);
-    stars.forEach((star) => star.draw());
     requestAnimationFrame(animate);
+    now = Date.now();
+    delta = now - then;
+
+    if (delta > interval) {
+      then = now - (delta % interval);
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.sort((a, b) => a.size - b.size);
+      stars.forEach((star) => star.draw());
+    }
   }
 
   window.addEventListener('resize', throttle(() => {
