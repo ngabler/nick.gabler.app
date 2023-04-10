@@ -119,14 +119,13 @@ linklist:
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 2 + 1;
-        this.speedX = (Math.random() * 2 - 1) * 0.5;
-        this.speedY = (Math.random() * 2 - 1) * 0.5;
+        this.speed = Math.random() * 0.5 + 0.1;
         this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
       }
 
       draw() {
-        this.x += this.speedX + (mouseX - canvas.width / 2) * 0.001 * this.speedX - scrollX * 0.001 * this.speedX;
-        this.y += this.speedY + (mouseY - canvas.height / 2) * 0.001 * this.speedY - scrollY * 0.001 * this.speedY;
+        this.x += (mouseX - canvas.width / 2) * 0.001 * this.speed - scrollX * 0.001 * this.speed;
+        this.y += (mouseY - canvas.height / 2) * 0.001 * this.speed - scrollY * 0.001 * this.speed;
 
         if (this.x < -this.size) this.x = canvas.width + this.size;
         if (this.x > canvas.width + this.size) this.x = -this.size;
