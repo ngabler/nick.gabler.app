@@ -40,7 +40,7 @@ linklist:
       font-size: 6rem;
       font-weight: bold;
       text-align: center;
-      margin-top: 4rem;
+      margin-top: 2rem;
       color: white;
       flex: 1;
       text-shadow: -1px 1px 0 #000,
@@ -93,15 +93,6 @@ linklist:
     {% endfor %}
   </div>
   <script>
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const stars = [];
-    let mouseX = canvas.width / 2;
-    let mouseY = canvas.height / 2;
-
     function throttle(func, delay) {
       let lastCall = 0;
       return function (...args) {
@@ -113,6 +104,21 @@ linklist:
         return func(...args);
       };
     }
+
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const stars = [];
+    let mouseX = canvas.width / 2;
+    let mouseY = canvas.height / 2;
+
+    const worker = new Worker('worker.js');
+
+    worker.addEventListener('message', (e) => {
+      stars = e.data;
+    });
 
     window.addEventListener('mousemove', throttle((e) => {
       mouseX = e.clientX;
@@ -162,9 +168,18 @@ linklist:
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       stars.forEach((star) => star.draw());
       requestAnimationFrame(animate);
-    }
 
-    requestAnimationFrame(animate);
+      // Send the data to the worker
+      worker.postMessage({
+        stars,
+        mouseX,
+        mouseY,
+        canvasWidth: canvas.width,
+        canvasHeight: canvas.height,
+        scrollX,
+        scrollY
+      });
+    }
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
