@@ -133,12 +133,12 @@ linklist:
       } else {
         const dx = mouseX - this.x;
         const dy = mouseY - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
         const angle = Math.atan2(dy, dx);
-        const orbitRadius = dist;
+        const orbitRadius = Math.sqrt(dx * dx + dy * dy);
 
-        this.x = mouseX + Math.cos(angle + Math.PI / 2) * orbitRadius;
-        this.y = mouseY + Math.sin(angle + Math.PI / 2) * orbitRadius;
+        this.angle = angle + Math.PI / 180;
+        this.x = mouseX + Math.cos(this.angle) * orbitRadius;
+        this.y = mouseY + Math.sin(this.angle) * orbitRadius;
       }
 
       ctx.fillStyle = this.color;
@@ -147,10 +147,10 @@ linklist:
       ctx.closePath();
       ctx.fill();
 
-      if (this.x < -this.size || this.x > canvas.width + this.size || this.y < -this.size || this.y > canvas.height + this.size) {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-      }
+      if (this.x < -this.size) this.x = canvas.width + this.size;
+      if (this.x > canvas.width + this.size) this.x = -this.size;
+      if (this.y < -this.size) this.y = canvas.height + this.size;
+      if (this.y > canvas.height + this.size) this.y = -this.size;
     }
   }
 
