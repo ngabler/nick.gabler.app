@@ -96,22 +96,20 @@ linklist:
     {% endfor %}
   </div>
 <script type="text/javascript">
-  function throttle(func, delay) {
-    let lastCall = 0;
-    return function (...args) {
-      const now = new Date().getTime();
-      if (now - lastCall < delay) {
-        return;
-      }
-      lastCall = now;
-      return func(...args);
-    };
-  }
-
   const canvas = document.getElementById('bgCanvas');
   const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const devicePixelRatio = window.devicePixelRatio || 1;
+
+  canvas.width = window.innerWidth * devicePixelRatio;
+  canvas.height = window.innerHeight * devicePixelRatio;
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth * devicePixelRatio;
+    canvas.height = window.innerHeight * devicePixelRatio;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
 
   const stars = [];
   let mouseX = canvas.width / 2;
@@ -132,7 +130,7 @@ linklist:
     constructor() {
       this.x = Math.random() * canvas.width;
       this.y = Math.random() * canvas.height;
-      this.size = Math.pow(Math.random(), 3) * 6 + 0.3;
+      this.size = Math.pow(Math.random(), 3) * 3 + 0.3;
       this.speed = this.size * 0.1;
       this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
       this.initialMouseX = Math.random() * canvas.width;
@@ -142,8 +140,8 @@ linklist:
     }
 
     draw() {
-    this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
-    this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
+      this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.005 * this.speed) + (mouseX - canvas.width / 2) * 0.005 * this.speed;
+      this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.005 * this.speed) + (mouseY - canvas.height / 2) * 0.005 * this.speed;
 
       this.x += this.moveX;
       this.y += this.moveY;
@@ -154,7 +152,6 @@ linklist:
       if (this.y > canvas.height + this.size) this.y = -this.size;
 
       ctx.fillStyle = this.color;
-      ctx.strokeStyle = 'white';
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.closePath();
@@ -171,11 +168,6 @@ linklist:
     stars.sort((a, b) => a.size - b.size);
     stars.forEach((star) => star.draw());
     requestAnimationFrame(animate);
-  }
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
   }
 
   window.addEventListener('resize', () => {
