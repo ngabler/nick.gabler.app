@@ -113,6 +113,7 @@ linklist:
   const stars = [];
   let mouseX = canvas.width / 2;
   let mouseY = canvas.height / 2;
+  let mouseDown = false;
 
   window.addEventListener('mousemove', throttle((e) => {
     mouseX = e.clientX;
@@ -124,6 +125,22 @@ linklist:
     mouseX = e.touches[0].clientX;
     mouseY = e.touches[0].clientY;
   }, 100), { passive: false });
+
+  window.addEventListener('mousedown', () => {
+    mouseDown = true;
+  });
+
+  window.addEventListener('mouseup', () => {
+    mouseDown = false;
+  });
+
+  window.addEventListener('touchstart', () => {
+    mouseDown = true;
+  });
+
+  window.addEventListener('touchend', () => {
+    mouseDown = false;
+  });
 
   class Star {
     constructor() {
@@ -141,6 +158,15 @@ linklist:
     draw() {
       this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.001 * this.speed) + (mouseX - canvas.width / 2) * 0.001 * this.speed;
       this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.001 * this.speed) + (mouseY - canvas.height / 2) * 0.001 * this.speed;
+
+      if (mouseDown) {
+        const dx = this.x - mouseX;
+        const dy = this.y - mouseY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx);
+        this.moveX -= Math.cos(angle) * this.speed * (1 / distance) * 100;
+        this.moveY -= Math.sin(angle) * this.speed * (1 / distance) * 100;
+      }
 
       this.x += this.moveX;
       this.y += this.moveY;
@@ -166,12 +192,7 @@ linklist:
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stars.forEach((star) => star.draw());
-
-    if (window.requestIdleCallback) {
-      requestIdleCallback(animate);
-    } else {
-      requestAnimationFrame(animate);
-    }
+    requestAnimationFrame(animate);
   }
 
   function resizeCanvas() {
@@ -186,6 +207,8 @@ linklist:
   animate();
   resizeCanvas();
 </script>
+
+
 
 </body>
 
