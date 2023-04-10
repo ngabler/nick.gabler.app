@@ -101,33 +101,19 @@ linklist:
   const stars = [];
   let mouseX = canvas.width / 2;
   let mouseY = canvas.height / 2;
-  let isMouseDown = false;
+  let mouseDown = false;
 
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
   });
 
-  window.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    mouseX = e.touches[0].clientX;
-    mouseY = e.touches[0].clientY;
-  }, { passive: false });
-
   window.addEventListener('mousedown', () => {
-    isMouseDown = true;
+    mouseDown = true;
   });
 
   window.addEventListener('mouseup', () => {
-    isMouseDown = false;
-  });
-
-  window.addEventListener('touchstart', () => {
-    isMouseDown = true;
-  });
-
-  window.addEventListener('touchend', () => {
-    isMouseDown = false;
+    mouseDown = false;
   });
 
   class Star {
@@ -140,35 +126,32 @@ linklist:
     }
 
     draw() {
-      const dx = this.x - mouseX;
-      const dy = this.y - mouseY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const angle = Math.atan2(dy, dx);
-      const force = isMouseDown ? 1.5 : 0.5;
-      const minDistance = isMouseDown ? 50 : 20;
-      const acceleration = this.speed * force * (1 / (distance + minDistance));
+      const dx = mouseX - this.x;
+      const dy = mouseY - this.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const force = mouseDown ? 0.3 : 0.1;
+      const attraction = this.speed * force;
 
-      if (distance > minDistance) {
-        this.x -= acceleration * Math.cos(angle);
-        this.y -= acceleration * Math.sin(angle);
-      }
-
-      if (this.x < -this.size || this.x > canvas.width + this.size) {
-        this.x = canvas.width / 2 + Math.random() * 50 - 25;
-        this.y = canvas.height / 2 + Math.random() * 50 - 25;
-      }
-
-      if (this.y < -this.size || this.y > canvas.height + this.size) {
-        this.x = canvas.width / 2 + Math.random() * 50 - 25;
-        this.y = canvas.height / 2 + Math.random() * 50 - 25;
+      if (dist > 100) {
+        this.x += dx / dist * attraction;
+        this.y += dy / dist * attraction;
+      } else if (mouseDown) {
+        const orbitRadius = 100;
+        const angle = Math.atan2(dy, dx);
+        this.x = mouseX + Math.cos(angle) * orbitRadius;
+        this.y = mouseY + Math.sin(angle) * orbitRadius;
       }
 
       ctx.fillStyle = this.color;
-      ctx.strokeStyle = 'white';
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.closePath();
       ctx.fill();
+
+      if (this.x < -this.size || this.x > canvas.width + this.size || this.y < -this.size || this.y > canvas.height + this.size) {
+        this.x = Math.random() * canvas.width * 0.5 + canvas.width * 0.25;
+        this.y = Math.random() * canvas.height * 0.5 + canvas.height * 0.25;
+      }
     }
   }
 
@@ -183,7 +166,7 @@ linklist:
   }
 
   function resizeCanvas() {
-    canvas.width = window.innerWidth
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
 
