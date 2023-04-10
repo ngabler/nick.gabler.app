@@ -161,7 +161,12 @@ linklist:
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stars.forEach((star) => star.draw());
-    requestAnimationFrame(animate);
+
+    if (window.requestIdleCallback) {
+      requestIdleCallback(animate);
+    } else {
+      requestAnimationFrame(animate);
+    }
   }
 
   function resizeCanvas() {
