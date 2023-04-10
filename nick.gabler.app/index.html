@@ -99,6 +99,18 @@ linklist:
   const canvas = document.getElementById('bgCanvas');
   const ctx = canvas.getContext('2d');
   const devicePixelRatio = window.devicePixelRatio || 1;
+  
+  function throttle(func, delay) {
+    let lastCall = 0;
+    return function (...args) {
+      const now = new Date().getTime();
+      if (now - lastCall < delay) {
+        return;
+      }
+      lastCall = now;
+      return func(...args);
+    };
+  }
 
   canvas.width = window.innerWidth * devicePixelRatio;
   canvas.height = window.innerHeight * devicePixelRatio;
