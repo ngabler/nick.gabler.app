@@ -125,8 +125,8 @@ linklist:
       }
 
       draw() {
-        this.x += this.speedX + (mouseX - canvas.width / 2) * 0.001 * this.speedX + tiltX * 0.01 - scrollX * 0.001 * this.speedX;
-        this.y += this.speedY + (mouseY - canvas.height / 2) * 0.001 * this.speedY + tiltY * 0.01 - scrollY * 0.001 * this.speedY;
+        this.x += this.speedX + (mouseX - canvas.width / 2) * 0.001 * this.speedX - scrollX * 0.001 * this.speedX;
+        this.y += this.speedY + (mouseY - canvas.height / 2) * 0.001 * this.speedY - scrollY * 0.001 * this.speedY;
 
         if (this.x < -this.size) this.x = canvas.width + this.size;
         if (this.x > canvas.width + this.size) this.x = -this.size;
