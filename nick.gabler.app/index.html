@@ -110,81 +110,22 @@ linklist:
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  let stars = [];
+  const stars = [];
   let mouseX = canvas.width / 2;
   let mouseY = canvas.height / 2;
 
-  const workerCode = `
-    let stars = [];
-    let mouseX = 0;
-    let mouseY = 0;
-    let canvasWidth = 0;
-    let canvasHeight = 0;
-    let scrollX = 0;
-    let scrollY = 0;
-
-    const updateStarPositions = () => {
-      stars = stars.map((star) => {
-        const x = star.x + ((star.initialMouseX - canvasWidth / 2) * 0.001 * star.speed) + (mouseX - canvasWidth / 2) * 0.001 * star.speed - scrollX * 0.001 * star.speed;
-        const y = star.y + ((star.initialMouseY - canvasHeight / 2) * 0.001 * star.speed) + (mouseY - canvasHeight / 2) * 0.001 * star.speed - scrollY * 0.001 * star.speed;
-        return { ...star, x, y };
-      });
-      self.postMessage(stars);
-      requestAnimationFrame(updateStarPositions);
-    };
-
-    self.addEventListener('message', (e) => {
-      const { type, data } = e.data;
-      if (type === 'init') {
-        stars = data.stars;
-        mouseX = data.mouseX;
-        mouseY = data.mouseY;
-        canvasWidth = data.canvasWidth;
-        canvasHeight = data.canvasHeight;
-        scrollX = data.scrollX;
-        scrollY = data.scrollY;
-        updateStarPositions();
-      } else if (type === 'mousemove') {
-        mouseX = data.mouseX;
-        mouseY = data.mouseY;
-      } else if (type === 'resize') {
-        canvasWidth = data.canvasWidth;
-        canvasHeight = data.canvasHeight;
-      }
-    });
-  `;
-
-  const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
-  const workerURL = URL.createObjectURL(workerBlob);
-
-  const worker = new Worker(workerURL);
-
-  worker.addEventListener('message', (e) => {
-    const updatedStars = e.data;
-    stars.length = 0;
-    updatedStars.forEach(updatedStar => {
-      const star = new Star();
-      Object.assign(star, updatedStar);
-      stars.push(star);
-    });
-  });
-
   window.addEventListener('mousemove', throttle((e) => {
-    worker.postMessage({
-      type: 'mousemove',
-      data: { mouseX: e.clientX, mouseY: e.clientY }
-    });
-  }, 50));
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }, 100));
 
   window.addEventListener('touchmove', throttle((e) => {
     e.preventDefault();
-    worker.postMessage({
-      type: 'mousemove',
-      data: { mouseX: e.touches[0].clientX, mouseY: e.touches[0].clientY }
-    });
-  }, 50), { passive: false });
-  
-    class Star {
+    mouseX = e.touches[0].clientX;
+    mouseY = e.touches[0].clientY;
+  }, 100), { passive: false });
+
+  class Star {
     constructor() {
       this.x = Math.random() * canvas.width;
       this.y = Math.random() * canvas.height;
@@ -196,6 +137,14 @@ linklist:
     }
 
     draw() {
+      this.x += ((this.initialMouseX - canvas.width / 2) * 0.001 * this.speed) + (mouseX - canvas.width / 2) * 0.001 * this.speed;
+      this.y += ((this.initialMouseY - canvas.height / 2) * 0.001 * this.speed) + (mouseY - canvas.height / 2) * 0.001 * this.speed;
+
+      if (this.x < -this.size) this.x = canvas.width + this.size;
+      if (this.x > canvas.width + this.size) this.x = -this.size;
+      if (this.y < -this.size) this.y = canvas.height + this.size;
+      if (this.y > canvas.height + this.size) this.y = -this.size;
+
       ctx.fillStyle = this.color;
       ctx.strokeStyle = 'white';
       ctx.beginPath();
@@ -222,24 +171,6 @@ linklist:
 
   window.addEventListener('resize', () => {
     resizeCanvas();
-    worker.postMessage({
-      type: 'resize',
-      data: { canvasWidth: canvas.width, canvasHeight: canvas.height }
-    });
-  });
-
-  // Initialize the worker with data
-  worker.postMessage({
-    type: 'init',
-    data: {
-      stars: stars.map(star => ({ ...star })),
-      mouseX,
-      mouseY,
-      canvasWidth: canvas.width,
-      canvasHeight: canvas.height,
-      scrollX: 0,
-      scrollY: 0
-    }
   });
 
   animate();
