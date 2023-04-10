@@ -160,7 +160,13 @@ linklist:
   const worker = new Worker(workerURL);
 
   worker.addEventListener('message', (e) => {
-    stars = e.data;
+    const updatedStars = e.data;
+    stars.length = 0;
+    updatedStars.forEach(updatedStar => {
+      const star = new Star();
+      Object.assign(star, updatedStar);
+      stars.push(star);
+    });
   });
 
   window.addEventListener('mousemove', throttle((e) => {
