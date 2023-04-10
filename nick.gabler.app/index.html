@@ -116,6 +116,7 @@ linklist:
   canvas.height = window.innerHeight * devicePixelRatio;
 
   function resizeCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.width = window.innerWidth * devicePixelRatio;
     canvas.height = window.innerHeight * devicePixelRatio;
     canvas.style.width = window.innerWidth + 'px';
@@ -126,7 +127,7 @@ linklist:
   const stars = [];
   let mouseX = canvas.width / 2;
   let mouseY = canvas.height / 2;
-
+  
   window.addEventListener('mousemove', throttle((e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
@@ -182,9 +183,9 @@ linklist:
     requestAnimationFrame(animate);
   }
 
-  window.addEventListener('resize', () => {
+  window.addEventListener('resize', throttle(() => {
     resizeCanvas();
-  });
+  }, 200));
 
   animate();
   resizeCanvas();
