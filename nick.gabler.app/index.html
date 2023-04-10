@@ -19,63 +19,68 @@ linklist:
     content="Nick Gabler, Nicholas Gabler, Links, Resume, Instagram, Twitter, Email, Github, Systems Engineer, Systems Administrator, Linux Administrator, How to hire a systems engineer, How to hire a systems administrator, Website designer, AWS cloud practitioner, AWS certified cloud practitioner, Las Vegas, Vegas, Remote">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   <title>{{ firstname }} {{ lastname }}</title>\
-  <style>
-    body {
-      font-family: 'JetBrains Mono', monospace;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: black;
-      overflow-y: auto;
-    }
+<style>
+  body {
+    font-family: 'JetBrains Mono', monospace;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: black;
+    overflow-y: auto;
+  }
 
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
 
+  #title {
+    font-size: 6rem;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    flex: 1;
+    text-shadow: -1px 1px 0 #000,
+      1px 1px 0 #000,
+      1px -1px 0 #000,
+      -1px -1px 0 #000;
+    margin-top: 2rem;
+  }
+
+  #social-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    color: white;
+    margin-bottom: 2rem;
+  }
+
+  #social-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: -1px 1px 0 #000,
+      1px 1px 0 #000,
+      1px -1px 0 #000,
+      -1px -1px 0 #000;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 767px) {
     #title {
-      font-size: 6rem;
-      font-weight: bold;
-      text-align: center;
-      color: white;
-      flex: 1;
-      text-shadow: -1px 1px 0 #000,
-        1px 1px 0 #000,
-        1px -1px 0 #000;
-      -1px -1px 0 #000;
+      font-size: 4rem;
     }
-
-
-    #social-links {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      flex: 1;
-      color: white;
-    }
-
     #social-links a {
-      text-decoration: none;
-      color: white;
-      font-size: 3rem;
-      font-weight: bold;
-      text-align: center;
-      text-shadow: -1px 1px 0 #000,
-        1px 1px 0 #000,
-        1px -1px 0 #000;
-      -1px -1px 0 #000;
+      font-size: 2rem;
     }
-
-    @media (min-width: 768px) {
-      #social-links a {
-        flex-basis: calc(25% - 1rem);
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 
 <body>
