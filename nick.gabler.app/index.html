@@ -142,20 +142,26 @@ linklist:
     draw() {
       const dx = this.x - mouseX;
       const dy = this.y - mouseY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
       const angle = Math.atan2(dy, dx);
+      const force = isMouseDown ? 1.5 : 0.5;
+      const minDistance = isMouseDown ? 50 : 20;
+      const acceleration = this.speed * force * (1 / (distance + minDistance));
 
-      if (isMouseDown) {
-        this.x -= this.speed * Math.cos(angle);
-        this.y -= this.speed * Math.sin(angle);
-      } else {
-        this.x += this.speed * Math.cos(angle);
-        this.y += this.speed * Math.sin(angle);
+      if (distance > minDistance) {
+        this.x -= acceleration * Math.cos(angle);
+        this.y -= acceleration * Math.sin(angle);
       }
 
-      if (this.x < -this.size) this.x = canvas.width + this.size;
-      if (this.x > canvas.width + this.size) this.x = -this.size;
-      if (this.y < -this.size) this.y = canvas.height + this.size;
-      if (this.y > canvas.height + this.size) this.y = -this.size;
+      if (this.x < -this.size || this.x > canvas.width + this.size) {
+        this.x = canvas.width / 2 + Math.random() * 50 - 25;
+        this.y = canvas.height / 2 + Math.random() * 50 - 25;
+      }
+
+      if (this.y < -this.size || this.y > canvas.height + this.size) {
+        this.x = canvas.width / 2 + Math.random() * 50 - 25;
+        this.y = canvas.height / 2 + Math.random() * 50 - 25;
+      }
 
       ctx.fillStyle = this.color;
       ctx.strokeStyle = 'white';
@@ -177,7 +183,7 @@ linklist:
   }
 
   function resizeCanvas() {
-    canvas.width = window.innerWidth;
+    canvas.width = window.innerWidth
     canvas.height = window.innerHeight;
   }
 
