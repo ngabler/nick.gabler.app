@@ -113,20 +113,14 @@ linklist:
   const stars = [];
   let mouseX = canvas.width / 2;
   let mouseY = canvas.height / 2;
-  let lastMouseX = mouseX;
-  let lastMouseY = mouseY;
 
   window.addEventListener('mousemove', throttle((e) => {
-    lastMouseX = mouseX;
-    lastMouseY = mouseY;
     mouseX = e.clientX;
     mouseY = e.clientY;
   }, 100));
 
   window.addEventListener('touchmove', throttle((e) => {
     e.preventDefault();
-    lastMouseX = mouseX;
-    lastMouseY = mouseY;
     mouseX = e.touches[0].clientX;
     mouseY = e.touches[0].clientY;
   }, 100), { passive: false });
@@ -140,14 +134,16 @@ linklist:
       this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
       this.initialMouseX = Math.random() * canvas.width;
       this.initialMouseY = Math.random() * canvas.height;
+      this.moveX = 0;
+      this.moveY = 0;
     }
 
     draw() {
-      const deltaX = ((this.initialMouseX - canvas.width / 2) * 0.001 * this.speed) + (mouseX - lastMouseX) * 0.001 * this.speed;
-      const deltaY = ((this.initialMouseY - canvas.height / 2) * 0.001 * this.speed) + (mouseY - lastMouseY) * 0.001 * this.speed;
+      this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.001 * this.speed) + (mouseX - canvas.width / 2) * 0.001 * this.speed;
+      this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.001 * this.speed) + (mouseY - canvas.height / 2) * 0.001 * this.speed;
 
-      this.x += deltaX;
-      this.y += deltaY;
+      this.x += this.moveX;
+      this.y += this.moveY;
 
       if (this.x < -this.size) this.x = canvas.width + this.size;
       if (this.x > canvas.width + this.size) this.x = -this.size;
