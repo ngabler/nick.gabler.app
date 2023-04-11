@@ -162,8 +162,8 @@ linklist:
       if (dist < minDist) {
         const angle = Math.atan2(dy, dx);
         const force = (minDist - dist) / minDist;
-        this.moveX -= force * Math.cos(angle) * 2;
-        this.moveY -= force * Math.sin(angle) * 2;
+        this.moveX -= force * Math.cos(angle) * 1;
+        this.moveY -= force * Math.sin(angle) * 1;
       } else {
         this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
         this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
