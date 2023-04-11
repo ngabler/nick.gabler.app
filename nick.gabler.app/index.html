@@ -130,18 +130,26 @@ linklist:
   let mouseY = canvas.height / 2;
   let userInteracted = false;
 
-  window.addEventListener('mousemove', throttle((e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    userInteracted = true;
-  }, 50));
+window.addEventListener('mousemove', throttle((e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  userInteracted = true;
+}, 50));
 
-  window.addEventListener('touchmove', throttle((e) => {
-    e.preventDefault();
-    mouseX = e.touches[0].clientX;
-    mouseY = e.touches[0].clientY;
-    userInteracted = true;
-  }, 50), { passive: false });
+window.addEventListener('touchmove', throttle((e) => {
+  e.preventDefault();
+  mouseX = e.touches[0].clientX;
+  mouseY = e.touches[0].clientY;
+  userInteracted = true;
+}, 50), { passive: false });
+
+window.addEventListener('mouseleave', throttle((e) => {
+  userInteracted = false;
+}, 50));
+
+window.addEventListener('touchend', throttle((e) => {
+  userInteracted = false;
+}, 50));
 
 class Star {
   constructor() {
