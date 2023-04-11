@@ -163,8 +163,8 @@ linklist:
       if (userInteracted && dist < minDist) {
         const angle = Math.atan2(dy, dx);
         const force = (minDist - dist) / minDist;
-        this.moveX -= force * Math.cos(angle) * 5;
-        this.moveY -= force * Math.sin(angle) * 5;
+        this.moveX -= force * Math.cos(angle) * 0.1;
+        this.moveY -= force * Math.sin(angle) * 0.1;
       }
 
       this.x += this.moveX;
