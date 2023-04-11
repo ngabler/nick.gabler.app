@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self' gabler.app *.gabler.app; style-src 'sha256-26geM2KMYxQjUgcA3BeWCB+tT8OvB9IcLCw55PiRN3U='; script-src 'sha256-cbHkotZWIuL4wZhZqhL/JGAh9+PnX2gzYj7mgilxypk=' gabler.app *.gabler.app static.cloudflareinsights.com; connect-src cloudflareinsights.com
+  Content-Security-Policy: default-src 'self' gabler.app *.gabler.app; style-src 'sha256-26geM2KMYxQjUgcA3BeWCB+tT8OvB9IcLCw55PiRN3U='; script-src 'sha256-gt0cbRhW0j0+JV5IuPU1QOGeywbDcFL56tZDkDQIpJ4=' gabler.app *.gabler.app static.cloudflareinsights.com; connect-src cloudflareinsights.com
   Cache-Control: max-age=2629746, public
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
