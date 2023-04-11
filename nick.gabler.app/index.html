@@ -150,10 +150,8 @@ linklist:
       this.size = Math.pow(Math.random(), 3) * 6 + 0.2;
       this.speed = this.size * 0.1;
       this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
-      this.initialMouseX = Math.random() * canvas.width;
-      this.initialMouseY = Math.random() * canvas.height;
-      this.moveX = 0;
-      this.moveY = 0;
+      this.moveX = (Math.random() - 0.5) * this.speed;
+      this.moveY = (Math.random() - 0.5) * this.speed;
     }
 
     draw() {
