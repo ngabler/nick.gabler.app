@@ -160,7 +160,7 @@ linklist:
     this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
 
     const initialAngle = Math.random() * 2 * Math.PI;
-    const initialVelocity = this.speed / 10;
+    const initialVelocity = this.speed;
     this.moveX = initialVelocity * Math.cos(initialAngle);
     this.moveY = initialVelocity * Math.sin(initialAngle);
     this.maxVelocity = 1;
