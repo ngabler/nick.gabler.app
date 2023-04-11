@@ -126,8 +126,8 @@ linklist:
     resizeCanvas();
     
     const stars = [];
-    let mouseX = canvas.width / 2;
-    let mouseY = canvas.height / 2;
+    let mouseX = -1000;
+    let mouseY = -1000;
     let userInteracted = false;
 
     window.addEventListener('mousemove', throttle((e) => {
