@@ -122,7 +122,9 @@ linklist:
       canvas.style.height = window.innerHeight + 'px';
       ctx.scale(devicePixelRatio, devicePixelRatio);
     }
-
+   
+    resizeCanvas();
+    
     const stars = [];
     let mouseX = canvas.width / 2;
     let mouseY = canvas.height / 2;
@@ -224,10 +226,9 @@ linklist:
 
     window.addEventListener('resize', throttle(() => {
       resizeCanvas();
-    }, 200));
+    }, 50));
 
     animate();
-    resizeCanvas();
   </script>
 
 </body>
