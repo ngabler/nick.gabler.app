@@ -134,14 +134,14 @@ linklist:
     mouseX = e.clientX;
     mouseY = e.clientY;
     userInteracted = true;
-  }, 100));
+  }, 50));
 
   window.addEventListener('touchmove', throttle((e) => {
     e.preventDefault();
     mouseX = e.touches[0].clientX;
     mouseY = e.touches[0].clientY;
     userInteracted = true;
-  }, 100), { passive: false });
+  }, 50), { passive: false });
 
 class Star {
   constructor() {
@@ -164,8 +164,8 @@ class Star {
     if (userInteracted && dist < minDist) {
       const angle = Math.atan2(dy, dx);
       const force = (minDist - dist) / minDist;
-      this.moveX -= force * Math.cos(angle) * 0.1;
-      this.moveY -= force * Math.sin(angle) * 0.1;
+      this.moveX -= force * Math.cos(angle) * 0.03;
+      this.moveY -= force * Math.sin(angle) * 0.03;
     } else {
       const parallaxFactor = this.size / 6;
       this.moveX += (mouseX - canvas.width / 2) * 0.001 * this.speed * parallaxFactor;
