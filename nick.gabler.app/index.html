@@ -167,13 +167,13 @@ linklist:
         const dx = this.x - mouseX;
         const dy = this.y - mouseY;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const minDist = 500;
+        const minDist = 250;
 
         if (userInteracted && dist < minDist) {
           const angle = Math.atan2(dy, dx);
           const force = (minDist - dist) / minDist;
-          this.moveX -= force * Math.cos(angle) * 0.03;
-          this.moveY -= force * Math.sin(angle) * 0.03;
+          this.moveX -= force * Math.cos(angle) * 0.005;
+          this.moveY -= force * Math.sin(angle) * 0.005;
         } else {
           const parallaxFactor = this.size / 6;
           this.moveX += (mouseX - canvas.width / 2) * 0.001 * this.speed * parallaxFactor;
