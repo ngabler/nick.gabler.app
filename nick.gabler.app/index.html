@@ -19,68 +19,69 @@ linklist:
     content="Nick Gabler, Nicholas Gabler, Links, Resume, Instagram, Twitter, Email, Github, Systems Engineer, Systems Administrator, Linux Administrator, How to hire a systems engineer, How to hire a systems administrator, Website designer, AWS cloud practitioner, AWS certified cloud practitioner, Las Vegas, Vegas, Remote">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   <title>{{ firstname }} {{ lastname }}</title>
-<style>
-  body {
-    font-family: 'JetBrains Mono', monospace;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: black;
-    overflow-y: auto;
-  }
+  <style>
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+      overflow-y: auto;
+    }
 
-  canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-  }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
 
-  #title {
-    font-size: 6rem;
-    font-weight: bold;
-    text-align: center;
-    color: white;
-    flex: 1;
-    text-shadow: -1px 1px 0 #000,
-      1px 1px 0 #000,
-      1px -1px 0 #000,
-      -1px -1px 0 #000;
-    margin-top: 2rem;
-  }
-
-  #social-links {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    color: white;
-    margin-bottom: 2rem;
-  }
-
-  #social-links a {
-    text-decoration: none;
-    color: white;
-    font-size: 3rem;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: -1px 1px 0 #000,
-      1px 1px 0 #000,
-      1px -1px 0 #000,
-      -1px -1px 0 #000;
-    margin-bottom: 1rem;
-  }
-
-  @media (max-width: 767px) {
     #title {
-      font-size: 4rem;
+      font-size: 6rem;
+      font-weight: bold;
+      text-align: center;
+      color: white;
+      flex: 1;
+      text-shadow: -1px 1px 0 #000,
+        1px 1px 0 #000,
+        1px -1px 0 #000,
+        -1px -1px 0 #000;
+      margin-top: 2rem;
     }
+
+    #social-links {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      color: white;
+      margin-bottom: 2rem;
+    }
+
     #social-links a {
-      font-size: 2rem;
+      text-decoration: none;
+      color: white;
+      font-size: 3rem;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: -1px 1px 0 #000,
+        1px 1px 0 #000,
+        1px -1px 0 #000,
+        -1px -1px 0 #000;
+      margin-bottom: 1rem;
     }
-  }
-</style>
+
+    @media (max-width: 767px) {
+      #title {
+        font-size: 4rem;
+      }
+
+      #social-links a {
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -95,143 +96,140 @@ linklist:
     {% endif %}
     {% endfor %}
   </div>
-<script type="text/javascript">
-  const canvas = document.getElementById('bgCanvas');
-  const ctx = canvas.getContext('2d');
-  const devicePixelRatio = window.devicePixelRatio || 1;
-  const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
-  
-  function throttle(func, delay) {
-    let lastCall = 0;
-    return function (...args) {
-      const now = new Date().getTime();
-      if (now - lastCall < delay) {
-        return;
-      }
-      lastCall = now;
-      return func(...args);
-    };
-  }
+  <script type="text/javascript">
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
 
-  canvas.width = window.innerWidth * devicePixelRatio;
-  canvas.height = window.innerHeight * devicePixelRatio;
-
-  function resizeCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    canvas.width = window.innerWidth * devicePixelRatio;
-    canvas.height = window.innerHeight * devicePixelRatio;
-    canvas.style.width = window.innerWidth + 'px';
-    canvas.style.height = window.innerHeight + 'px';
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-  }
-
-  const stars = [];
-  let mouseX = canvas.width / 2;
-  let mouseY = canvas.height / 2;
-  let userInteracted = false;
-
-window.addEventListener('mousemove', throttle((e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  userInteracted = true;
-}, 50));
-
-window.addEventListener('touchmove', throttle((e) => {
-  e.preventDefault();
-  mouseX = e.touches[0].clientX;
-  mouseY = e.touches[0].clientY;
-  userInteracted = true;
-}, 50), { passive: false });
-
-window.addEventListener('mouseleave', throttle((e) => {
-  userInteracted = false;
-}, 50));
-
-window.addEventListener('touchend', throttle((e) => {
-  userInteracted = false;
-}, 50));
-
-class Star {
-  constructor() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.size = Math.pow(Math.random(), 3) * 6 + 0.2;
-    this.speed = this.size * 0.1;
-    this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
-    this.moveX = (Math.random() - 0.5) * this.speed;
-    this.moveY = (Math.random() - 0.5) * this.speed;
-    this.maxVelocity = 1;
-  }
-
-  draw() {
-    const dx = this.x - mouseX;
-    const dy = this.y - mouseY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const minDist = 500;
-
-    if (userInteracted && dist < minDist) {
-      const angle = Math.atan2(dy, dx);
-      const force = (minDist - dist) / minDist;
-      this.moveX -= force * Math.cos(angle) * 0.03;
-      this.moveY -= force * Math.sin(angle) * 0.03;
-    } else {
-      const parallaxFactor = this.size / 6;
-      this.moveX += (mouseX - canvas.width / 2) * 0.001 * this.speed * parallaxFactor;
-      this.moveY += (mouseY - canvas.height / 2) * 0.001 * this.speed * parallaxFactor;
+    function throttle(func, delay) {
+      let lastCall = 0;
+      return function (...args) {
+        const now = new Date().getTime();
+        if (now - lastCall < delay) {
+          return;
+        }
+        lastCall = now;
+        return func(...args);
+      };
     }
 
-    this.moveX = Math.min(Math.max(this.moveX, -this.maxVelocity), this.maxVelocity);
-    this.moveY = Math.min(Math.max(this.moveY, -this.maxVelocity), this.maxVelocity);
-
-    this.x += this.moveX;
-    this.y += this.moveY;
-
-    if (this.x < -this.size) this.x = canvas.width + this.size;
-    if (this.x > canvas.width + this.size) this.x = -this.size;
-    if (this.y < -this.size) this.y = canvas.height + this.size;
-    if (this.y > canvas.height + this.size) this.y = -this.size;
-
-    ctx.fillStyle = this.color;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.fill();
-  }
-}
-
-  for (let i = 0; i < numStars; i++) {
-    stars.push(new Star());
-  }
-
-  // Custom frame rate
-  let fps = 30;
-  let now;
-  let then = Date.now();
-  let interval = 1000 / fps;
-  let delta;
-
-  function animate() {
-    requestAnimationFrame(animate);
-    now = Date.now();
-    delta = now - then;
-
-    if (delta > interval) {
-      then = now - (delta % interval);
-
+    function resizeCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.sort((a, b) => a.size - b.size);
-      stars.forEach((star) => star.draw());
+      canvas.width = window.innerWidth * devicePixelRatio;
+      canvas.height = window.innerHeight * devicePixelRatio;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.scale(devicePixelRatio, devicePixelRatio);
     }
-  }
 
-  window.addEventListener('resize', throttle(() => {
+    const stars = [];
+    let mouseX = canvas.width / 2;
+    let mouseY = canvas.height / 2;
+    let userInteracted = false;
+
+    window.addEventListener('mousemove', throttle((e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      userInteracted = true;
+    }, 50));
+
+    window.addEventListener('touchmove', throttle((e) => {
+      e.preventDefault();
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
+      userInteracted = true;
+    }, 50), { passive: false });
+
+    window.addEventListener('mouseleave', throttle((e) => {
+      userInteracted = false;
+    }, 50));
+
+    window.addEventListener('touchend', throttle((e) => {
+      userInteracted = false;
+    }, 50));
+
+    class Star {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.pow(Math.random(), 3) * 6 + 0.2;
+        this.speed = this.size * 0.1;
+        this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+        this.moveX = (Math.random() - 0.5) * this.speed;
+        this.moveY = (Math.random() - 0.5) * this.speed;
+        this.maxVelocity = 1;
+      }
+
+      draw() {
+        const dx = this.x - mouseX;
+        const dy = this.y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const minDist = 500;
+
+        if (userInteracted && dist < minDist) {
+          const angle = Math.atan2(dy, dx);
+          const force = (minDist - dist) / minDist;
+          this.moveX -= force * Math.cos(angle) * 0.03;
+          this.moveY -= force * Math.sin(angle) * 0.03;
+        } else {
+          const parallaxFactor = this.size / 6;
+          this.moveX += (mouseX - canvas.width / 2) * 0.001 * this.speed * parallaxFactor;
+          this.moveY += (mouseY - canvas.height / 2) * 0.001 * this.speed * parallaxFactor;
+        }
+
+        this.moveX = Math.min(Math.max(this.moveX, -this.maxVelocity), this.maxVelocity);
+        this.moveY = Math.min(Math.max(this.moveY, -this.maxVelocity), this.maxVelocity);
+
+        this.x += this.moveX;
+        this.y += this.moveY;
+
+        if (this.x < -this.size) this.x = canvas.width + this.size;
+        if (this.x > canvas.width + this.size) this.x = -this.size;
+        if (this.y < -this.size) this.y = canvas.height + this.size;
+        if (this.y > canvas.height + this.size) this.y = -this.size;
+
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < numStars; i++) {
+      stars.push(new Star());
+    }
+
+    // Custom frame rate
+    let fps = 30;
+    let now;
+    let then = Date.now();
+    let interval = 1000 / fps;
+    let delta;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      now = Date.now();
+      delta = now - then;
+
+      if (delta > interval) {
+        then = now - (delta % interval);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.sort((a, b) => a.size - b.size);
+        stars.forEach((star) => star.draw());
+      }
+    }
+
+    window.addEventListener('resize', throttle(() => {
+      resizeCanvas();
+    }, 200));
+
+    animate();
     resizeCanvas();
-  }, 200));
+  </script>
 
-  animate();
-  resizeCanvas();
-</script>
-  
 </body>
 
 </html>
