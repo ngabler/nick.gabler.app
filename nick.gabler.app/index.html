@@ -152,24 +152,19 @@ linklist:
     }, 50));
 
     class Star {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.pow(Math.random(), 3) * 6 + 0.2;
-        this.speed = this.size * 0.1;
-        this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.pow(Math.random(), 3) * 6 + 0.2;
+    this.speed = this.size * 0.1;
+    this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
 
-        const dx = this.x - mouseX;
-        const dy = this.y - mouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const minDist = 500;
-        const angle = Math.atan2(dy, dx);
-        const force = (minDist - dist) / minDist;
-
-        this.moveX = force * Math.cos(angle) * 0.03;
-        this.moveY = force * Math.sin(angle) * 0.03;
-        this.maxVelocity = 1;
-      }
+    const initialAngle = Math.random() * 2 * Math.PI;
+    const initialVelocity = this.speed / 10;
+    this.moveX = initialVelocity * Math.cos(initialAngle);
+    this.moveY = initialVelocity * Math.sin(initialAngle);
+    this.maxVelocity = 1;
+  }
 
       draw() {
         const dx = this.x - mouseX;
