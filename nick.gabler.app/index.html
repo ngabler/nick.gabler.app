@@ -152,14 +152,14 @@ class Star {
     this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
     this.moveX = (Math.random() - 0.5) * this.speed;
     this.moveY = (Math.random() - 0.5) * this.speed;
-    this.maxVelocity = 5;
+    this.maxVelocity = 1;
   }
 
   draw() {
     const dx = this.x - mouseX;
     const dy = this.y - mouseY;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    const minDist = 100;
+    const minDist = 200;
 
     if (userInteracted && dist < minDist) {
       const angle = Math.atan2(dy, dx);
