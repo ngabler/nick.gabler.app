@@ -143,7 +143,7 @@ linklist:
     userInteracted = true;
   }, 100), { passive: false });
 
-  class Star {
+class Star {
   constructor() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
@@ -152,6 +152,7 @@ linklist:
     this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
     this.moveX = (Math.random() - 0.5) * this.speed;
     this.moveY = (Math.random() - 0.5) * this.speed;
+    this.maxVelocity = 5;
   }
 
   draw() {
@@ -170,6 +171,9 @@ linklist:
       this.moveX += (mouseX - canvas.width / 2) * 0.001 * this.speed * parallaxFactor;
       this.moveY += (mouseY - canvas.height / 2) * 0.001 * this.speed * parallaxFactor;
     }
+
+    this.moveX = Math.min(Math.max(this.moveX, -this.maxVelocity), this.maxVelocity);
+    this.moveY = Math.min(Math.max(this.moveY, -this.maxVelocity), this.maxVelocity);
 
     this.x += this.moveX;
     this.y += this.moveY;
