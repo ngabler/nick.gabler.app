@@ -167,7 +167,7 @@ class Star {
     const dx = this.x - mouseX;
     const dy = this.y - mouseY;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    const minDist = 200;
+    const minDist = 500;
 
     if (userInteracted && dist < minDist) {
       const angle = Math.atan2(dy, dx);
