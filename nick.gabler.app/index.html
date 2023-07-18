@@ -96,11 +96,11 @@ linklist:
     {% endfor %}
   </div>
 <script type="text/javascript">
-  let canvas = document.getElementById('bgCanvas');
+document.addEventListener('DOMContentLoaded', (event) => {
+  const canvas = document.getElementById('bgCanvas');
   let ctx = canvas.getContext('2d');
-  
+
   function resizeCanvas() {
-    canvas = document.getElementById('bgCanvas');
     ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth * window.devicePixelRatio;
     canvas.height = window.innerHeight * window.devicePixelRatio;
@@ -112,7 +112,7 @@ linklist:
   let mouseY = canvas.height / 2;
   let newMouseX = mouseX;
   let newMouseY = mouseY;
-  
+
   window.addEventListener('mousemove', (e) => {
     newMouseX = e.clientX;
     newMouseY = e.clientY;
@@ -124,13 +124,15 @@ linklist:
     newMouseY = e.touches[0].clientY;
   }, { passive: false });
 
+  const colors = Array(100).fill().map(() => `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`);
+
   class Star {
     constructor() {
       this.x = Math.random() * canvas.width;
       this.y = Math.random() * canvas.height;
-      this.size = Math.pow(Math.random(), 3) * 6 + 0.2;
-      this.speed = this.size * 0.1;
-      this.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+      this.size = Math.random() * Math.random() * Math.random() * 6 + 0.2;
+      this.speed = this.size / 10;
+      this.color = colors[Math.floor(Math.random() * colors.length)];
       this.initialMouseX = Math.random() * canvas.width;
       this.initialMouseY = Math.random() * canvas.height;
       this.moveX = 0;
@@ -184,6 +186,7 @@ linklist:
   window.addEventListener('resize', resizeCanvas);
 
   animate();
+});
 </script>
   
 </body>
