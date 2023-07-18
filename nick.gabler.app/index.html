@@ -98,49 +98,32 @@ linklist:
 <script type="text/javascript">
   let canvas = document.getElementById('bgCanvas');
   let ctx = canvas.getContext('2d');
-  const devicePixelRatio = window.devicePixelRatio || 1;
-  const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
   
-  function throttle(func, delay) {
-    let lastCall = 0;
-    return function (...args) {
-      const now = performance.now();
-      if (now - lastCall < delay) {
-        return;
-      }
-      lastCall = now;
-      return func(...args);
-    };
-  }
-
-  canvas.width = window.innerWidth * devicePixelRatio;
-  canvas.height = window.innerHeight * devicePixelRatio;
-
   function resizeCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas = document.getElementById('bgCanvas');
     ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth * devicePixelRatio;
-    canvas.height = window.innerHeight * devicePixelRatio;
+    canvas.width = window.innerWidth * window.devicePixelRatio;
+    canvas.height = window.innerHeight * window.devicePixelRatio;
     canvas.style.width = window.innerWidth + 'px';
     canvas.style.height = window.innerHeight + 'px';
-    ctx.scale(devicePixelRatio, devicePixelRatio);
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
   }
 
+  const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
   const stars = [];
   let mouseX = canvas.width / 2;
   let mouseY = canvas.height / 2;
   
-  window.addEventListener('mousemove', throttle((e) => {
+  window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-  }, 100));
+  });
 
-  window.addEventListener('touchmove', throttle((e) => {
+  window.addEventListener('touchmove', (e) => {
     e.preventDefault();
     mouseX = e.touches[0].clientX;
     mouseY = e.touches[0].clientY;
-  }, 100), { passive: false });
+  }, { passive: false });
 
   class Star {
     constructor() {
@@ -178,30 +161,15 @@ linklist:
     stars.push(new Star());
   }
 
-  // Custom frame rate
-  let fps = 30;
-  let now;
-  let then = performance.now();
-  let interval = 1000 / fps;
-  let delta;
+  stars.sort((a, b) => a.size - b.size);
 
   function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach((star) => star.draw());
     requestAnimationFrame(animate);
-    now = performance.now();
-    delta = now - then;
-
-    if (delta > interval) {
-      then = now - (delta % interval);
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.sort((a, b) => a.size - b.size);
-      stars.forEach((star) => star.draw());
-    }
   }
 
-  window.addEventListener('resize', throttle(() => {
-    resizeCanvas();
-  }, 200));
+  window.addEventListener('resize', resizeCanvas);
 
   resizeCanvas();
   animate();
