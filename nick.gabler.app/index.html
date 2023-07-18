@@ -106,23 +106,22 @@ linklist:
     canvas.height = window.innerHeight * window.devicePixelRatio;
     canvas.style.width = window.innerWidth + 'px';
     canvas.style.height = window.innerHeight + 'px';
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
   }
 
-  const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
-  const stars = [];
   let mouseX = canvas.width / 2;
   let mouseY = canvas.height / 2;
+  let newMouseX = mouseX;
+  let newMouseY = mouseY;
   
   window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+    newMouseX = e.clientX;
+    newMouseY = e.clientY;
   });
 
   window.addEventListener('touchmove', (e) => {
     e.preventDefault();
-    mouseX = e.touches[0].clientX;
-    mouseY = e.touches[0].clientY;
+    newMouseX = e.touches[0].clientX;
+    newMouseY = e.touches[0].clientY;
   }, { passive: false });
 
   class Star {
@@ -151,11 +150,19 @@ linklist:
       if (this.y > canvas.height + this.size) this.y = -this.size;
 
       ctx.fillStyle = this.color;
+      ctx.save();
+      ctx.translate(this.x, this.y);
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.arc(0, 0, this.size, 0, Math.PI * 2);
       ctx.fill();
+      ctx.restore();
     }
   }
+
+  resizeCanvas();
+
+  const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
+  const stars = [];
 
   for (let i = 0; i < numStars; i++) {
     stars.push(new Star());
@@ -164,14 +171,18 @@ linklist:
   stars.sort((a, b) => a.size - b.size);
 
   function animate() {
+    mouseX = newMouseX;
+    mouseY = newMouseY;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     stars.forEach((star) => star.draw());
+    ctx.restore();
     requestAnimationFrame(animate);
   }
 
   window.addEventListener('resize', resizeCanvas);
 
-  resizeCanvas();
   animate();
 </script>
   
