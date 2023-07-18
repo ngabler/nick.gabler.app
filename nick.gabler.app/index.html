@@ -98,10 +98,9 @@ linklist:
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', (event) => {
   const canvas = document.getElementById('bgCanvas');
-  let ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
 
   function resizeCanvas() {
-    ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth * window.devicePixelRatio;
     canvas.height = window.innerHeight * window.devicePixelRatio;
     canvas.style.width = window.innerWidth + 'px';
@@ -124,7 +123,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     newMouseY = e.touches[0].clientY;
   }, { passive: false });
 
-  const colors = Array(100).fill().map(() => `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`);
+  function getRandomColor() {
+    return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+  }
 
   class Star {
     constructor() {
@@ -132,7 +133,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       this.y = Math.random() * canvas.height;
       this.size = Math.random() * Math.random() * Math.random() * 6 + 0.2;
       this.speed = this.size / 10;
-      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.color = getRandomColor();
       this.initialMouseX = Math.random() * canvas.width;
       this.initialMouseY = Math.random() * canvas.height;
       this.moveX = 0;
@@ -164,11 +165,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   resizeCanvas();
 
   const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
-  const stars = [];
-
-  for (let i = 0; i < numStars; i++) {
-    stars.push(new Star());
-  }
+  const stars = Array(numStars).fill().map(() => new Star());
 
   stars.sort((a, b) => a.size - b.size);
 
@@ -183,7 +180,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     requestAnimationFrame(animate);
   }
 
-  window.addEventListener('resize', resizeCanvas);
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(resizeCanvas, 100);
+  });
 
   animate();
 });
