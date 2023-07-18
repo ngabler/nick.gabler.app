@@ -96,15 +96,15 @@ linklist:
     {% endfor %}
   </div>
 <script type="text/javascript">
-  const canvas = document.getElementById('bgCanvas');
-  const ctx = canvas.getContext('2d');
+  let canvas = document.getElementById('bgCanvas');
+  let ctx = canvas.getContext('2d');
   const devicePixelRatio = window.devicePixelRatio || 1;
   const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
   
   function throttle(func, delay) {
     let lastCall = 0;
     return function (...args) {
-      const now = new Date().getTime();
+      const now = performance.now();
       if (now - lastCall < delay) {
         return;
       }
@@ -118,6 +118,8 @@ linklist:
 
   function resizeCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas = document.getElementById('bgCanvas');
+    ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth * devicePixelRatio;
     canvas.height = window.innerHeight * devicePixelRatio;
     canvas.style.width = window.innerWidth + 'px';
@@ -168,7 +170,6 @@ linklist:
       ctx.fillStyle = this.color;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.closePath();
       ctx.fill();
     }
   }
@@ -180,13 +181,13 @@ linklist:
   // Custom frame rate
   let fps = 30;
   let now;
-  let then = Date.now();
+  let then = performance.now();
   let interval = 1000 / fps;
   let delta;
 
   function animate() {
     requestAnimationFrame(animate);
-    now = Date.now();
+    now = performance.now();
     delta = now - then;
 
     if (delta > interval) {
@@ -202,8 +203,8 @@ linklist:
     resizeCanvas();
   }, 200));
 
-  animate();
   resizeCanvas();
+  animate();
 </script>
   
 </body>
