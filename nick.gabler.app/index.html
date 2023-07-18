@@ -109,8 +109,6 @@ linklist:
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
   }
 
-  const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
-  const stars = [];
   let mouseX = canvas.width / 2;
   let mouseY = canvas.height / 2;
   
@@ -157,6 +155,11 @@ linklist:
     }
   }
 
+  resizeCanvas();
+
+  const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
+  const stars = [];
+
   for (let i = 0; i < numStars; i++) {
     stars.push(new Star());
   }
@@ -171,7 +174,6 @@ linklist:
 
   window.addEventListener('resize', resizeCanvas);
 
-  resizeCanvas();
   animate();
 </script>
   
