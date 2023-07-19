@@ -28,8 +28,8 @@ linklist:
     overflow: hidden;
     background: black;
     overflow-y: auto;
-    width: 100vw; /* Add this */
-    max-width: 100vw; /* Add this */
+    width: 100vw;
+    max-width: 100vw;
   }
 
   canvas {
@@ -99,98 +99,118 @@ linklist:
     {% endfor %}
   </div>
 <script data-cfasync="true" type="text/javascript">
-document.addEventListener('DOMContentLoaded', (event) => {
-  const canvas = document.getElementById('bgCanvas');
-  const ctx = canvas.getContext('2d');
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
 
-  function resizeCanvas() {
-    canvas.width = window.innerWidth * window.devicePixelRatio;
-    canvas.height = window.innerHeight * window.devicePixelRatio;
-    canvas.style.width = window.innerWidth + 'px';
-    canvas.style.height = window.innerHeight + 'px';
-  }
-
-  let mouseX = canvas.width / 2;
-  let mouseY = canvas.height / 2;
-  let newMouseX = mouseX;
-  let newMouseY = mouseY;
-
-  window.addEventListener('mousemove', (e) => {
-    newMouseX = e.clientX;
-    newMouseY = e.clientY;
-  });
-
-  window.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    newMouseX = e.touches[0].clientX;
-    newMouseY = e.touches[0].clientY;
-  }, { passive: false });
-
-  function getRandomColor() {
-    return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
-  }
-
-  class Star {
-    constructor() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.size = Math.random() * Math.random() * Math.random() * 6 + 0.2;
-      this.speed = this.size / 10;
-      this.color = getRandomColor();
-      this.initialMouseX = Math.random() * canvas.width;
-      this.initialMouseY = Math.random() * canvas.height;
-      this.moveX = 0;
-      this.moveY = 0;
+    function resizeCanvas() {
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
     }
 
-    draw() {
-      this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
-      this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
+    let mouseX = canvas.width / 2;
+    let mouseY = canvas.height / 2;
+    let newMouseX = mouseX;
+    let newMouseY = mouseY;
 
-      this.x += this.moveX;
-      this.y += this.moveY;
+    window.addEventListener('mousemove', (e) => {
+      newMouseX = e.clientX;
+      newMouseY = e.clientY;
+    });
 
-      if (this.x < -this.size) this.x = canvas.width + this.size;
-      if (this.x > canvas.width + this.size) this.x = -this.size;
-      if (this.y < -this.size) this.y = canvas.height + this.size;
-      if (this.y > canvas.height + this.size) this.y = -this.size;
+    window.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      newMouseX = e.touches[0].clientX;
+      newMouseY = e.touches[0].clientY;
+    }, { passive: false });
 
-      ctx.fillStyle = this.color;
+    function getRandomColor() {
+      return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+    }
+
+    class Star {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * Math.random() * Math.random() * 6 + 3;
+        this.speed = this.size / 30;
+        this.color = getRandomColor();
+        this.initialMouseX = Math.random() * canvas.width;
+        this.initialMouseY = Math.random() * canvas.height;
+        this.moveX = 0;
+        this.moveY = 0;
+        this.growing = Math.random() < 0.5;
+        this.sizeChangeSpeed = Math.random() * 0.01 + 0.005;
+        this.speedChangeFactor = 0.01;
+      }
+
+      updateSize() {
+        if (this.growing) {
+          this.size += this.sizeChangeSpeed;
+          this.speed += this.sizeChangeSpeed * this.speedChangeFactor;
+          if (this.size >= 6) {
+            this.growing = false;
+          }
+        } else {
+          this.size -= this.sizeChangeSpeed;
+          this.speed -= this.sizeChangeSpeed * this.speedChangeFactor;
+          if (this.size <= 3) {
+            this.growing = true;
+          }
+        }
+      }
+
+      draw() {
+        this.updateSize();
+        this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
+        this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
+
+        this.x += this.moveX;
+        this.y += this.moveY;
+
+        if (this.x < -this.size) this.x = canvas.width + this.size;
+        if (this.x > canvas.width + this.size) this.x = -this.size;
+        if (this.y < -this.size) this.y = canvas.height + this.size;
+        if (this.y > canvas.height + this.size) this.y = -this.size;
+
+        ctx.fillStyle = this.color;
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    resizeCanvas();
+
+    const numStars = Math.floor((window.innerWidth * window.innerHeight) * 0.001);
+    const stars = Array(numStars).fill().map(() => new Star());
+
+    stars.sort((a, b) => a.size - b.size);
+
+    function animate() {
+      mouseX = newMouseX;
+      mouseY = newMouseY;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.beginPath();
-      ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      stars.forEach((star) => star.draw());
       ctx.restore();
+      requestAnimationFrame(animate);
     }
-  }
 
-  resizeCanvas();
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(resizeCanvas, 100);
+    });
 
-  const numStars = Math.floor(window.innerWidth * window.innerHeight / 500);
-  const stars = Array(numStars).fill().map(() => new Star());
-
-  stars.sort((a, b) => a.size - b.size);
-
-  function animate() {
-    mouseX = newMouseX;
-    mouseY = newMouseY;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.save();
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    stars.forEach((star) => star.draw());
-    ctx.restore();
-    requestAnimationFrame(animate);
-  }
-
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(resizeCanvas, 100);
+    animate();
   });
-
-  animate();
-});
 </script>
   
 </body>
