@@ -134,7 +134,7 @@ linklist:
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * Math.random() * Math.random() * 12 + 0.1;
+        this.size = Math.random() * Math.random() * Math.random() * 6 + 3;
         this.speed = this.size / 20;
         this.color = getRandomColor();
         this.initialMouseX = Math.random() * canvas.width;
@@ -143,20 +143,20 @@ linklist:
         this.moveY = 0;
         this.growing = Math.random() < 0.5;
         this.sizeChangeSpeed = Math.random() * 0.01 + 0.005;
-        this.speedChangeFactor = 0.001;
+        this.speedChangeFactor = 0.01;
       }
 
       updateSize() {
         if (this.growing) {
           this.size += this.sizeChangeSpeed;
           this.speed += this.sizeChangeSpeed * this.speedChangeFactor;
-          if (this.size >= 12) {
+          if (this.size >= 6) {
             this.growing = false;
           }
         } else {
           this.size -= this.sizeChangeSpeed;
           this.speed -= this.sizeChangeSpeed * this.speedChangeFactor;
-          if (this.size <= 0.1) {
+          if (this.size <= 3) {
             this.growing = true;
           }
         }
