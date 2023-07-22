@@ -180,7 +180,7 @@ linklist:
 
     const numStars = Math.floor((window.innerWidth * window.innerHeight) * 0.001);
     const stars = Array(numStars).fill().map(() => new Star());
-    const staticStars = Array(numStars).fill().map(() => new StaticStar());
+    const staticStars = Array(numStars * 3).fill().map(() => new StaticStar());
 
     stars.sort((a, b) => a.size - b.size);
 
