@@ -103,11 +103,19 @@ linklist:
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
 
+    const offscreenCanvas = document.createElement('canvas');
+    const offscreenCtx = offscreenCanvas.getContext('2d');
+
+    const colors = Array(100).fill().map(() => `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`);
+
     function resizeCanvas() {
       canvas.width = window.innerWidth * window.devicePixelRatio;
       canvas.height = window.innerHeight * window.devicePixelRatio;
       canvas.style.width = window.innerWidth + 'px';
       canvas.style.height = window.innerHeight + 'px';
+
+      offscreenCanvas.width = canvas.width;
+      offscreenCanvas.height = canvas.height;
     }
 
     let mouseX = canvas.width / 2;
@@ -126,19 +134,15 @@ linklist:
       newMouseY = e.touches[0].clientY;
     }, { passive: false });
 
-    function getRandomColor() {
-      return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
-    }
-
     class StaticStar {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 1.3 + 0.1;
-        this.color = getRandomColor();
+        this.color = colors[Math.floor(Math.random() * colors.length)];
       }
 
-      draw() {
+      draw(ctx) {
         ctx.fillStyle = this.color;
         ctx.save();
         ctx.translate(this.x, this.y);
@@ -160,7 +164,7 @@ linklist:
         this.moveY = 0;
       }
 
-      draw() {
+      draw(ctx) {
         this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
         this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
 
@@ -172,7 +176,7 @@ linklist:
         if (this.y < -this.size) this.y = canvas.height + this.size;
         if (this.y > canvas.height + this.size) this.y = -this.size;
 
-        super.draw();
+        super.draw(ctx);
       }
     }
 
@@ -180,9 +184,9 @@ linklist:
 
     const numStars = Math.floor((window.innerWidth * window.innerHeight) * 0.001);
     const stars = Array(numStars).fill().map(() => new Star());
-    const staticStars = Array(numStars * 3).fill().map(() => new StaticStar());
-
-    stars.sort((a, b) => a.size - b.size);
+    const staticStars = Array(numStars * 2).fill().map(() => new StaticStar());
+    
+    staticStars.forEach((star) => star.draw(offscreenCtx));
 
     function animate() {
       mouseX = newMouseX;
@@ -190,8 +194,10 @@ linklist:
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-      staticStars.forEach((star) => star.draw());
-      stars.forEach((star) => star.draw());
+
+      ctx.drawImage(offscreenCanvas, 0, 0, canvas.width, canvas.height);
+
+      stars.forEach((star) => star.draw(ctx));
       ctx.restore();
       requestAnimationFrame(animate);
     }
