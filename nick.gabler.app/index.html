@@ -164,39 +164,39 @@ class Star extends StaticStar {
     this.moveY = 0;
   }
 
-  draw(ctx) {
+draw(ctx) {
     this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
     this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
 
     this.x += this.moveX;
     this.y += this.moveY;
 
-    // Adjust the star's position so it wraps around to the other side of the window
-    if (this.x < 0) this.x = canvas.width;
-    if (this.x > canvas.width) this.x = 0;
-    if (this.y < 0) this.y = canvas.height;
-    if (this.y > canvas.height) this.y = 0;
+    if (this.x + this.size < 0) this.x = canvas.width + this.size;
+    if (this.x - this.size > canvas.width) this.x = -this.size;
+    if (this.y + this.size < 0) this.y = canvas.height + this.size;
+    if (this.y - this.size > canvas.height) this.y = -this.size;
 
     super.draw(ctx);
-    if (this.x < this.size) {
+    
+    if (this.x + this.size > canvas.width) {
       ctx.save();
-      ctx.translate(canvas.width, 0);
+      ctx.translate(-canvas.width, 0);
       super.draw(ctx);
       ctx.restore();
     }
-    if (this.y < this.size) {
+    if (this.y + this.size > canvas.height) {
       ctx.save();
-      ctx.translate(0, canvas.height);
+      ctx.translate(0, -canvas.height);
       super.draw(ctx);
       ctx.restore();
     }
-    if (this.x < this.size && this.y < this.size) {
+    if (this.x + this.size > canvas.width && this.y + this.size > canvas.height) {
       ctx.save();
-      ctx.translate(canvas.width, canvas.height);
+      ctx.translate(-canvas.width, -canvas.height);
       super.draw(ctx);
       ctx.restore();
     }
-  }
+}
 }
 
     resizeCanvas();
