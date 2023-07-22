@@ -182,10 +182,16 @@ linklist:
 
     resizeCanvas();
 
-    const numStars = Math.floor((window.innerWidth * window.innerHeight) * 0.001);
+    const MAX_DYNAMIC_STARS = 1000;
+    let numStars = Math.floor((window.innerWidth * window.innerHeight) * 0.001);
+
+    if (numStars > MAX_DYNAMIC_STARS) {
+        numStars = MAX_DYNAMIC_STARS;
+    }
+
     const stars = Array(numStars).fill().map(() => new Star());
     const staticStars = Array(numStars * 2).fill().map(() => new StaticStar());
-    
+
     staticStars.forEach((star) => star.draw(offscreenCtx));
 
     function animate() {
