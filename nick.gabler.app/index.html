@@ -162,16 +162,16 @@ class Star extends StaticStar {
   constructor() {
     super();
     this.size = Math.random() * Math.random() * Math.random() * 6 + 3;
-    this.speed = this.size / 30 * window.devicePixelRatio;
-    this.initialMouseX = Math.random() * canvas.width;
-    this.initialMouseY = Math.random() * canvas.height;
+    this.speed = this.size / 30;
+    this.initialMouseX = Math.random() * canvas.clientWidth;
+    this.initialMouseY = Math.random() * canvas.clientHeight;
     this.moveX = 0;
     this.moveY = 0;
   }
 
   draw(ctx) {
-    this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
-    this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
+    this.moveX = ((this.initialMouseX - canvas.clientWidth / 2) * 0.002 * this.speed) + (mouseX - canvas.clientWidth / 2) * 0.002 * this.speed;
+    this.moveY = ((this.initialMouseY - canvas.clientHeight / 2) * 0.002 * this.speed) + (mouseY - canvas.clientHeight / 2) * 0.002 * this.speed;
 
     this.x += this.moveX;
     this.y += this.moveY;
