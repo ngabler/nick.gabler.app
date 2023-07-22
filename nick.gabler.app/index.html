@@ -108,15 +108,15 @@ linklist:
 
     const colors = Array(100).fill().map(() => `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`);
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth * window.devicePixelRatio;
-      canvas.height = window.innerHeight * window.devicePixelRatio;
-      canvas.style.width = window.innerWidth + 'px';
-      canvas.style.height = window.innerHeight + 'px';
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
 
-      offscreenCanvas.width = canvas.width;
-      offscreenCanvas.height = canvas.height;
-    }
+  offscreenCanvas.width = canvas.width;
+  offscreenCanvas.height = canvas.height;
+}
 
     let mouseX = canvas.width / 2;
     let mouseY = canvas.height / 2;
@@ -171,8 +171,11 @@ class Star extends StaticStar {
     this.x += this.moveX;
     this.y += this.moveY;
 
-    this.x %= canvas.width;
-    this.y %= canvas.height;
+    // Adjust the star's position so it wraps around to the other side of the window
+    if (this.x < 0) this.x = canvas.width;
+    if (this.x > canvas.width) this.x = 0;
+    if (this.y < 0) this.y = canvas.height;
+    if (this.y > canvas.height) this.y = 0;
 
     super.draw(ctx);
     if (this.x < this.size) {
