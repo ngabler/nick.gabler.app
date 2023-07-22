@@ -171,31 +171,50 @@ draw(ctx) {
     this.x += this.moveX;
     this.y += this.moveY;
 
-    if (this.x + this.size < 0) this.x = canvas.width + this.size;
-    if (this.x - this.size > canvas.width) this.x = -this.size;
-    if (this.y + this.size < 0) this.y = canvas.height + this.size;
-    if (this.y - this.size > canvas.height) this.y = -this.size;
-
     super.draw(ctx);
     
+    if (this.x - this.size < 0) {
+        ctx.save();
+        ctx.translate(canvas.width, 0);
+        super.draw(ctx);
+        ctx.restore();
+    }
+    if (this.y - this.size < 0) {
+        ctx.save();
+        ctx.translate(0, canvas.height);
+        super.draw(ctx);
+        ctx.restore();
+    }
+    if (this.x - this.size < 0 && this.y - this.size < 0) {
+        ctx.save();
+        ctx.translate(canvas.width, canvas.height);
+        super.draw(ctx);
+        ctx.restore();
+    }
     if (this.x + this.size > canvas.width) {
-      ctx.save();
-      ctx.translate(-canvas.width, 0);
-      super.draw(ctx);
-      ctx.restore();
+        ctx.save();
+        ctx.translate(-canvas.width, 0);
+        super.draw(ctx);
+        ctx.restore();
     }
     if (this.y + this.size > canvas.height) {
-      ctx.save();
-      ctx.translate(0, -canvas.height);
-      super.draw(ctx);
-      ctx.restore();
+        ctx.save();
+        ctx.translate(0, -canvas.height);
+        super.draw(ctx);
+        ctx.restore();
     }
     if (this.x + this.size > canvas.width && this.y + this.size > canvas.height) {
-      ctx.save();
-      ctx.translate(-canvas.width, -canvas.height);
-      super.draw(ctx);
-      ctx.restore();
+        ctx.save();
+        ctx.translate(-canvas.width, -canvas.height);
+        super.draw(ctx);
+        ctx.restore();
     }
+  
+    if (this.x - this.size > canvas.width) this.x = -this.size;
+    if (this.x + this.size < 0) this.x = canvas.width + this.size;
+    if (this.y - this.size > canvas.height) this.y = -this.size;
+    if (this.y + this.size < 0) this.y = canvas.height + this.size;
+}
 }
 }
 
