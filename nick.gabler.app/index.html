@@ -152,33 +152,48 @@ linklist:
         ctx.restore();
       }
     }
+class Star extends StaticStar {
+  constructor() {
+    super();
+    this.size = Math.random() * Math.random() * Math.random() * 6 + 3;
+    this.speed = this.size / 30;
+    this.initialMouseX = Math.random() * canvas.width;
+    this.initialMouseY = Math.random() * canvas.height;
+    this.moveX = 0;
+    this.moveY = 0;
+  }
 
-    class Star extends StaticStar {
-      constructor() {
-        super();
-        this.size = Math.random() * Math.random() * Math.random() * 6 + 3;
-        this.speed = this.size / 30;
-        this.initialMouseX = Math.random() * canvas.width;
-        this.initialMouseY = Math.random() * canvas.height;
-        this.moveX = 0;
-        this.moveY = 0;
-      }
+  draw(ctx) {
+    this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
+    this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
 
-      draw(ctx) {
-        this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
-        this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
+    this.x += this.moveX;
+    this.y += this.moveY;
 
-        this.x += this.moveX;
-        this.y += this.moveY;
+    this.x %= canvas.width;
+    this.y %= canvas.height;
 
-        if (this.x < -this.size) this.x = canvas.width + this.size;
-        if (this.x > canvas.width + this.size) this.x = -this.size;
-        if (this.y < -this.size) this.y = canvas.height + this.size;
-        if (this.y > canvas.height + this.size) this.y = -this.size;
-
-        super.draw(ctx);
-      }
+    super.draw(ctx);
+    if (this.x < this.size) {
+      ctx.save();
+      ctx.translate(canvas.width, 0);
+      super.draw(ctx);
+      ctx.restore();
     }
+    if (this.y < this.size) {
+      ctx.save();
+      ctx.translate(0, canvas.height);
+      super.draw(ctx);
+      ctx.restore();
+    }
+    if (this.x < this.size && this.y < this.size) {
+      ctx.save();
+      ctx.translate(canvas.width, canvas.height);
+      super.draw(ctx);
+      ctx.restore();
+    }
+  }
+}
 
     resizeCanvas();
 
