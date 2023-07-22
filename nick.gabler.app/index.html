@@ -113,20 +113,20 @@ linklist:
     let newMouseX;
     let newMouseY;
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      canvas.style.width = window.innerWidth + 'px';
-      canvas.style.height = window.innerHeight + 'px';
+function resizeCanvas() {
+  canvas.width = window.innerWidth * window.devicePixelRatio;
+  canvas.height = window.innerHeight * window.devicePixelRatio;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
 
-      offscreenCanvas.width = canvas.width;
-      offscreenCanvas.height = canvas.height;
+  offscreenCanvas.width = canvas.width;
+  offscreenCanvas.height = canvas.height;
 
-      mouseX = canvas.width / 2;
-      mouseY = canvas.height / 2;
-      newMouseX = mouseX;
-      newMouseY = mouseY;
-    }
+  mouseX = canvas.width / 2;
+  mouseY = canvas.height / 2;
+  newMouseX = mouseX;
+  newMouseY = mouseY;
+}
 
     window.addEventListener('mousemove', (e) => {
       newMouseX = e.clientX;
