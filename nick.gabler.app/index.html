@@ -232,7 +232,7 @@ if (this.y < 0) this.y = canvas.height;
     }
 
     const stars = Array(numStars).fill().map(() => new Star());
-    const staticStars = Array(numStars * 2).fill().map(() => new StaticStar());
+    const staticStars = Array(numStars * 3).fill().map(() => new StaticStar());
 
     staticStars.forEach((star) => star.draw(offscreenCtx));
 
