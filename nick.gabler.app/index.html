@@ -141,29 +141,9 @@ linklist:
         this.initialMouseY = Math.random() * canvas.height;
         this.moveX = 0;
         this.moveY = 0;
-        this.growing = Math.random() < 0.5;
-        this.sizeChangeSpeed = Math.random() * 0.01 + 0.005;
-        this.speedChangeFactor = 0.01;
-      }
-
-      updateSize() {
-        if (this.growing) {
-          this.size += this.sizeChangeSpeed;
-          this.speed += this.sizeChangeSpeed * this.speedChangeFactor;
-          if (this.size >= 6) {
-            this.growing = false;
-          }
-        } else {
-          this.size -= this.sizeChangeSpeed;
-          this.speed -= this.sizeChangeSpeed * this.speedChangeFactor;
-          if (this.size <= 3) {
-            this.growing = true;
-          }
-        }
       }
 
       draw() {
-        this.updateSize();
         this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
         this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
 
