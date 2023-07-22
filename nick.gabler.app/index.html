@@ -158,25 +158,25 @@ function resizeCanvas() {
       }
     }
 
-    class Star extends StaticStar {
-      constructor() {
-        super();
-        this.size = Math.random() * Math.random() * Math.random() * 6 + 3;
-        this.speed = this.size / 30;
-        this.initialMouseX = Math.random() * canvas.width;
-        this.initialMouseY = Math.random() * canvas.height;
-        this.moveX = 0;
-        this.moveY = 0;
-      }
+class Star extends StaticStar {
+  constructor() {
+    super();
+    this.size = Math.random() * Math.random() * Math.random() * 6 + 3;
+    this.speed = this.size / 30 * window.devicePixelRatio;
+    this.initialMouseX = Math.random() * canvas.width;
+    this.initialMouseY = Math.random() * canvas.height;
+    this.moveX = 0;
+    this.moveY = 0;
+  }
 
-      draw(ctx) {
-        this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
-        this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
+  draw(ctx) {
+    this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
+    this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
 
-        this.x += this.moveX;
-        this.y += this.moveY;
+    this.x += this.moveX;
+    this.y += this.moveY;
 
-        super.draw(ctx);
+    super.draw(ctx);
 
         if (this.x - this.size < 0) {
             ctx.save();
