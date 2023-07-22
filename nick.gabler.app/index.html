@@ -170,8 +170,8 @@ class Star extends StaticStar {
   }
 
   draw(ctx) {
-    this.moveX = ((this.initialMouseX - canvas.clientWidth / 2) * 0.002 * this.speed) + (mouseX - canvas.clientWidth / 2) * 0.002 * this.speed;
-    this.moveY = ((this.initialMouseY - canvas.clientHeight / 2) * 0.002 * this.speed) + (mouseY - canvas.clientHeight / 2) * 0.002 * this.speed;
+    this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
+    this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
 
     this.x += this.moveX;
     this.y += this.moveY;
@@ -236,19 +236,16 @@ if (this.y < 0) this.y = canvas.height;
 
     staticStars.forEach((star) => star.draw(offscreenCtx));
 
-    function animate() {
-      mouseX = newMouseX;
-      mouseY = newMouseY;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.save();
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+function animate() {
+  mouseX = newMouseX;
+  mouseY = newMouseY;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      ctx.drawImage(offscreenCanvas, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(offscreenCanvas, 0, 0, canvas.width, canvas.height);
 
-      stars.forEach((star) => star.draw(ctx));
-      ctx.restore();
-      requestAnimationFrame(animate);
-    }
+  stars.forEach((star) => star.draw(ctx));
+  requestAnimationFrame(animate);
+}
 
     let resizeTimeout;
     window.addEventListener('resize', () => {
