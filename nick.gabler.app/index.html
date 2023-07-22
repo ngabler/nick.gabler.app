@@ -122,8 +122,8 @@ function resizeCanvas() {
   offscreenCanvas.width = canvas.width;
   offscreenCanvas.height = canvas.height;
 
-  mouseX = canvas.width / 2;
-  mouseY = canvas.height / 2;
+  mouseX = canvas.clientWidth / 2;
+  mouseY = canvas.clientHeight / 2;
   newMouseX = mouseX;
   newMouseY = mouseY;
 }
