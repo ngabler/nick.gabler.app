@@ -108,20 +108,25 @@ linklist:
 
     const colors = Array(100).fill().map(() => `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`);
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  canvas.style.width = window.innerWidth + 'px';
-  canvas.style.height = window.innerHeight + 'px';
+    let mouseX;
+    let mouseY;
+    let newMouseX;
+    let newMouseY;
 
-  offscreenCanvas.width = canvas.width;
-  offscreenCanvas.height = canvas.height;
-}
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
 
-    let mouseX = canvas.width / 2;
-    let mouseY = canvas.height / 2;
-    let newMouseX = mouseX;
-    let newMouseY = mouseY;
+      offscreenCanvas.width = canvas.width;
+      offscreenCanvas.height = canvas.height;
+
+      mouseX = canvas.width / 2;
+      mouseY = canvas.height / 2;
+      newMouseX = mouseX;
+      newMouseY = mouseY;
+    }
 
     window.addEventListener('mousemove', (e) => {
       newMouseX = e.clientX;
@@ -134,88 +139,48 @@ function resizeCanvas() {
       newMouseY = e.touches[0].clientY;
     }, { passive: false });
 
-class StaticStar {
-  constructor() {
-    this.x = Math.random() * window.innerWidth;
-    this.y = Math.random() * window.innerHeight;
-    this.size = Math.random() * 1.3 + 0.1;
-    this.color = colors[Math.floor(Math.random() * colors.length)];
-  }
+    class StaticStar {
+      constructor() {
+        this.x = Math.random() * window.innerWidth;
+        this.y = Math.random() * window.innerHeight;
+        this.size = Math.random() * 1.3 + 0.1;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
 
-  draw(ctx) {
-    ctx.fillStyle = this.color;
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.beginPath();
-    ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-}
-    
-class Star extends StaticStar {
-  constructor() {
-    super();
-    this.size = Math.random() * Math.random() * Math.random() * 6 + 3;
-    this.speed = this.size / 30;
-    this.initialMouseX = Math.random() * canvas.width;
-    this.initialMouseY = Math.random() * canvas.height;
-    this.moveX = 0;
-    this.moveY = 0;
-  }
+      draw(ctx) {
+        ctx.fillStyle = this.color;
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
 
-draw(ctx) {
-    this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
-    this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
+    class Star extends StaticStar {
+      constructor() {
+        super();
+        this.size = Math.random() * Math.random() * Math.random() * 6 + 3;
+        this.speed = this.size / 30;
+        this.initialMouseX = Math.random() * canvas.width;
+        this.initialMouseY = Math.random() * canvas.height;
+        this.moveX = 0;
+        this.moveY = 0;
+      }
 
-    this.x += this.moveX;
-    this.y += this.moveY;
+      draw(ctx) {
+        this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
+        this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
 
-    super.draw(ctx);
-    
-    if (this.x - this.size < 0) {
-        ctx.save();
-        ctx.translate(canvas.width, 0);
+        this.x += this.moveX;
+        this.y += this.moveY;
+
         super.draw(ctx);
-        ctx.restore();
+
+        // ... rest of your code ...
+      }
     }
-    if (this.y - this.size < 0) {
-        ctx.save();
-        ctx.translate(0, canvas.height);
-        super.draw(ctx);
-        ctx.restore();
-    }
-    if (this.x - this.size < 0 && this.y - this.size < 0) {
-        ctx.save();
-        ctx.translate(canvas.width, canvas.height);
-        super.draw(ctx);
-        ctx.restore();
-    }
-    if (this.x + this.size > canvas.width) {
-        ctx.save();
-        ctx.translate(-canvas.width, 0);
-        super.draw(ctx);
-        ctx.restore();
-    }
-    if (this.y + this.size > canvas.height) {
-        ctx.save();
-        ctx.translate(0, -canvas.height);
-        super.draw(ctx);
-        ctx.restore();
-    }
-    if (this.x + this.size > canvas.width && this.y + this.size > canvas.height) {
-        ctx.save();
-        ctx.translate(-canvas.width, -canvas.height);
-        super.draw(ctx);
-        ctx.restore();
-    }
-  
-    if (this.x - this.size > canvas.width) this.x = -this.size;
-    if (this.x + this.size < 0) this.x = canvas.width + this.size;
-    if (this.y - this.size > canvas.height) this.y = -this.size;
-    if (this.y + this.size < 0) this.y = canvas.height + this.size;
-}
-}
 
     resizeCanvas();
 
@@ -225,7 +190,6 @@ draw(ctx) {
     if (numStars > MAX_DYNAMIC_STARS) {
         numStars = MAX_DYNAMIC_STARS;
     }
-
 
     const stars = Array(numStars).fill().map(() => new Star());
     const staticStars = Array(numStars * 2).fill().map(() => new StaticStar());
@@ -246,19 +210,19 @@ draw(ctx) {
       requestAnimationFrame(animate);
     }
 
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    resizeCanvas();
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        resizeCanvas();
 
-    // Redraw static stars
-    const numStaticStars = Math.floor((window.innerWidth * window.innerHeight) * 0.001);
-    const staticStars = Array(numStaticStars).fill().map(() => new StaticStar());
-    staticStars.forEach((star) => star.draw(offscreenCtx));
+        // Redraw static stars
+        const numStaticStars = Math.floor((window.innerWidth * window.innerHeight) * 0.001);
+        const staticStars = Array(numStaticStars).fill().map(() => new StaticStar());
+        staticStars.forEach((star) => star.draw(offscreenCtx));
 
-  }, 100);
-});
+      }, 100);
+    });
 
     animate();
   });
