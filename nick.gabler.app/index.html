@@ -136,7 +136,7 @@ linklist:
           constructor() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 1.3 + 0.1;
+            this.size = Math.random() * 1.5 + 0.1;
             this.color = colors[Math.floor(Math.random() * colors.length)];
           }
           draw(ctx) {
@@ -220,7 +220,7 @@ linklist:
           numStars = MAX_DYNAMIC_STARS;
         }
         const stars = Array(numStars).fill().map(() => new Star()).sort((a, b) => a.size - b.size);
-        const staticStars = Array(numStars * 10).fill().map(() => new StaticStar());
+        const staticStars = Array(numStars * 20).fill().map(() => new StaticStar());
         staticStars.forEach((star) => star.draw(offscreenCtx));
 
         function animate() {
