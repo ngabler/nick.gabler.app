@@ -99,21 +99,22 @@ linklist:
     {% endfor %}
   </div>
 <script data-cfasync="true" type="text/javascript">
-  document.addEventListener('DOMContentLoaded', (event) => {
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
+document.addEventListener('DOMContentLoaded', (event) => {
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
 
-    const offscreenCanvas = document.createElement('canvas');
-    const offscreenCtx = offscreenCanvas.getContext('2d');
+  const offscreenCanvas = document.createElement('canvas');
+  const offscreenCtx = offscreenCanvas.getContext('2d');
 
-    const colors = Array(100).fill().map(() => `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`);
+  const colors = Array(100).fill().map(() => `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`);
 
-    let mouseX;
-    let mouseY;
-    let newMouseX;
-    let newMouseY;
+  let mouseX;
+  let mouseY;
+  let newMouseX;
+  let newMouseY;
+  let mouseMoved = false;
 
-function resizeCanvas() {
+  function resizeCanvas() {
   canvas.width = window.innerWidth * window.devicePixelRatio;
   canvas.height = window.innerHeight * window.devicePixelRatio;
   canvas.style.width = window.innerWidth + 'px';
@@ -129,15 +130,17 @@ function resizeCanvas() {
 }
 
 window.addEventListener('mousemove', (e) => {
-  newMouseX = e.clientX * window.devicePixelRatio;
-  newMouseY = e.clientY * window.devicePixelRatio;
-});
+    newMouseX = e.clientX * window.devicePixelRatio;
+    newMouseY = e.clientY * window.devicePixelRatio;
+    mouseMoved = true;
+  });
 
 window.addEventListener('touchmove', (e) => {
   e.preventDefault();
   newMouseX = e.touches[0].clientX * window.devicePixelRatio;
   newMouseY = e.touches[0].clientY * window.devicePixelRatio;
-}, { passive: false });
+  mouseMoved = true;
+  }, { passive: false });
 
     class StaticStar {
   constructor() {
@@ -170,6 +173,13 @@ class Star extends StaticStar {
   }
 
   draw(ctx) {
+          if (mouseMoved) {
+        this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
+        this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
+
+        this.x += this.moveX;
+        this.y += this.moveY;
+      }
     this.moveX = ((this.initialMouseX - canvas.width / 2) * 0.002 * this.speed) + (mouseX - canvas.width / 2) * 0.002 * this.speed;
     this.moveY = ((this.initialMouseY - canvas.height / 2) * 0.002 * this.speed) + (mouseY - canvas.height / 2) * 0.002 * this.speed;
 
@@ -231,14 +241,17 @@ if (this.y < 0) this.y = canvas.height;
         numStars = MAX_DYNAMIC_STARS;
     }
 
-    const stars = Array(numStars).fill().map(() => new Star());
-    const staticStars = Array(numStars * 10).fill().map(() => new StaticStar());
+const stars = Array(numStars).fill().map(() => new Star()).sort((a, b) => a.size - b.size);
+  const staticStars = Array(numStars * 10).fill().map(() => new StaticStar());
 
-    staticStars.forEach((star) => star.draw(offscreenCtx));
+  staticStars.forEach((star) => star.draw(offscreenCtx));
 
 function animate() {
-  mouseX = newMouseX;
-  mouseY = newMouseY;
+    if (mouseMoved) {
+      mouseX = newMouseX;
+      mouseY = newMouseY;
+      mouseMoved = false;
+    }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.drawImage(offscreenCanvas, 0, 0, canvas.width, canvas.height);
