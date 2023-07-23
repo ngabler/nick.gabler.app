@@ -161,7 +161,7 @@ window.addEventListener('touchmove', (e) => {
 class Star extends StaticStar {
   constructor() {
     super();
-    this.size = Math.random() * Math.random() * Math.random() * 6 + 3;
+    this.size = Math.random() * Math.random() * Math.random() * 12 + 3;
     this.speed = this.size / 30;
     this.initialMouseX = Math.random() * canvas.width;
     this.initialMouseY = Math.random() * canvas.height;
@@ -232,7 +232,7 @@ if (this.y < 0) this.y = canvas.height;
     }
 
     const stars = Array(numStars).fill().map(() => new Star());
-    const staticStars = Array(numStars * 3).fill().map(() => new StaticStar());
+    const staticStars = Array(numStars * 10).fill().map(() => new StaticStar());
 
     staticStars.forEach((star) => star.draw(offscreenCtx));
 
