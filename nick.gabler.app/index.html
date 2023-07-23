@@ -243,7 +243,7 @@ function animate() {
 
   ctx.drawImage(offscreenCanvas, 0, 0, canvas.width, canvas.height);
 
-  stars.forEach((star) => star.draw(ctx));
+  stars.sort((a, b) => a.size - b.size).forEach((star) => star.draw(ctx));
   requestAnimationFrame(animate);
 }
 
