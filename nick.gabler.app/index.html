@@ -93,12 +93,19 @@ linklist:
         const ctx = canvas.getContext('2d');
         const offscreenCanvas = document.createElement('canvas');
         const offscreenCtx = offscreenCanvas.getContext('2d');
-        const colors = Array(100).fill().map(() => `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`);
         let mouseX;
         let mouseY;
         let newMouseX;
         let newMouseY;
         let mouseMoved = false;
+        let colors = [];
+        for (let r = 0; r < 256; r += 10) {
+          for (let g = 0; g < 256; g += 10) {
+            for (let b = 0; b < 256; b += 10) {
+              colors.push(`rgb(${r}, ${g}, ${b})`);
+            }
+          }
+        }
 
         function resizeCanvas() {
           canvas.width = window.innerWidth * window.devicePixelRatio;
