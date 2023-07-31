@@ -3,7 +3,8 @@ if (window.trustedTypes && window.trustedTypes.createPolicy) {
     createScript: (source) => source  
   });
 
-  const myTrustedScript = myPolicy.createScript(`document.addEventListener('DOMContentLoaded', (event) => {
+  function myTrustedScript() {
+      document.addEventListener('DOMContentLoaded', (event) => {
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         const offscreenCanvas = document.createElement('canvas');
@@ -160,7 +161,8 @@ if (window.trustedTypes && window.trustedTypes.createPolicy) {
           }, 100);
         });
         animate();
-      });`);
+      });
+  }
 
-  eval(myTrustedScript);
+  myTrustedScript();
 }
