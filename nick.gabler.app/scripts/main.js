@@ -17,7 +17,7 @@ if (window.trustedTypes && window.trustedTypes.createPolicy) {
         for (let r = 0; r < 256; r += 32) {
           for (let g = 0; g < 256; g += 32) {
             for (let b = 0; b < 256; b += 32) {
-              colors.push(`rgb(${r}, ${g}, ${b})`);
+              colors.push(\`rgb(${r}, ${g}, ${b})\`);
             }
           }
         }
