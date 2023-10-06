@@ -1,11 +1,27 @@
+:root {
+  --primary-color: white;
+  --background-color: black;
+  --hover-color: #e0e0e0; 
+  --link-font-size: 3rem; /* New definition */
+}
+
+@keyframes rainbowWave {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
 body {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'JetBrains Mono', monospace, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
   background: black;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;     /* Center content vertically */
+  align-items: center;         /* Center content horizontally */
+  height: 100vh;
   width: 100vw;
   max-width: 100vw;
 }
@@ -18,16 +34,15 @@ canvas {
 }
 
 #title {
-  font-size: 6rem;
+  font-size: 8rem;
   font-weight: bold;
   text-align: center;
-  color: white;
-  flex: 1;
+  color: var(--primary-color);
+  margin: 0;                   /* Remove top and bottom margin */
   text-shadow: -1px 1px 0 #000,
     1px 1px 0 #000,
     1px -1px 0 #000,
     -1px -1px 0 #000;
-  margin-top: 2rem;
 }
 
 #social-links {
@@ -35,27 +50,45 @@ canvas {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1;
   color: white;
-  margin-bottom: 2rem;
+  margin-top: 1rem;            /* Add a slight margin between title and links */
 }
 
 #social-links a {
-  text-decoration: none;
-  color: white;
-  font-size: 3rem;
-  font-weight: bold;
-  text-align: center;
-  text-shadow: -1px 1px 0 #000,
-    1px 1px 0 #000,
-    1px -1px 0 #000,
-    -1px -1px 0 #000;
-  margin-bottom: 1rem;
+    text-decoration: none;
+    color: var(--primary-color); /* This sets the default color of the links */
+    font-size: var(--link-font-size);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+#social-links a:hover {
+    color: var(--hover-color);
+    transform: scale(1.05);
+
+    /* Apply the rainbow animation */
+    background-image: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red, orange, yellow);
+    background-size: 500% 500%; /* Ensures the gradient is large enough to display only one color at a time */
+    
+    /* Set the color of the text to transparent and define a text shadow */
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text; /* Required for Safari */
+    text-fill-color: transparent;
+    -webkit-text-fill-color: transparent; /* Required for Safari */
+    animation: rainbowWave 3s linear infinite;
+}
+
+#social-links a:hover {
+  color: var(--hover-color);
+  transform: scale(1.05); /* subtle scale effect on hover */
 }
 
 @media (max-width: 767px) {
   #title {
-    font-size: 4rem;
+    font-size: 5rem;
   }
 
   #social-links a {
