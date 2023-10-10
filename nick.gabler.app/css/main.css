@@ -63,8 +63,11 @@ canvas {
     margin-bottom: 1rem;
     transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
     position: relative;
+    text-shadow: -1px 1px 0 #000,
+      1px 1px 0 #000,
+      1px -1px 0 #000,
+      -1px -1px 0 #000; 
     z-index: 1;
-    text-shadow: none;
 }
 
 #social-links a:hover {
@@ -81,20 +84,29 @@ canvas {
     text-shadow: none;
 }
 
-#social-links a::before {
+#social-links a::after {
     content: attr(data-text);
     position: absolute;
     top: 0;
     left: 0;
-    z-index: -1;
-    text-shadow: -1px 1px 0 #000,
-      1px 1px 0 #000,
-      1px -1px 0 #000,
-      -1px -1px 0 #000;
+    z-index: 2;
+    background-image: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red, orange, yellow);
+    background-size: 500% 500%;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    pointer-events: none;
 }
 
-#social-links a:hover::before {
-    color: var(--hover-color);
+#social-links a:hover::after {
+    animation: rainbowWave 3s linear infinite;
+}
+
+#social-links a:hover {
+    transform: scale(1.05);
 }
 
 @media (max-width: 767px) {
