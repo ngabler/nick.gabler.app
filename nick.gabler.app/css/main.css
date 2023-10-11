@@ -91,9 +91,7 @@ canvas {
     background-size: 500% 500%;
     background-clip: text;
     -webkit-background-clip: text;
-    color: transparent; 
-    text-fill-color: transparent;
-    -webkit-text-fill-color: transparent;
+    opacity: 0;
     pointer-events: none;
     visibility: hidden;
     -webkit-font-smoothing: antialiased;
@@ -101,7 +99,7 @@ canvas {
 }
 
 #social-links a:hover .gradient-text {
-    visibility: visible;
+    opacity: 1;
     animation: rainbowWave 3s linear infinite;
 }
 
