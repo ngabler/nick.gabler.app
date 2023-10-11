@@ -23,7 +23,10 @@ linklist:
     <h1 id="title">{{ firstname }} {{ lastname }}</h1>
     <div id="social-links">
         {% for link in linklist %}
-            <a href="{{ link[1] }}" target="_blank"><span>{{ link[0] }}</span></a>
+            <a href="{{ link[1] }}" target="_blank">
+                <span class="shadow-text">{{ link[0] }}</span>
+                <span class="gradient-text">{{ link[0] }}</span>
+            </a>
         {% endfor %}
     </div>
     <script src="/scripts/main.js"></script>
