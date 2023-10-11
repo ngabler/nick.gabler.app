@@ -21,8 +21,9 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
+  max-width: 100vw;
 }
 
 canvas {
@@ -60,52 +61,31 @@ canvas {
     font-weight: bold;
     text-align: center;
     margin-bottom: 1rem;
-    z-index: 1;
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.3s ease-in-out;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    text-shadow: -1px 1px 0 #000,
+      1px 1px 0 #000,
+      1px -1px 0 #000,
+      -1px -1px 0 #000;
 }
 
 #social-links a:hover {
+    color: var(--hover-color);
     transform: scale(1.05);
-}
 
-#social-links a::before, #social-links a::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    pointer-events: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-#social-links a::before {
-    color: var(--primary-color);
-    text-shadow: -1px 1px 0 #000,
-                 1px 1px 0 #000,
-                 1px -1px 0 #000,
-                 -1px -1px 0 #000;
-}
-
-#social-links a::after {
-    z-index: 3;
     background-image: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red, orange, yellow);
     background-size: 500% 500%;
+    
+    color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
-    color: transparent; 
     text-fill-color: transparent;
     -webkit-text-fill-color: transparent;
-    visibility: hidden;
-}
-
-#social-links a:hover::after {
-    visibility: visible;
     animation: rainbowWave 3s linear infinite;
+
+    text-shadow: -1px 1px 0 #000,
+      1px 1px 0 #000,
+      1px -1px 0 #000,
+      -1px -1px 0 #000;
 }
 
 @media (max-width: 767px) {
