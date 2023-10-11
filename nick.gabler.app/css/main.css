@@ -73,7 +73,6 @@ canvas {
 }
 
 .shadow-text {
-    z-index: 1;
     position: relative;
     color: var(--primary-color);
     text-shadow: -1px 1px 0 #000,
