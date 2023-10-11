@@ -5,6 +5,13 @@
   --link-font-size: 3rem;
 }
 
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('fonts/jetbrains-mono.woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
   font-family: 'JetBrains Mono', monospace, sans-serif;
   margin: 0;
