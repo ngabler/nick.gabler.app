@@ -82,6 +82,7 @@ canvas {
     top: 0;
     left: 0;
     z-index: 2;
+    background-image: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red, orange, yellow);
     background-size: 500% 500%;
     background-clip: text;
     -webkit-background-clip: text;
