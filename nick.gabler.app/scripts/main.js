@@ -4,6 +4,14 @@ if (window.trustedTypes && window.trustedTypes.createPolicy) {
   });
 
   function myTrustedScript() {
+      if (navigator.userAgent.includes("Twitter")) {
+          let gradientTexts = document.querySelectorAll('.gradient-text');
+    
+          gradientTexts.forEach(text => {
+              text.style.display = 'none';
+          });
+      }
+
       document.addEventListener('DOMContentLoaded', (event) => {
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
@@ -166,6 +174,14 @@ if (window.trustedTypes && window.trustedTypes.createPolicy) {
 
   myTrustedScript();
 } else {
+      if (navigator.userAgent.includes("Twitter")) {
+          let gradientTexts = document.querySelectorAll('.gradient-text');
+    
+          gradientTexts.forEach(text => {
+              text.style.display = 'none';
+          });
+      }
+  
       document.addEventListener('DOMContentLoaded', (event) => {
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
