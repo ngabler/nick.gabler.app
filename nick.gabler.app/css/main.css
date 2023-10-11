@@ -67,6 +67,10 @@ canvas {
     transition: transform 0.3s ease-in-out;
 }
 
+#social-links a:hover {
+    transform: scale(1.05);
+}
+
 .shadow-text {
     z-index: 1;
     position: relative;
