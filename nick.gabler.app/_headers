@@ -5,4 +5,4 @@
   X-XSS-Protection: 1; mode=block
   X-Content-Type-Options: nosniff
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  access-control-allow-origin: *
+  access-control-allow-origin: gabler.app nick.gabler.app blog.gabler.app
