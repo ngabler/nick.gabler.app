@@ -65,6 +65,8 @@ canvas {
     overflow: hidden;
     position: relative;
     transition: transform 0.3s ease-in-out;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #social-links a:hover {
@@ -95,6 +97,8 @@ canvas {
     -webkit-text-fill-color: transparent;
     pointer-events: none;
     visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #social-links a:hover .gradient-text {
