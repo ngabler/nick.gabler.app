@@ -1,20 +1,5 @@
-:root {
-  --primary-color: white;
-  --background-color: black;
-  --hover-color: #e0e0e0; 
-  --link-font-size: 3rem;
-}
-
-@font-face {
-    font-family: 'JetBrains Mono';
-    src: url('/fonts/jetbrains-mono.woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
 body {
-  font-family: 'JetBrains Mono', monospace, sans-serif;
+  font-family: 'JetBrains Mono';
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -38,9 +23,9 @@ canvas {
 
 #title {
   font-size: 8rem;
-  font-weight: bold;
+  font-weight: 100;
   text-align: center;
-  color: var(--primary-color);
+  color: white;
   margin: 0;
   text-shadow: -1px 1px 0 #000,
     1px 1px 0 #000,
@@ -59,8 +44,8 @@ canvas {
 
 #social-links a {
   text-decoration: none;
-  color: var(--primary-color);
-  font-size: var(--link-font-size);
+  color: white;
+  font-size: 3rem;
   text-align: center;
   margin-bottom: 1rem;
   transition: transform 0.3s ease-in-out;
