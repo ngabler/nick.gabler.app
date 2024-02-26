@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let stars = [];
     let staticStars = [];
     function populateStars() {
-        const numDynamicStars = Math.min(Math.floor((window.innerWidth * window.innerHeight) * 0.0001), 512);
+        const numDynamicStars = Math.min(Math.floor(window.innerWidth * window.innerHeight) * 0.0003);
         const numStaticStars = numDynamicStars * 10;
         stars = Array.from({ length: numDynamicStars }, () => new Star());
         staticStars = Array.from({ length: numStaticStars }, () => new StaticStar());
