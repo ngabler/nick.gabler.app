@@ -8,10 +8,10 @@ window.onload = function () {
         let title = document.getElementById('title');
         let canvas = document.createElement('canvas');
         document.body.appendChild(canvas);
-        canvas.width = title.offsetWidth + 30; // Increased extra space
+        canvas.width = title.offsetWidth + 50; // Increased extra space
         canvas.height = title.offsetHeight + 30; // Increased extra space
         canvas.style.position = 'absolute';
-        canvas.style.left = `${title.getBoundingClientRect().left - 15}px`; // Adjusted for extra space
+        canvas.style.left = `${title.getBoundingClientRect().left - 25}px`; // Adjusted for extra space
         canvas.style.top = `${title.getBoundingClientRect().top - 15}px`; // Adjusted for extra space
         canvas.style.zIndex = '-1'; // Ensure the canvas is behind the title
 
