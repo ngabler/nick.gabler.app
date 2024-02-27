@@ -29,7 +29,6 @@ window.onload = function () {
                 // Draw the box using the animated width while keeping height constant
                 rc.rectangle(0, 0, boxAnim.width, canvas.height, {
                     fill: '#c8102e',
-                    stroke: 'none',
                     fillStyle: 'hachure',
                     hachureAngle: -45, // Adjust the angle for desired effect
                     hachureGap: 40, // Adjust the gap for desired effect
