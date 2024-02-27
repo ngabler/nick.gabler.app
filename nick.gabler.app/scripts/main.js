@@ -34,7 +34,7 @@ window.onload = function () {
                 // The rectangle's width is further reduced by strokeWidth and padding to keep the stroke inside
                 rc.rectangle(startX, startY, boxAnim.width * 2 - (strokeWidth + padding * 2), boxAnim.height - (strokeWidth + padding * 2), {
                     fill: '#c8102e',
-                    fillStyle: 'hachure',
+                    fillStyle: 'cross-hatch',
                     hachureAngle: -45,
                     hachureGap: 30,
                     fillWeight: 3,
