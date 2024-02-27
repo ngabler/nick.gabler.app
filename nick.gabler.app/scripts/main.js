@@ -32,8 +32,8 @@ window.onload = function () {
                     stroke: 'none',
                     fillStyle: 'hachure',
                     hachureAngle: -45, // Adjust the angle for desired effect
-                    hachureGap: 15, // Adjust the gap for desired effect
-                    fillWeight: 2,
+                    hachureGap: 20, // Adjust the gap for desired effect
+                    fillWeight: 3,
                 });
             }
         });
