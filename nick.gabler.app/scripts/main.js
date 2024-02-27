@@ -1,43 +1,32 @@
 window.onload = function () {
     let tl = gsap.timeline();
-
-    // Title opacity animation
     tl.to('#title', {
         opacity: 1,
         duration: 1,
         ease: "expoScale(0.5,7,none)",
-    });
-
-    // After the title is fully visible, draw a rough.js box behind it
-    tl.add(() => {
+    }).add(() => {
         let title = document.getElementById('title');
         let canvas = document.createElement('canvas');
-        document.body.appendChild(canvas); // Append canvas to the body or a specific container
-        canvas.width = title.offsetWidth + 20; // Adding some padding to ensure the box fully encompasses the title
-        canvas.height = title.offsetHeight + 20; // Adding some padding for the same reason
-        canvas.style.zIndex = '-1'; // Send the canvas to the back
+        document.body.appendChild(canvas);
+        canvas.width = title.offsetWidth + 20;
+        canvas.height = title.offsetHeight + 20;
+        canvas.style.position = 'absolute';
+        canvas.style.left = `${title.getBoundingClientRect().left - 10}px`;
+        canvas.style.top = `${title.getBoundingClientRect().top - 10}px`;
+        canvas.style.zIndex = '-1'; // Ensure the canvas is behind the title
         title.style.position = 'relative';
-        title.style.zIndex = '1'; // Ensure the title is above the canvas
-
-
-        // Adjust the canvas position to align with the title element. You might need to adjust these values.
-        let titleRect = title.getBoundingClientRect();
-        canvas.style.left = `${titleRect.left - 10}px`; // Align the box with the title
-        canvas.style.top = `${titleRect.top - 10}px`; // Align the box with the title
-        canvas.style.pointerEvents = 'none'; // Make sure the canvas doesn't capture mouse events
+        title.style.zIndex = '1';
 
         let rc = rough.canvas(canvas);
-        // Draw a filled rectangle with no stroke around the title
         rc.rectangle(0, 0, canvas.width, canvas.height, {
             fill: '#bcd4e6',
             stroke: 'none',
-            fillStyle: 'hachure', // Use hachure fill style
-            hachureAngle: 45, // Angle of the hachure lines
-            hachureGap: 4, 
+            fillStyle: 'hachure',
+            hachureAngle: 45,
+            hachureGap: 4,
         });
-    }, "+=0"); // This ensures the drawing starts right after the title opacity animation
+    }, "+=0");
 
-    // Social links opacity animation
     tl.to('#social-links a', {
         opacity: 1,
         duration: 0.5,
