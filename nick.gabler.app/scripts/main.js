@@ -25,7 +25,14 @@ window.onload = function () {
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
             // Draw the rectangle with dynamic width
             rc.rectangle(padding, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
-                stroke: '#F8F8F8', strokeWidth: strokeWidth, roughness: 2.5
+                fill: '#c8102e',
+                fillStyle: 'hachure',
+                hachureAngle: -45,
+                hachureGap: 40,
+                fillWeight: 4,
+                stroke: '#F8F8F8',
+                strokeWidth: 4,
+                roughness: 2.5,
             });
         }
 
