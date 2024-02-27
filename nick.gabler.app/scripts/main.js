@@ -10,52 +10,39 @@ window.onload = function () {
         let title = document.getElementById('title');
         let canvas = document.createElement('canvas');
         document.body.appendChild(canvas);
-        canvas.width = title.offsetWidth + 100 + strokeWidth;
-        canvas.height = title.offsetHeight + 20 + strokeWidth;
+        canvas.width = title.offsetWidth + strokeWidth + padding * 2; // Adjusted for correct full width
+        canvas.height = title.offsetHeight + strokeWidth + padding * 2; // Adjusted for correct full height
         canvas.style.position = 'absolute';
-        canvas.style.left = `${title.getBoundingClientRect().left - 50 - (strokeWidth / 2)}px`;
-        canvas.style.top = `${title.getBoundingClientRect().top - 10 - (strokeWidth / 2)}px`;
+        canvas.style.left = `${title.getBoundingClientRect().left - padding - (strokeWidth / 2)}px`; // Adjusted for correct positioning
+        canvas.style.top = `${title.getBoundingClientRect().top - padding - (strokeWidth / 2)}px`; // Adjusted for correct positioning
         canvas.style.zIndex = '-1';
 
         let rc = rough.canvas(canvas);
-        let lastProgressUpdate = -1; // Ensure initial drawing happens by setting this to -1
+        let lastProgressUpdate = -1;
 
-        function drawLine(newWidth) {
+        function drawRectangle(newWidth) {
+            // Clear previous frame
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-            rc.line(0, 10, newWidth, 10, {
-                stroke: '#F8F8F8', strokeWidth: 4, roughness: 2.5
+            // Draw the rectangle with dynamic width
+            rc.rectangle(padding, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
+                stroke: '#F8F8F8', strokeWidth: strokeWidth, roughness: 2.5
             });
         }
 
-        // Initialize the animation object with width as half of canvas width to start from the center
-        let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2) };
+        // Initialize the animation object with width as zero to start
+        let boxAnim = { width: 0 };
 
         gsap.to(boxAnim, {
-            width: canvas.width / 2 - (strokeWidth / 2 + padding), // Subtract half strokeWidth and padding
-            duration: 1, // Match the duration to the social-links underscore lines
-            ease: "expoScale(0.5,7,power1.inOut)", // Match the easing function as well
+            width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
+            duration: 1,
+            ease: "expoScale(0.5,7,none)", // Adjusted ease for consistency
             onUpdate: function () {
-                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
                 let currentProgress = Math.round(this.progress() * 10) / 10; // Round progress to match the interval
                 if (currentProgress > lastProgressUpdate) {
                     let currentWidth = this.targets()[0].width;
-                    drawLine(currentWidth);
+                    drawRectangle(currentWidth);
                     lastProgressUpdate = currentProgress;
                 }
-                // Start drawing further in from the edge by half the strokeWidth plus padding
-                let startX = (canvas.width - boxAnim.width * 2) / 2 + (strokeWidth / 2 + padding);
-                let startY = padding;
-                // The rectangle's width is adjusted to keep the stroke inside
-                rc.rectangle(startX, startY, boxAnim.width * 2 - (strokeWidth + padding * 2), boxAnim.height, {
-                    fill: '#c8102e',
-                    fillStyle: 'cross-hatch',
-                    hachureAngle: -45,
-                    hachureGap: 10,
-                    fillWeight: 1,
-                    stroke: '#F8F8F8',
-                    strokeWidth: strokeWidth,
-                    roughness: 1,
-                });
             }
         });
     }, "+=0");
