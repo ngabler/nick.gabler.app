@@ -14,19 +14,13 @@ body {
   max-width: 100vw;
 }
 
-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
 #title {
   font-size: 8rem;
   font-weight: 100;
   text-align: center;
   color: #F8F8F8;
   margin: 0;
+  opacity: 0;
   text-shadow: -1px 1px 0 #080808,
     1px 1px 0 #080808,
     1px -1px 0 #080808,
@@ -40,6 +34,7 @@ canvas {
   align-items: center;
   color: #F8F8F8;
   margin-top: 1rem;
+  opacity: 0;
 }
 
 #social-links a {
