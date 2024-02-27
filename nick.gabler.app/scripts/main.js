@@ -13,15 +13,15 @@ window.onload = function () {
         opacity: 1,
         duration: 0.5,
         stagger: {
-            each: 0.2,
+            each: 0.5,
             // Function to set initial properties based on index
             onStart: function(i, target, targets) {
                 // Alternate starting x offset based on index; even indices start from left, odd from right
-                let directionOffset = i % 2 === 0 ? -50 : 50;
+                let directionOffset = i % 2 === 0 ? -200: 200;
                 gsap.set(target, { x: directionOffset, opacity: 0 });
             }
         },
         x: 0, // Animate to original position
-        ease: 'power1.inOut'
+        ease: "expoScale(0.5,7,power1.inOut)",
     });
 };
