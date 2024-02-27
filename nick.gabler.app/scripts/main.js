@@ -22,14 +22,14 @@ window.onload = function () {
         let boxAnim = { width: 0, height: canvas.height };
 
         gsap.to(boxAnim, {
-            width: canvas.width / 2, // Animate width from 0 to half of canvas width to expand from center
+            width: canvas.width / 2 - strokeWidth, // Subtract strokeWidth to accommodate stroke
             duration: 0.5,
             ease: "expoScale(0.5,7,none)",
             onUpdate: function () {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
-                let startX = (canvas.width - boxAnim.width * 2) / 2; // Center the rectangle on the x-axis
-                let startY = (canvas.height - boxAnim.height) / 2; // Center the rectangle on the y-axis
-                rc.rectangle(startX, startY, boxAnim.width * 2, boxAnim.height, {
+                let startX = (canvas.width - boxAnim.width * 2) / 2 + strokeWidth / 2; // Adjust for stroke width
+                let startY = (canvas.height - boxAnim.height) / 2 + strokeWidth / 2; // Adjust for stroke width
+                rc.rectangle(startX, startY, boxAnim.width * 2 - strokeWidth, boxAnim.height - strokeWidth, {
                     fill: '#c8102e',
                     fillStyle: 'hachure',
                     hachureAngle: -45,
@@ -41,7 +41,6 @@ window.onload = function () {
                 });
             }
         });
-
     }, "+=0");
 
     tl.to('#social-links a', {
