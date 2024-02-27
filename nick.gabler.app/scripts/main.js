@@ -9,8 +9,8 @@ window.onload = function () {
         let canvas = document.createElement('canvas');
         document.body.appendChild(canvas);
         // Increase the extra space around the title to ensure the rectangle is not clipped
-        canvas.width = title.offsetWidth + 40; // Increased extra space
-        canvas.height = title.offsetHeight + 40; // Increased extra space
+        canvas.width = title.offsetWidth + 60; // Increased extra space
+        canvas.height = title.offsetHeight + 60; // Increased extra space
         canvas.style.position = 'absolute';
         // Adjust the position to accommodate the increased canvas size
         canvas.style.left = `${title.getBoundingClientRect().left - 20}px`; // Increased offset
