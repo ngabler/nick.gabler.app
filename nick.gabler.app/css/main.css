@@ -33,6 +33,7 @@ body {
 }
 
 #social-links a {
+  position: relative;
   text-decoration: none;
   color: #F8F8F8;
   text-align: center;
