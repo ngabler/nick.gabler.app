@@ -20,7 +20,11 @@ body {
   color: #F8F8F8;
   margin: 0;
   opacity: 0; /* Animated with GSAP */
-  text-shadow: -1px 1px 0 #080808, 1px 1px 0 #080808, 1px -1px 0 #080808, -1px -1px 0 #080808;
+  text-shadow: 
+  -2px 2px 3px #080808,
+   2px 2px 3px #080808, 
+   2px -2px 3px #080808, 
+  -2px -2px 3px #080808;
 }
 
 #social-links {
