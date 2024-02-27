@@ -1,6 +1,7 @@
 window.onload = function () {
     let tl = gsap.timeline();
-    const strokeWidth = 4;
+    let strokeWidth = 4; // Example stroke width
+    let padding = 10; // Additional padding inside the stroke
     tl.to('#title', {
         opacity: 1,
         duration: 1,
@@ -22,14 +23,16 @@ window.onload = function () {
         let boxAnim = { width: 0, height: canvas.height };
 
         gsap.to(boxAnim, {
-            width: canvas.width / 2 - strokeWidth, // Subtract strokeWidth to accommodate stroke
+            width: canvas.width / 2 - (strokeWidth / 2 + padding), // Subtract half strokeWidth and padding
             duration: 0.5,
             ease: "expoScale(0.5,7,none)",
             onUpdate: function () {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
-                let startX = (canvas.width - boxAnim.width * 2) / 2 + strokeWidth / 2; // Adjust for stroke width
-                let startY = (canvas.height - boxAnim.height) / 2 + strokeWidth / 2; // Adjust for stroke width
-                rc.rectangle(startX, startY, boxAnim.width * 2 - strokeWidth, boxAnim.height - strokeWidth, {
+                // Start drawing further in from the edge by half the strokeWidth plus padding
+                let startX = (canvas.width - boxAnim.width * 2) / 2 + (strokeWidth / 2 + padding);
+                let startY = (canvas.height - boxAnim.height) / 2 + (strokeWidth / 2 + padding);
+                // The rectangle's width is further reduced by strokeWidth and padding to keep the stroke inside
+                rc.rectangle(startX, startY, boxAnim.width * 2 - (strokeWidth + padding * 2), boxAnim.height - (strokeWidth + padding * 2), {
                     fill: '#c8102e',
                     fillStyle: 'hachure',
                     hachureAngle: -45,
