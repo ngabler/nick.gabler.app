@@ -36,8 +36,7 @@ window.onload = function () {
             });
         }
 
-        // Initialize the animation object with width as zero to start
-        let boxAnim = { width: 0 };
+        let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2) };
 
         gsap.to(boxAnim, {
             width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
