@@ -10,10 +10,10 @@ window.onload = function () {
         let title = document.getElementById('title');
         let canvas = document.createElement('canvas');
         document.body.appendChild(canvas);
-        canvas.width = title.offsetWidth + 60 + strokeWidth;
+        canvas.width = title.offsetWidth + 80 + strokeWidth;
         canvas.height = title.offsetHeight + 20 + strokeWidth;
         canvas.style.position = 'absolute';
-        canvas.style.left = `${title.getBoundingClientRect().left - 30 - (strokeWidth / 2)}px`;
+        canvas.style.left = `${title.getBoundingClientRect().left - 40 - (strokeWidth / 2)}px`;
         canvas.style.top = `${title.getBoundingClientRect().top - 10 - (strokeWidth / 2)}px`;
         canvas.style.zIndex = '-1';
 
