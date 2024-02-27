@@ -43,7 +43,7 @@ window.onload = function () {
                 }, {
                     width: canvas.offsetWidth,
                     duration: 1,
-                    ease: "none",
+                    ease: "expoScale(0.5,7,power1.inOut)",
                     onUpdate: function () {
                         let currentProgress = this.progress();
                         // Only update the drawing at defined progress intervals
