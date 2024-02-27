@@ -24,7 +24,7 @@ window.onload = function () {
         gsap.to(boxAnim, {
             width: canvas.width, // Animate width to full canvas width
             duration: 0.5, // Same duration as social-links animation
-            ease: "none",
+            ease: "expoScale(0.5,7,none)",
             onUpdate: function() {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
                 rc.rectangle(0, 0, boxAnim.width, canvas.height, {
