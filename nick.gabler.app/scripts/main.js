@@ -22,7 +22,7 @@ window.onload = function () {
             canvas.height = height;
             canvas.style.position = 'absolute';
             canvas.style.left = '0';
-            canvas.style.top = `${this.offsetHeight - 20}px`; // Position just above the bottom edge of the link
+            canvas.style.top = `${this.offsetHeight - 40}px`; // Position just above the bottom edge of the link
             this.appendChild(canvas);
 
             // Initialize Rough.js on the canvas
