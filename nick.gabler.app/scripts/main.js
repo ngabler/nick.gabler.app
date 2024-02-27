@@ -27,7 +27,7 @@ window.onload = function () {
             let rc = rough.canvas(canvas);
 
             // Draw a line with Rough.js
-            rc.line(0, 10, canvas.width, 20, { stroke: '#F8F8F8', strokeWidth: 3 });
+            rc.line(0, 10, canvas.width, 10, { stroke: '#F8F8F8', strokeWidth: 3 });
         });
 
         link.addEventListener('mouseout', function () {
