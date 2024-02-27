@@ -10,11 +10,11 @@ window.onload = function () {
         let title = document.getElementById('title');
         let canvas = document.createElement('canvas');
         document.body.appendChild(canvas);
-        canvas.width = title.offsetWidth + 30 + strokeWidth;
-        canvas.height = title.offsetHeight + 30 + strokeWidth;
+        canvas.width = title.offsetWidth + 60 + strokeWidth;
+        canvas.height = title.offsetHeight + 20 + strokeWidth;
         canvas.style.position = 'absolute';
-        canvas.style.left = `${title.getBoundingClientRect().left - 15 - (strokeWidth / 2)}px`;
-        canvas.style.top = `${title.getBoundingClientRect().top - 15 - (strokeWidth / 2)}px`;
+        canvas.style.left = `${title.getBoundingClientRect().left - 30 - (strokeWidth / 2)}px`;
+        canvas.style.top = `${title.getBoundingClientRect().top - 10 - (strokeWidth / 2)}px`;
         canvas.style.zIndex = '-1';
 
         let rc = rough.canvas(canvas);
@@ -40,7 +40,7 @@ window.onload = function () {
                     fillWeight: 3,
                     stroke: '#F8F8F8',
                     strokeWidth: strokeWidth,
-                    roughness: 1.5,
+                    roughness: 1,
                 });
             }
         });
