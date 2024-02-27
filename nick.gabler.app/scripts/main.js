@@ -14,49 +14,48 @@ window.onload = function () {
     document.querySelectorAll('#social-links a').forEach(link => {
         link.style.position = 'relative'; // Necessary for positioning the canvas correctly
         link.addEventListener('mouseover', function () {
-            // Create a canvas element
             let canvas = document.createElement('canvas');
             canvas.width = this.offsetWidth;
-            // Fixed: Define height before using it
             let height = 20; // Adjust height as needed
             canvas.height = height;
             canvas.style.position = 'absolute';
             canvas.style.left = '0';
-            canvas.style.top = `${this.offsetHeight - 40}px`; // Position just above the bottom edge of the link
+            canvas.style.top = `${this.offsetHeight - 5}px`;
             this.appendChild(canvas);
 
-            // Initialize Rough.js on the canvas
             let rc = rough.canvas(canvas);
 
-            // Updated: Moved the drawLine function inside the mouseover event and included the height variable
-            function drawLine(newWidth) {
-                // Clear previous drawing
-                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+            let lastWidth = 0; // Variable to store the last width at which the line was drawn
+            const redrawThreshold = 10; // Set the threshold for redrawing the line, e.g., 10 pixels
 
-                // Draw a new line with Rough.js, using newWidth for dynamic width during animation
-                rc.line(0, 10, newWidth, 10, {
-                    stroke: '#F8F8F8', strokeWidth: 3, roughness: 1.5
-                });
+            function drawLine(newWidth) {
+                // Check if the change in width is enough to redraw the line
+                if (Math.abs(newWidth - lastWidth) >= redrawThreshold) {
+                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+                    rc.line(0, 10, newWidth, 10, {
+                        stroke: '#F8F8F8', strokeWidth: 3, roughness: 2.5
+                    });
+                    lastWidth = newWidth; // Update the lastWidth with the newWidth
+                }
             }
 
-            // GSAP animation to simulate line drawing, fixed to use the newWidth argument in drawLine
             gsap.fromTo({width: 0}, {
                 width: 0
             }, {
                 width: canvas.offsetWidth,
-                duration: 0.5,
+                duration: 2,
                 ease: "none",
                 onUpdate: function () {
                     let currentWidth = this.targets()[0].width;
-                    drawLine(currentWidth); // Redraw the line with updated width
+                    drawLine(currentWidth); // Redraw the line conditionally
                 },
-                yoyo: true // Go back and forth
+                repeat: -1,
+                yoyo: true
             });
 
         });
 
         link.addEventListener('mouseout', function () {
-            // Remove the canvas when not hovered
             let canvas = this.querySelector('canvas');
             if (canvas) {
                 this.removeChild(canvas);
