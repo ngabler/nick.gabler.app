@@ -8,13 +8,11 @@ window.onload = function () {
         let title = document.getElementById('title');
         let canvas = document.createElement('canvas');
         document.body.appendChild(canvas);
-        // Increase the extra space around the title to ensure the rectangle is not clipped
         canvas.width = title.offsetWidth + 30; // Increased extra space
         canvas.height = title.offsetHeight + 30; // Increased extra space
         canvas.style.position = 'absolute';
-        // Adjust the position to accommodate the increased canvas size
-        canvas.style.left = `${title.getBoundingClientRect().left - 15}px`; // Increased offset
-        canvas.style.top = `${title.getBoundingClientRect().top - 15}px`; // Increased offset
+        canvas.style.left = `${title.getBoundingClientRect().left - 15}px`; // Adjusted for extra space
+        canvas.style.top = `${title.getBoundingClientRect().top - 15}px`; // Adjusted for extra space
         canvas.style.zIndex = '-1'; // Ensure the canvas is behind the title
 
         let rc = rough.canvas(canvas);
@@ -49,9 +47,8 @@ window.onload = function () {
         ease: "expoScale(0.5,7,power1.inOut)",
     });
 
-    // Set up the event listeners for the social links
     document.querySelectorAll('#social-links a').forEach(link => {
-        link.style.position = 'relative'; // Necessary for positioning the canvas correctly
+        link.style.position = 'relative';
 
         link.addEventListener('mouseenter', function () {
             if (!this.querySelector('canvas')) {
@@ -66,7 +63,6 @@ window.onload = function () {
 
                 let rc = rough.canvas(canvas);
 
-                // Define a variable to track the last progress at which the line was drawn
                 let lastProgressUpdate = 0;
                 const progressUpdateInterval = 0.1; // 10% progress intervals
 
@@ -85,10 +81,9 @@ window.onload = function () {
                     ease: "expoScale(0.5,7,power1.inOut)",
                     onUpdate: function () {
                         let currentProgress = this.progress();
-                        // Only update the drawing at defined progress intervals
                         if (currentProgress - lastProgressUpdate >= progressUpdateInterval) {
                             let currentWidth = this.targets()[0].width;
-                            drawLine(currentWidth); // Redraw the line
+                            drawLine(currentWidth);
                             lastProgressUpdate = currentProgress;
                         }
                     },
