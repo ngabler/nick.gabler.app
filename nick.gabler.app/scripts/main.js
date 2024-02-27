@@ -2,7 +2,7 @@ window.onload = function () {
     let tl = gsap.timeline();
     tl.to('#title', {
         opacity: 1,
-        duration: 1.5,
+        duration: 1,
         ease: "expoScale(0.5,7,power1.inOut)",
     });
     tl.to('#social-links a', {
