@@ -13,8 +13,8 @@ window.onload = function () {
         canvas.width = title.offsetWidth + strokeWidth + padding * 2; // Adjusted for correct full width
         canvas.height = title.offsetHeight + strokeWidth + padding * 2; // Adjusted for correct full height
         canvas.style.position = 'absolute';
-        canvas.style.left = `${title.getBoundingClientRect().left - padding - (strokeWidth / 2)}px`; // Adjusted for correct positioning
-        canvas.style.top = `${title.getBoundingClientRect().top - padding - (strokeWidth / 2)}px`; // Adjusted for correct positioning
+        canvas.style.left = `${title.getBoundingClientRect().left - padding - (strokeWidth / 2)}px`;
+        canvas.style.top = `${title.getBoundingClientRect().top - padding - (strokeWidth / 2)}px`;
         canvas.style.zIndex = '-1';
 
         let rc = rough.canvas(canvas);
@@ -26,13 +26,13 @@ window.onload = function () {
             // Draw the rectangle with dynamic width
             rc.rectangle(padding, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
                 fill: '#c8102e',
-                fillStyle: 'hachure',
+                fillStyle: 'cross-hatch',
                 hachureAngle: -45,
-                hachureGap: 40,
-                fillWeight: 4,
+                hachureGap: 10,
+                fillWeight: 1,
                 stroke: '#F8F8F8',
-                strokeWidth: 4,
-                roughness: 2.5,
+                strokeWidth: strokeWidth,
+                roughness: 1,
             });
         }
 
