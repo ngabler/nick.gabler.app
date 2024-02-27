@@ -62,7 +62,7 @@ window.onload = function () {
                     });
                 }
 
-                let animation = gsap.fromTo({width: 0}, {
+                let animation = gsap.fromTo({ width: 0 }, {
                     width: 0
                 }, {
                     width: canvas.offsetWidth,
