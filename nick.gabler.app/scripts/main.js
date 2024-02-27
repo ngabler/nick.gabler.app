@@ -26,13 +26,29 @@ window.onload = function () {
             // Initialize Rough.js on the canvas
             let rc = rough.canvas(canvas);
 
-            // Draw a line with Rough.js
-            rc.line(0, 10, canvas.width, 10, {
-            stroke: '#F8F8F8',
-            strokeWidth: 3,
-            roughness: 2.5, // Increase the roughness for a more sketchy effect
-            bowing: 2, // Increase the bowing to make the line appear more wavy
+            function drawLine() {
+                // Clear previous drawing
+                canvas.getContext('2d').clearRect(0, 0, width, height);
+
+                // Draw a new line with Rough.js
+                rc.line(0, 10, width, 10, {
+                    stroke: '#F8F8F8', strokeWidth: 3, roughness: 2.5
+                });
+            }
+
+            // GSAP animation to simulate line drawing
+            gsap.to({ width: 0 }, {
+                width: canvas.offsetWidth,
+                duration: 2,
+                ease: "none",
+                onUpdate: function () {
+                    width = this.targets()[0].width;
+                    drawLine(); // Redraw the line with updated width
+                },
+                repeat: -1, // Repeat indefinitely
+                yoyo: true // Go back and forth
             });
+
         });
 
         link.addEventListener('mouseout', function () {
