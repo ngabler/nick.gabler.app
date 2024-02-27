@@ -20,14 +20,19 @@ window.onload = function () {
             canvas.height = 20; // Adjust height as needed
             canvas.style.position = 'absolute';
             canvas.style.left = '0';
-            canvas.style.top = `${this.offsetHeight}px`; // Position just below the link
+            canvas.style.top = `${this.offsetHeight - 5}px`; // Example: 5px above the bottom edge of the link
             this.appendChild(canvas);
 
             // Initialize Rough.js on the canvas
             let rc = rough.canvas(canvas);
 
             // Draw a line with Rough.js
-            rc.line(0, 10, canvas.width, 10, { stroke: '#F8F8F8', strokeWidth: 3 });
+            rc.line(0, 10, canvas.width, 10, {
+            stroke: '#F8F8F8',
+            strokeWidth: 3,
+            roughness: 2.5, // Increase the roughness for a more sketchy effect
+            bowing: 2, // Increase the bowing to make the line appear more wavy
+            });
         });
 
         link.addEventListener('mouseout', function () {
