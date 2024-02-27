@@ -36,11 +36,11 @@ window.onload = function () {
                     fill: '#c8102e',
                     fillStyle: 'hachure',
                     hachureAngle: -45,
-                    hachureGap: 40,
-                    fillWeight: 4,
+                    hachureGap: 30,
+                    fillWeight: 3,
                     stroke: '#F8F8F8',
                     strokeWidth: strokeWidth,
-                    roughness: 2,
+                    roughness: 1.5,
                 });
             }
         });
