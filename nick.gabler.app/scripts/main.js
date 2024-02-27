@@ -9,12 +9,12 @@ window.onload = function () {
         let canvas = document.createElement('canvas');
         document.body.appendChild(canvas);
         // Increase the extra space around the title to ensure the rectangle is not clipped
-        canvas.width = title.offsetWidth + 20; // Increased extra space
-        canvas.height = title.offsetHeight + 20; // Increased extra space
+        canvas.width = title.offsetWidth + 30; // Increased extra space
+        canvas.height = title.offsetHeight + 30; // Increased extra space
         canvas.style.position = 'absolute';
         // Adjust the position to accommodate the increased canvas size
-        canvas.style.left = `${title.getBoundingClientRect().left - 20}px`; // Increased offset
-        canvas.style.top = `${title.getBoundingClientRect().top - 20}px`; // Increased offset
+        canvas.style.left = `${title.getBoundingClientRect().left - 15}px`; // Increased offset
+        canvas.style.top = `${title.getBoundingClientRect().top - 15}px`; // Increased offset
         canvas.style.zIndex = '-1'; // Ensure the canvas is behind the title
 
         let rc = rough.canvas(canvas);
