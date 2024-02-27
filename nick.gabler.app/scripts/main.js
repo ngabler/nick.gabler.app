@@ -11,5 +11,5 @@ window.onload = function () {
                 ease: 'power1.inOut', // This eases both the start and end of the animation
             });
         }
-    }
+    })
 };
