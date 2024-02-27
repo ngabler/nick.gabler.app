@@ -1,8 +1,8 @@
 window.onload = function () {
     let tl = gsap.timeline();
-    let strokeWidth = 1; // Example stroke width
+    let strokeWidth = 2;
     let roughness = 1;
-    let padding = 10; // Additional padding inside the stroke
+    let padding = 10;
     tl.to('#title', {
         opacity: 1,
         duration: 1,
