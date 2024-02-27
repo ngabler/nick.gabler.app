@@ -2,6 +2,7 @@ window.onload = function () {
     gsap.to('#title', {
         opacity: 1,
         duration: 1,
+        ease: 'power1.inOut',
         onComplete: () => {
             // After the title animation completes, animate each link
             gsap.to('#social-links a', {
