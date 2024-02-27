@@ -17,33 +17,38 @@ window.onload = function () {
             // Create a canvas element
             let canvas = document.createElement('canvas');
             canvas.width = this.offsetWidth;
-            canvas.height = 20; // Adjust height as needed
+            // Fixed: Define height before using it
+            let height = 20; // Adjust height as needed
+            canvas.height = height;
             canvas.style.position = 'absolute';
             canvas.style.left = '0';
-            canvas.style.top = `${this.offsetHeight - 5}px`; // Example: 5px above the bottom edge of the link
+            canvas.style.top = `${this.offsetHeight - 5}px`; // Position just above the bottom edge of the link
             this.appendChild(canvas);
 
             // Initialize Rough.js on the canvas
             let rc = rough.canvas(canvas);
 
-            function drawLine() {
+            // Updated: Moved the drawLine function inside the mouseover event and included the height variable
+            function drawLine(newWidth) {
                 // Clear previous drawing
-                canvas.getContext('2d').clearRect(0, 0, width, height);
+                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
-                // Draw a new line with Rough.js
-                rc.line(0, 10, width, 10, {
+                // Draw a new line with Rough.js, using newWidth for dynamic width during animation
+                rc.line(0, 10, newWidth, 10, {
                     stroke: '#F8F8F8', strokeWidth: 3, roughness: 2.5
                 });
             }
 
-            // GSAP animation to simulate line drawing
-            gsap.to({ width: 0 }, {
+            // GSAP animation to simulate line drawing, fixed to use the newWidth argument in drawLine
+            gsap.fromTo({width: 0}, {
+                width: 0
+            }, {
                 width: canvas.offsetWidth,
                 duration: 2,
                 ease: "none",
                 onUpdate: function () {
-                    width = this.targets()[0].width;
-                    drawLine(); // Redraw the line with updated width
+                    let currentWidth = this.targets()[0].width;
+                    drawLine(currentWidth); // Redraw the line with updated width
                 },
                 repeat: -1, // Repeat indefinitely
                 yoyo: true // Go back and forth
