@@ -20,6 +20,12 @@ window.onload = function () {
         let rc = rough.canvas(canvas);
         let lastProgressUpdate = -1; // Ensure initial drawing happens by setting this to -1
 
+        function drawLine(newWidth) {
+            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+            rc.line(0, 10, newWidth, 10, {
+                stroke: '#F8F8F8', strokeWidth: 4, roughness: 2.5
+            });
+        }
 
         // Initialize the animation object with width as half of canvas width to start from the center
         let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2) };
