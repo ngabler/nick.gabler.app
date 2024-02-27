@@ -18,30 +18,23 @@ window.onload = function () {
         let rc = rough.canvas(canvas);
 
         let boxAnim = {width: 0};
-        let lastProgressUpdate = 0; // Initialize last progress update tracker
-        const progressUpdateInterval = 0.1; // Define progress update interval
 
         gsap.to(boxAnim, {
             width: canvas.width, // Animate width to full canvas width
             duration: 0.5, // Duration for the animation
             ease: "expoScale(0.5,7,none)",
             onUpdate: function() {
-                let currentProgress = this.progress();
-                // Only update the drawing at defined progress intervals
-                if (currentProgress - lastProgressUpdate >= progressUpdateInterval) {
-                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
-                    rc.rectangle(0, 0, boxAnim.width, canvas.height, {
-                        fill: '#c8102e',
-                        fillStyle: 'hachure',
-                        hachureAngle: -45,
-                        hachureGap: 40,
-                        fillWeight: 4,
-                        stroke: '#F8F8F8',
-                        strokeWidth: 4,
-                        roughness: 2.5,
-                    });
-                    lastProgressUpdate = currentProgress; // Update the last progress tracker
-                }
+                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
+                rc.rectangle(0, 0, boxAnim.width, canvas.height, {
+                    fill: '#c8102e',
+                    fillStyle: 'hachure',
+                    hachureAngle: -45,
+                    hachureGap: 40,
+                    fillWeight: 4,
+                    stroke: '#F8F8F8',
+                    strokeWidth: 4,
+                    roughness: 2.5,
+                });
             }
         });
 
@@ -65,12 +58,11 @@ window.onload = function () {
                 canvas.height = height;
                 canvas.style.position = 'absolute';
                 canvas.style.left = '0';
-                canvas.style.top = `${this.offsetHeight - 30}px`;
+                canvas.style.top = `${this.offsetHeight - height}px`; // Adjusted to correctly position the line
                 this.appendChild(canvas);
 
                 let rc = rough.canvas(canvas);
-
-                let lastProgressUpdate = 0; // Reuse the same concept for individual link animations
+                let lastProgressUpdate = -1; // Ensure initial drawing happens by setting this to -1
 
                 function drawLine(newWidth) {
                     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
@@ -79,15 +71,15 @@ window.onload = function () {
                     });
                 }
 
-                let animation = gsap.fromTo({ width: 0 }, {
+                gsap.fromTo({ width: 0 }, {
                     width: 0
                 }, {
                     width: canvas.offsetWidth,
                     duration: 1,
                     ease: "expoScale(0.5,7,power1.inOut)",
                     onUpdate: function () {
-                        let currentProgress = this.progress();
-                        if (currentProgress - lastProgressUpdate >= progressUpdateInterval) {
+                        let currentProgress = Math.round(this.progress() * 10) / 10; // Round progress to match the interval
+                        if (currentProgress > lastProgressUpdate) {
                             let currentWidth = this.targets()[0].width;
                             drawLine(currentWidth);
                             lastProgressUpdate = currentProgress;
