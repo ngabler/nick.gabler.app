@@ -3,7 +3,7 @@ window.onload = function () {
     tl.to('#title', {
         opacity: 1,
         duration: 1,
-        ease: "expoScale(0.5,7,power1.inOut)",
+        ease: "expoScale(0.5,7,none)",
     });
     tl.to('#social-links a', {
         opacity: 1,
