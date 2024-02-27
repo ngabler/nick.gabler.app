@@ -18,21 +18,21 @@ window.onload = function () {
         let rc = rough.canvas(canvas);
 
         // Dummy object for animation
-        let boxAnim = { scale: 0 };
+        let boxAnim = {width: 0};
 
         gsap.to(boxAnim, {
-            scale: 1,
+            width: canvas.width, // Animate width to full canvas width
             duration: 0.5, // Same duration as social-links animation
             ease: "none",
-            onUpdate: function () {
+            onUpdate: function() {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
-                rc.rectangle(0, 0, canvas.width * boxAnim.scale, canvas.height * boxAnim.scale, {
+                // Draw the box using the animated width while keeping height constant
+                rc.rectangle(0, 0, boxAnim.width, canvas.height, {
                     fill: '#bcd4e6',
                     stroke: 'none',
                     fillStyle: 'hachure',
-                    hachureAngle: 45,
-                    hachureGap: 4,
-                    fillWeight: 3,
+                    hachureAngle: 45, // Adjust the angle for desired effect
+                    hachureGap: 10, // Adjust the gap for desired effect
                 });
             }
         });
