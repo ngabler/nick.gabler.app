@@ -20,19 +20,19 @@ window.onload = function () {
         let rc = rough.canvas(canvas);
 
         // Initialize the animation object with width as half of canvas width to start from the center
-        let boxAnim = { width: 0, height: canvas.height };
+        let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2) };
 
         gsap.to(boxAnim, {
             width: canvas.width / 2 - (strokeWidth / 2 + padding), // Subtract half strokeWidth and padding
-            duration: 0.5,
-            ease: "expoScale(0.5,7,none)",
+            duration: 1, // Match the duration to the social-links underscore lines
+            ease: "expoScale(0.5,7,power1.inOut)", // Match the easing function as well
             onUpdate: function () {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
                 // Start drawing further in from the edge by half the strokeWidth plus padding
                 let startX = (canvas.width - boxAnim.width * 2) / 2 + (strokeWidth / 2 + padding);
-                let startY = (canvas.height - boxAnim.height) / 2 + (strokeWidth / 2 + padding);
-                // The rectangle's width is further reduced by strokeWidth and padding to keep the stroke inside
-                rc.rectangle(startX, startY, boxAnim.width * 2 - (strokeWidth + padding * 2), boxAnim.height - (strokeWidth + padding * 2), {
+                let startY = padding;
+                // The rectangle's width is adjusted to keep the stroke inside
+                rc.rectangle(startX, startY, boxAnim.width * 2 - (strokeWidth + padding * 2), boxAnim.height, {
                     fill: '#c8102e',
                     fillStyle: 'cross-hatch',
                     hachureAngle: -45,
