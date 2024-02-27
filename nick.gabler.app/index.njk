@@ -8,13 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <title>{{ firstname }} {{ lastname }}</title>
+    <title>{{ site.firstname }} {{ site.lastname }}</title>
   </head>
   <body>
-    <h1 id="title">{{ firstname }} {{ lastname }}</h1>
+    <h1 id="title">{{ site.firstname }} {{ site.lastname }}</h1>
     <div id="social-links">
-        {% for name, url in linklist %}
-            <a href="{{ url }}" target="_blank" data-text="{{ name }}">{{ name }}</a>
+        {% for link in site.linklist %}
+            <a href="{{ link.url }}" target="_blank" data-text="{{ link.name }}">{{ link.name }}</a>
         {% endfor %}
     </div>
     <script src="/scripts/main.js"></script>
