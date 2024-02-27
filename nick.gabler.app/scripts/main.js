@@ -1,6 +1,7 @@
 window.onload = function () {
     let tl = gsap.timeline();
-    let strokeWidth = 3; // Example stroke width
+    let strokeWidth = 1; // Example stroke width
+    let roughness = 1;
     let padding = 10; // Additional padding inside the stroke
     tl.to('#title', {
         opacity: 1,
@@ -42,7 +43,7 @@ window.onload = function () {
                 fillWeight: 1,
                 stroke: strokeStyle,
                 strokeWidth: strokeWidth,
-                roughness: 1,
+                roughness: roughness,
             });
         }
 
@@ -90,7 +91,9 @@ window.onload = function () {
                 function drawLine(newWidth) {
                     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
                     rc.line(0, 10, newWidth, 10, {
-                        stroke: '#F8F8F8', strokeWidth: 4, roughness: 2.5
+                        stroke: '#F8F8F8', 
+                        strokeWidth: strokeWidth, 
+                        roughness: roughness,
                     });
                 }
 
