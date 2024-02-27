@@ -20,7 +20,7 @@ window.onload = function () {
             canvas.height = height;
             canvas.style.position = 'absolute';
             canvas.style.left = '0';
-            canvas.style.top = `${this.offsetHeight - 5}px`;
+            canvas.style.top = `${this.offsetHeight - 30}px`;
             this.appendChild(canvas);
 
             let rc = rough.canvas(canvas);
@@ -33,7 +33,7 @@ window.onload = function () {
                 if (Math.abs(newWidth - lastWidth) >= redrawThreshold) {
                     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
                     rc.line(0, 10, newWidth, 10, {
-                        stroke: '#F8F8F8', strokeWidth: 3, roughness: 2.5
+                        stroke: '#F8F8F8', strokeWidth: 4, roughness: 2.5
                     });
                     lastWidth = newWidth; // Update the lastWidth with the newWidth
                 }
@@ -43,13 +43,12 @@ window.onload = function () {
                 width: 0
             }, {
                 width: canvas.offsetWidth,
-                duration: 2,
+                duration: 1,
                 ease: "none",
                 onUpdate: function () {
                     let currentWidth = this.targets()[0].width;
                     drawLine(currentWidth); // Redraw the line conditionally
                 },
-                repeat: -1,
                 yoyo: true
             });
 
