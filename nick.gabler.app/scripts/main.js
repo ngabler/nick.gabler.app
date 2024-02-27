@@ -18,13 +18,13 @@ window.onload = function () {
         let rc = rough.canvas(canvas);
 
         // Dummy object for animation
-        let boxAnim = {scale: 0};
+        let boxAnim = { scale: 0 };
 
         gsap.to(boxAnim, {
             scale: 1,
             duration: 0.5, // Same duration as social-links animation
             ease: "none",
-            onUpdate: function() {
+            onUpdate: function () {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
                 rc.rectangle(0, 0, canvas.width * boxAnim.scale, canvas.height * boxAnim.scale, {
                     fill: '#bcd4e6',
