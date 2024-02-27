@@ -13,8 +13,8 @@ window.onload = function () {
         canvas.height = title.offsetHeight + 20; // Increased extra space
         canvas.style.position = 'absolute';
         // Adjust the position to accommodate the increased canvas size
-        canvas.style.left = `${title.getBoundingClientRect().left - 40}px`; // Increased offset
-        canvas.style.top = `${title.getBoundingClientRect().top - 40}px`; // Increased offset
+        canvas.style.left = `${title.getBoundingClientRect().left - 20}px`; // Increased offset
+        canvas.style.top = `${title.getBoundingClientRect().top - 20}px`; // Increased offset
         canvas.style.zIndex = '-1'; // Ensure the canvas is behind the title
 
         let rc = rough.canvas(canvas);
