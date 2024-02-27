@@ -8,16 +8,17 @@ window.onload = function () {
         let title = document.getElementById('title');
         let canvas = document.createElement('canvas');
         document.body.appendChild(canvas);
-        canvas.width = title.offsetWidth + 20; // Adjust as needed
-        canvas.height = title.offsetHeight + 20; // Adjust as needed
+        // Increase the extra space around the title to ensure the rectangle is not clipped
+        canvas.width = title.offsetWidth + 40; // Increased extra space
+        canvas.height = title.offsetHeight + 40; // Increased extra space
         canvas.style.position = 'absolute';
-        canvas.style.left = `${title.getBoundingClientRect().left - 10}px`; // Position adjust
-        canvas.style.top = `${title.getBoundingClientRect().top - 10}px`; // Position adjust
+        // Adjust the position to accommodate the increased canvas size
+        canvas.style.left = `${title.getBoundingClientRect().left - 20}px`; // Increased offset
+        canvas.style.top = `${title.getBoundingClientRect().top - 20}px`; // Increased offset
         canvas.style.zIndex = '-1'; // Ensure the canvas is behind the title
 
         let rc = rough.canvas(canvas);
 
-        // Dummy object for animation
         let boxAnim = {width: 0};
 
         gsap.to(boxAnim, {
@@ -26,14 +27,13 @@ window.onload = function () {
             ease: "none",
             onUpdate: function() {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
-                // Draw the box using the animated width while keeping height constant
                 rc.rectangle(0, 0, boxAnim.width, canvas.height, {
                     fill: '#c8102e',
                     fillStyle: 'hachure',
-                    hachureAngle: -45, // Adjust the angle for desired effect
-                    hachureGap: 40, // Adjust the gap for desired effect
+                    hachureAngle: -45,
+                    hachureGap: 40,
                     fillWeight: 4,
-                    stroke: '#F8F8F8',
+                    stroke: 'none', // If you want no stroke, ensure this is set correctly
                     strokeWidth: 4,
                     roughness: 2.5,
                 });
