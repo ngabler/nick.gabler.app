@@ -18,23 +18,30 @@ window.onload = function () {
         let rc = rough.canvas(canvas);
 
         let boxAnim = {width: 0};
+        let lastProgressUpdate = 0; // Initialize last progress update tracker
+        const progressUpdateInterval = 0.1; // Define progress update interval
 
         gsap.to(boxAnim, {
             width: canvas.width, // Animate width to full canvas width
-            duration: 0.5, // Same duration as social-links animation
+            duration: 0.5, // Duration for the animation
             ease: "expoScale(0.5,7,none)",
             onUpdate: function() {
-                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
-                rc.rectangle(0, 0, boxAnim.width, canvas.height, {
-                    fill: '#c8102e',
-                    fillStyle: 'hachure',
-                    hachureAngle: -45,
-                    hachureGap: 40,
-                    fillWeight: 4,
-                    stroke: '#F8F8F8',
-                    strokeWidth: 4,
-                    roughness: 2.5,
-                });
+                let currentProgress = this.progress();
+                // Only update the drawing at defined progress intervals
+                if (currentProgress - lastProgressUpdate >= progressUpdateInterval) {
+                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
+                    rc.rectangle(0, 0, boxAnim.width, canvas.height, {
+                        fill: '#c8102e',
+                        fillStyle: 'hachure',
+                        hachureAngle: -45,
+                        hachureGap: 40,
+                        fillWeight: 4,
+                        stroke: '#F8F8F8',
+                        strokeWidth: 4,
+                        roughness: 2.5,
+                    });
+                    lastProgressUpdate = currentProgress; // Update the last progress tracker
+                }
             }
         });
 
@@ -63,8 +70,7 @@ window.onload = function () {
 
                 let rc = rough.canvas(canvas);
 
-                let lastProgressUpdate = 0;
-                const progressUpdateInterval = 0.1; // 10% progress intervals
+                let lastProgressUpdate = 0; // Reuse the same concept for individual link animations
 
                 function drawLine(newWidth) {
                     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
