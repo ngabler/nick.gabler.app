@@ -11,7 +11,7 @@ window.onload = function () {
         stagger: 0.2,
         ease: "expoScale(0.5,7,power1.inOut)",
     });
-    document.querySelectorAll('.social-link').forEach(link => {
+    document.querySelectorAll('.social-links').forEach(link => {
         link.style.position = 'relative'; // Necessary for positioning the canvas correctly
         link.addEventListener('mouseover', function () {
             // Create a canvas element
