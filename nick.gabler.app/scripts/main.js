@@ -18,6 +18,8 @@ window.onload = function () {
         canvas.style.zIndex = '-1';
 
         let rc = rough.canvas(canvas);
+        let lastProgressUpdate = -1; // Ensure initial drawing happens by setting this to -1
+
 
         // Initialize the animation object with width as half of canvas width to start from the center
         let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2) };
@@ -28,6 +30,12 @@ window.onload = function () {
             ease: "expoScale(0.5,7,power1.inOut)", // Match the easing function as well
             onUpdate: function () {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
+                let currentProgress = Math.round(this.progress() * 10) / 10; // Round progress to match the interval
+                if (currentProgress > lastProgressUpdate) {
+                    let currentWidth = this.targets()[0].width;
+                    drawLine(currentWidth);
+                    lastProgressUpdate = currentProgress;
+                }
                 // Start drawing further in from the edge by half the strokeWidth plus padding
                 let startX = (canvas.width - boxAnim.width * 2) / 2 + (strokeWidth / 2 + padding);
                 let startY = padding;
