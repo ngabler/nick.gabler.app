@@ -8,24 +8,27 @@ window.onload = function () {
         let title = document.getElementById('title');
         let canvas = document.createElement('canvas');
         document.body.appendChild(canvas);
-        canvas.width = title.offsetWidth + 50; // Increased extra space
-        canvas.height = title.offsetHeight + 30; // Increased extra space
+        canvas.width = title.offsetWidth + 50;
+        canvas.height = title.offsetHeight + 30;
         canvas.style.position = 'absolute';
-        canvas.style.left = `${title.getBoundingClientRect().left - 25}px`; // Adjusted for extra space
-        canvas.style.top = `${title.getBoundingClientRect().top - 15}px`; // Adjusted for extra space
-        canvas.style.zIndex = '-1'; // Ensure the canvas is behind the title
+        canvas.style.left = `${title.getBoundingClientRect().left - 25}px`;
+        canvas.style.top = `${title.getBoundingClientRect().top - 15}px`;
+        canvas.style.zIndex = '-1';
 
         let rc = rough.canvas(canvas);
 
+        // Initialize the animation object with width as half of canvas width to start from the center
         let boxAnim = {width: 0};
 
         gsap.to(boxAnim, {
-            width: canvas.width, // Animate width to full canvas width
-            duration: 0.5, // Duration for the animation
+            width: canvas.width / 2, // Animate width from 0 to half of canvas width to expand from center
+            duration: 0.5,
             ease: "expoScale(0.5,7,none)",
             onUpdate: function() {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
-                rc.rectangle(0, 0, boxAnim.width, canvas.height, {
+                // Calculate starting x position based on current width to expand from center
+                let startX = (canvas.width - boxAnim.width * 2) / 2;
+                rc.rectangle(startX, 0, boxAnim.width * 2, canvas.height, {
                     fill: '#c8102e',
                     fillStyle: 'hachure',
                     hachureAngle: -45,
