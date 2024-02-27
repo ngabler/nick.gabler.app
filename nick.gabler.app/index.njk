@@ -7,7 +7,6 @@
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <title>{{ site.firstname }} {{ site.lastname }}</title>
   </head>
   <body>
@@ -17,6 +16,7 @@
             <a href="{{ link.url }}" target="_blank" data-text="{{ link.name }}">{{ link.name }}</a>
         {% endfor %}
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script type="module" src="/scripts/main.js"></script>
   </body>
 </html>
