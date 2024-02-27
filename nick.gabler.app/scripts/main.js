@@ -44,13 +44,12 @@ window.onload = function () {
                 width: 0
             }, {
                 width: canvas.offsetWidth,
-                duration: 2,
+                duration: 0.5,
                 ease: "none",
                 onUpdate: function () {
                     let currentWidth = this.targets()[0].width;
                     drawLine(currentWidth); // Redraw the line with updated width
                 },
-                repeat: -1, // Repeat indefinitely
                 yoyo: true // Go back and forth
             });
 
