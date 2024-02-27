@@ -33,7 +33,7 @@ window.onload = function () {
                     hachureAngle: -45,
                     hachureGap: 40,
                     fillWeight: 4,
-                    stroke: 'none', // If you want no stroke, ensure this is set correctly
+                    stroke: '#F8F8F8',
                     strokeWidth: 4,
                     roughness: 2.5,
                 });
