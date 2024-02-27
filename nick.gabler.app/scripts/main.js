@@ -19,17 +19,17 @@ window.onload = function () {
         let rc = rough.canvas(canvas);
 
         // Initialize the animation object with width as half of canvas width to start from the center
-        let boxAnim = {width: 0};
+        let boxAnim = { width: 0, height: canvas.height };
 
         gsap.to(boxAnim, {
             width: canvas.width / 2, // Animate width from 0 to half of canvas width to expand from center
             duration: 0.5,
             ease: "expoScale(0.5,7,none)",
-            onUpdate: function() {
+            onUpdate: function () {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
-                let startX = (canvas.width - boxAnim.width) / 2 + strokeWidth / 2;
-                let startY = (canvas.height - boxAnim.height) / 2 + strokeWidth / 2;
-                rc.rectangle(startX, 0, boxAnim.width * 2, canvas.height, {
+                let startX = (canvas.width - boxAnim.width * 2) / 2; // Center the rectangle on the x-axis
+                let startY = (canvas.height - boxAnim.height) / 2; // Center the rectangle on the y-axis
+                rc.rectangle(startX, startY, boxAnim.width * 2, boxAnim.height, {
                     fill: '#c8102e',
                     fillStyle: 'hachure',
                     hachureAngle: -45,
