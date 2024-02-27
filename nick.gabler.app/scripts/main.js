@@ -21,11 +21,18 @@ window.onload = function () {
         let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2) };
         let lastProgressUpdate = -1;
 
+        // Calculate center X position for the starting point of the rectangle
+        let centerX = canvas.width / 2;
+
         function drawRectangle(newWidth) {
             // Clear previous frame
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-            // Draw the rectangle with dynamic width
-            rc.rectangle(padding, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
+
+            // Calculate new X position to start drawing from, expanding from the center
+            let newX = centerX - newWidth / 2;
+
+            // Draw the rectangle with dynamic width and adjusted X position
+            rc.rectangle(newX, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
                 fill: '#c8102e',
                 fillStyle: 'cross-hatch',
                 hachureAngle: -45,
