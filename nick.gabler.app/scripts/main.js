@@ -1,16 +1,46 @@
 window.onload = function () {
     let tl = gsap.timeline();
+
+    // Title opacity animation
     tl.to('#title', {
         opacity: 1,
         duration: 1,
         ease: "expoScale(0.5,7,none)",
     });
+
+    // After the title is fully visible, draw a rough.js box behind it
+    tl.add(() => {
+        let title = document.getElementById('title');
+        let canvas = document.createElement('canvas');
+        document.body.appendChild(canvas); // Append canvas to the body or a specific container
+        canvas.width = title.offsetWidth + 20; // Adding some padding to ensure the box fully encompasses the title
+        canvas.height = title.offsetHeight + 20; // Adding some padding for the same reason
+        canvas.style.position = 'absolute';
+
+        // Adjust the canvas position to align with the title element. You might need to adjust these values.
+        let titleRect = title.getBoundingClientRect();
+        canvas.style.left = `${titleRect.left - 10}px`; // Align the box with the title
+        canvas.style.top = `${titleRect.top - 10}px`; // Align the box with the title
+        canvas.style.pointerEvents = 'none'; // Make sure the canvas doesn't capture mouse events
+
+        let rc = rough.canvas(canvas);
+        // Draw a filled rectangle with no stroke around the title
+        rc.rectangle(0, 0, canvas.width, canvas.height, {
+            fill: '#bcd4e6',
+            stroke: 'none',
+            fillStyle: 'solid', // Use a solid fill style
+        });
+    }, "+=0"); // This ensures the drawing starts right after the title opacity animation
+
+    // Social links opacity animation
     tl.to('#social-links a', {
         opacity: 1,
         duration: 0.5,
         stagger: 0.2,
         ease: "expoScale(0.5,7,power1.inOut)",
     });
+
+    // Set up the event listeners for the social links
     document.querySelectorAll('#social-links a').forEach(link => {
         link.style.position = 'relative'; // Necessary for positioning the canvas correctly
 
