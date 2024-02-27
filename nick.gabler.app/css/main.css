@@ -1,5 +1,5 @@
 body {
-  font-family: 'JetBrains Mono';
+  font-family: 'JetBrains Mono', monospace;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -15,16 +15,13 @@ body {
 }
 
 #title {
-  font-size: 8rem;
+  font-size: 8rem; /* Adjusted in media queries */
   font-weight: 100;
   text-align: center;
   color: #F8F8F8;
   margin: 0;
-  opacity: 0;
-  text-shadow: -1px 1px 0 #080808,
-    1px 1px 0 #080808,
-    1px -1px 0 #080808,
-    -1px -1px 0 #080808;
+  opacity: 0; /* Animated with GSAP */
+  text-shadow: -1px 1px 0 #080808, 1px 1px 0 #080808, 1px -1px 0 #080808, -1px -1px 0 #080808;
 }
 
 #social-links {
@@ -39,27 +36,58 @@ body {
 #social-links a {
   text-decoration: none;
   color: #F8F8F8;
-  font-size: 3rem;
+  font-size: 3rem; /* Adjusted in media queries */
   text-align: center;
   margin-bottom: 1rem;
-  opacity: 0;
+  opacity: 0; /* Animated with GSAP */
   transition: transform 0.3s ease-in-out;
-  text-shadow: -1px 1px 0 #080808,
-    1px 1px 0 #080808,
-    1px -1px 0 #080808,
-    -1px -1px 0 #080808;
+  text-shadow: -1px 1px 0 #080808, 1px 1px 0 #080808, 1px -1px 0 #080808, -1px -1px 0 #080808;
 }
 
 #social-links a:hover {
   transform: scale(1.05);
 }
 
+/* Small Devices, Phones */
 @media (max-width: 767px) {
   #title {
-    font-size: 5rem;
+    font-size: 4rem;
+  }
+
+  #social-links a {
+    font-size: 1.5rem;
+  }
+}
+
+/* Medium Devices, Tablets */
+@media (min-width: 768px) and (max-width: 991px) {
+  #title {
+    font-size: 6rem;
   }
 
   #social-links a {
     font-size: 2rem;
+  }
+}
+
+/* Large Devices, Laptops/Desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+  #title {
+    font-size: 7rem;
+  }
+
+  #social-links a {
+    font-size: 2.5rem;
+  }
+}
+
+/* Extra Large Devices, Large Laptops/Desktops */
+@media (min-width: 1200px) {
+  #title {
+    font-size: 8rem;
+  }
+
+  #social-links a {
+    font-size: 3rem;
   }
 }
