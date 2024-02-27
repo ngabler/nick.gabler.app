@@ -35,7 +35,7 @@ window.onload = function () {
 
                 // Draw a new line with Rough.js, using newWidth for dynamic width during animation
                 rc.line(0, 10, newWidth, 10, {
-                    stroke: '#F8F8F8', strokeWidth: 3, roughness: 2.5
+                    stroke: '#F8F8F8', strokeWidth: 3, roughness: 1.5
                 });
             }
 
