@@ -18,6 +18,7 @@ window.onload = function () {
         canvas.style.zIndex = '-1';
 
         let rc = rough.canvas(canvas);
+        let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2) };
         let lastProgressUpdate = -1;
 
         function drawRectangle(newWidth) {
@@ -35,8 +36,6 @@ window.onload = function () {
                 roughness: 1,
             });
         }
-
-        let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2) };
 
         gsap.to(boxAnim, {
             width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
