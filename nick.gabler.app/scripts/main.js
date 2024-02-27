@@ -27,7 +27,7 @@ window.onload = function () {
             onUpdate: function() {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
                 // Calculate starting x position based on current width to expand from center
-                let startX = (canvas.width - boxAnim.width * 2) / 2;
+                let startX = (canvas.width - boxAnim.width * 2) / 2 + strokeWidth / 2;
                 rc.rectangle(startX, 0, boxAnim.width * 2, canvas.height, {
                     fill: '#c8102e',
                     fillStyle: 'hachure',
