@@ -28,7 +28,7 @@ window.onload = function () {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
                 // Draw the box using the animated width while keeping height constant
                 rc.rectangle(0, 0, boxAnim.width, canvas.height, {
-                    fill: '#bcd4e6',
+                    fill: '#a0c4ff',
                     stroke: 'none',
                     fillStyle: 'hachure',
                     hachureAngle: -45, // Adjust the angle for desired effect
