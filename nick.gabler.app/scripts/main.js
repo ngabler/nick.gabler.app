@@ -8,23 +8,35 @@ window.onload = function () {
         let title = document.getElementById('title');
         let canvas = document.createElement('canvas');
         document.body.appendChild(canvas);
-        canvas.width = title.offsetWidth + 20;
-        canvas.height = title.offsetHeight + 20;
+        canvas.width = title.offsetWidth + 20; // Adjust as needed
+        canvas.height = title.offsetHeight + 20; // Adjust as needed
         canvas.style.position = 'absolute';
-        canvas.style.left = `${title.getBoundingClientRect().left - 10}px`;
-        canvas.style.top = `${title.getBoundingClientRect().top - 10}px`;
+        canvas.style.left = `${title.getBoundingClientRect().left - 10}px`; // Position adjust
+        canvas.style.top = `${title.getBoundingClientRect().top - 10}px`; // Position adjust
         canvas.style.zIndex = '-1'; // Ensure the canvas is behind the title
-        title.style.position = 'relative';
-        title.style.zIndex = '1';
 
         let rc = rough.canvas(canvas);
-        rc.rectangle(0, 0, canvas.width, canvas.height, {
-            fill: '#bcd4e6',
-            stroke: 'none',
-            fillStyle: 'hachure',
-            hachureAngle: 45,
-            hachureGap: 4,
+
+        // Dummy object for animation
+        let boxAnim = {scale: 0};
+
+        gsap.to(boxAnim, {
+            scale: 1,
+            duration: 0.5, // Same duration as social-links animation
+            ease: "none",
+            onUpdate: function() {
+                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
+                rc.rectangle(0, 0, canvas.width * boxAnim.scale, canvas.height * boxAnim.scale, {
+                    fill: '#bcd4e6',
+                    stroke: 'none',
+                    fillStyle: 'hachure',
+                    hachureAngle: 45,
+                    hachureGap: 4,
+                    fillWeight: 3,
+                });
+            }
         });
+
     }, "+=0");
 
     tl.to('#social-links a', {
