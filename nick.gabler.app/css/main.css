@@ -15,7 +15,6 @@ body {
 }
 
 #title {
-  font-size: 8rem; /* Adjusted in media queries */
   font-weight: 100;
   text-align: center;
   color: #F8F8F8;
@@ -36,7 +35,6 @@ body {
 #social-links a {
   text-decoration: none;
   color: #F8F8F8;
-  font-size: 3rem; /* Adjusted in media queries */
   text-align: center;
   margin-bottom: 1rem;
   opacity: 0; /* Animated with GSAP */
@@ -45,49 +43,49 @@ body {
 }
 
 #social-links a:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 /* Small Devices, Phones */
 @media (max-width: 767px) {
   #title {
-    font-size: 4rem;
+    font-size: 6rem;
   }
 
   #social-links a {
-    font-size: 1.5rem;
+    font-size: 3rem;
   }
 }
 
 /* Medium Devices, Tablets */
 @media (min-width: 768px) and (max-width: 991px) {
   #title {
-    font-size: 6rem;
+    font-size: 8rem;
   }
 
   #social-links a {
-    font-size: 2rem;
+    font-size: 4rem;
   }
 }
 
 /* Large Devices, Laptops/Desktops */
 @media (min-width: 992px) and (max-width: 1199px) {
   #title {
-    font-size: 7rem;
+    font-size: 10rem;
   }
 
   #social-links a {
-    font-size: 2.5rem;
+    font-size: 5rem;
   }
 }
 
 /* Extra Large Devices, Large Laptops/Desktops */
 @media (min-width: 1200px) {
   #title {
-    font-size: 8rem;
+    font-size: 16rem;
   }
 
   #social-links a {
-    font-size: 3rem;
+    font-size: 8rem;
   }
 }
