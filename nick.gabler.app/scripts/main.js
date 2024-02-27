@@ -15,7 +15,10 @@ window.onload = function () {
         document.body.appendChild(canvas); // Append canvas to the body or a specific container
         canvas.width = title.offsetWidth + 20; // Adding some padding to ensure the box fully encompasses the title
         canvas.height = title.offsetHeight + 20; // Adding some padding for the same reason
-        canvas.style.position = 'absolute';
+        canvas.style.zIndex = '-1'; // Send the canvas to the back
+        title.style.position = 'relative';
+        title.style.zIndex = '1'; // Ensure the title is above the canvas
+
 
         // Adjust the canvas position to align with the title element. You might need to adjust these values.
         let titleRect = title.getBoundingClientRect();
@@ -28,7 +31,9 @@ window.onload = function () {
         rc.rectangle(0, 0, canvas.width, canvas.height, {
             fill: '#bcd4e6',
             stroke: 'none',
-            fillStyle: 'solid', // Use a solid fill style
+            fillStyle: 'hachure', // Use hachure fill style
+            hachureAngle: 45, // Angle of the hachure lines
+            hachureGap: 4, 
         });
     }, "+=0"); // This ensures the drawing starts right after the title opacity animation
 
