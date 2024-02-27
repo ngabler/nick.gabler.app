@@ -42,7 +42,7 @@ window.onload = function () {
         gsap.to(boxAnim, {
             width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
             duration: 1,
-            ease: "expoScale(0.5,7,none)", // Adjusted ease for consistency
+            ease: "expoScale(0.5,7,power1.inOut)", // Adjusted ease for consistency
             onUpdate: function () {
                 let currentProgress = Math.round(this.progress() * 10) / 10; // Round progress to match the interval
                 if (currentProgress > lastProgressUpdate) {
