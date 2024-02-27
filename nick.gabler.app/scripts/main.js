@@ -18,27 +18,29 @@ window.onload = function () {
         canvas.style.zIndex = '-1';
 
         let rc = rough.canvas(canvas);
-        let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2) };
+        let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2), opacity: 0 };
         let lastProgressUpdate = -1;
-
-        // Calculate center X position for the starting point of the rectangle
         let centerX = canvas.width / 2;
 
-        function drawRectangle(newWidth) {
+        function drawRectangle(newWidth, newOpacity) {
             // Clear previous frame
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
             // Calculate new X position to start drawing from, expanding from the center
             let newX = centerX - newWidth / 2;
 
-            // Draw the rectangle with dynamic width and adjusted X position
+            // Adjust styles to include dynamic opacity
+            let fillStyle = `rgba(200, 16, 46, ${newOpacity})`; // Adjust fill color opacity
+            let strokeStyle = `rgba(248, 248, 248, ${newOpacity})`; // Adjust stroke color opacity
+
+            // Draw the rectangle with dynamic width, adjusted X position, and opacity
             rc.rectangle(newX, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
-                fill: '#c8102e',
+                fill: fillStyle,
                 fillStyle: 'cross-hatch',
                 hachureAngle: -45,
                 hachureGap: 10,
                 fillWeight: 1,
-                stroke: '#F8F8F8',
+                stroke: strokeStyle,
                 strokeWidth: strokeWidth,
                 roughness: 1,
             });
@@ -46,13 +48,15 @@ window.onload = function () {
 
         gsap.to(boxAnim, {
             width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
+            opacity: 1, // Animate opacity to 1
             duration: 1,
             ease: "expoScale(0.5,7,power1.inOut)", // Adjusted ease for consistency
             onUpdate: function () {
-                let currentProgress = Math.round(this.progress() * 10) / 10; // Round progress to match the interval
+                let currentProgress = Math.round(this.progress() * 10) / 10;
                 if (currentProgress > lastProgressUpdate) {
                     let currentWidth = this.targets()[0].width;
-                    drawRectangle(currentWidth);
+                    let currentOpacity = this.targets()[0].opacity;
+                    drawRectangle(currentWidth, currentOpacity);
                     lastProgressUpdate = currentProgress;
                 }
             }
