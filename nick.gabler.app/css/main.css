@@ -34,7 +34,6 @@ body {
   align-items: center;
   color: #F8F8F8;
   margin-top: 1rem;
-  opacity: 0;
 }
 
 #social-links a {
@@ -43,6 +42,7 @@ body {
   font-size: 3rem;
   text-align: center;
   margin-bottom: 1rem;
+  opacity: 0;
   transition: transform 0.3s ease-in-out;
   text-shadow: -1px 1px 0 #080808,
     1px 1px 0 #080808,
