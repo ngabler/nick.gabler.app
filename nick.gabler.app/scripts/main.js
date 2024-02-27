@@ -14,7 +14,7 @@ window.onload = function () {
     document.querySelectorAll('#social-links a').forEach(link => {
         link.style.position = 'relative'; // Necessary for positioning the canvas correctly
 
-        link.addEventListener('mouseover', function () {
+        link.addEventListener('mouseenter', function () {
             // Check if the canvas already exists
             if (!this.querySelector('canvas')) {
                 let canvas = document.createElement('canvas');
@@ -57,7 +57,7 @@ window.onload = function () {
             }
         });
 
-        link.addEventListener('mouseout', function () {
+        link.addEventListener('mouseleave', function () {
             let canvas = this.querySelector('canvas');
             if (canvas) {
                 this.removeChild(canvas);
