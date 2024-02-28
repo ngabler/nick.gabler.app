@@ -87,10 +87,10 @@ body {
 /* Extra Large Devices, Large Laptops/Desktops */
 @media (min-width: 1200px) {
   #title {
-    font-size: 14rem;
+    font-size: 13rem;
   }
 
   #social-links a {
-    font-size: 7rem;
+    font-size: 6.5rem;
   }
 }
