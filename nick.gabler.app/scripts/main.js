@@ -46,7 +46,7 @@ window.onload = function () {
             hachureAngle: -50,
             hachureGap: 60,
             fillWeight: 9,
-            fillStyle: 'zigzag'
+            fillStyle: 'sunburst'
         };
 
         rc.rectangle(startX, startY, width, height, options);
