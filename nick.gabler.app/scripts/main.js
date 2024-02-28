@@ -4,7 +4,6 @@ window.onload = function () {
     let roughness = 1;
     let padding = 10;
 
-    // Create the canvas and set initial properties immediately, without waiting for the title animation.
     let title = document.getElementById('title');
     let canvas = document.createElement('canvas');
     document.body.appendChild(canvas);
@@ -20,7 +19,31 @@ window.onload = function () {
     let centerX = canvas.width / 2;
     let lastProgressUpdate = -1;
 
-    // Animate title opacity and box drawing simultaneously.
+    // Define drawRectangle outside to make it accessible everywhere within this function
+    function drawRectangle(newWidth, newOpacity) {
+        // Clear previous frame
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+
+        // Calculate new X position to start drawing from, expanding from the center
+        let newX = centerX - newWidth / 2;
+
+        // Adjust styles to include dynamic opacity
+        let fillStyle = `rgba(200, 16, 46, ${newOpacity})`; // Adjust fill color opacity
+        let strokeStyle = `rgba(248, 248, 248, ${newOpacity})`; // Adjust stroke color opacity
+
+        // Draw the rectangle with dynamic width, adjusted X position, and opacity
+        rc.rectangle(newX, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
+            fill: fillStyle,
+            fillStyle: 'cross-hatch',
+            hachureAngle: -45,
+            hachureGap: 10,
+            fillWeight: 1,
+            stroke: strokeStyle,
+            strokeWidth: strokeWidth,
+            roughness: roughness,
+        });
+    }
+
     tl.to('#title', {
         opacity: 1,
         duration: 1,
@@ -32,31 +55,6 @@ window.onload = function () {
         opacity: 1, // Animate opacity to 1
         duration: 1,
         ease: "expoScale(0.5,7,power1.inOut)", // Adjusted ease for consistency
-        onStart: function () { // Use onStart to ensure it runs in parallel with the title animation
-            function drawRectangle(newWidth, newOpacity) {
-                // Clear previous frame
-                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-
-                // Calculate new X position to start drawing from, expanding from the center
-                let newX = centerX - newWidth / 2;
-
-                // Adjust styles to include dynamic opacity
-                let fillStyle = `rgba(200, 16, 46, ${newOpacity})`; // Adjust fill color opacity
-                let strokeStyle = `rgba(248, 248, 248, ${newOpacity})`; // Adjust stroke color opacity
-
-                // Draw the rectangle with dynamic width, adjusted X position, and opacity
-                rc.rectangle(newX, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
-                    fill: fillStyle,
-                    fillStyle: 'cross-hatch',
-                    hachureAngle: -45,
-                    hachureGap: 10,
-                    fillWeight: 1,
-                    stroke: strokeStyle,
-                    strokeWidth: strokeWidth,
-                    roughness: roughness,
-                });
-            }
-        },
         onUpdate: function () {
             let currentProgress = Math.round(this.progress() * 10) / 10;
             if (currentProgress > lastProgressUpdate) {
@@ -95,8 +93,8 @@ window.onload = function () {
                 function drawLine(newWidth) {
                     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
                     rc.line(0, 10, newWidth, 10, {
-                        stroke: '#F8F8F8', 
-                        strokeWidth: strokeWidth, 
+                        stroke: '#F8F8F8',
+                        strokeWidth: strokeWidth,
                         roughness: roughness,
                     });
                 }
