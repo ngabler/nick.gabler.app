@@ -95,12 +95,21 @@ function setupLinkCanvas(link, linkCanvas) {
 
 function animateLine(rc, linkCanvas) {
     let lineLength = { length: 0 };
+    let lastUpdateTime = 0;
+    let updateInterval = 50; // Update every 50 milliseconds
+
     gsap.to(lineLength, {
         length: linkCanvas.width,
         duration: 1,
-        ease: "expo.out",
-        onUpdate: () => drawLine(rc, linkCanvas, lineLength.length),
-        onComplete: () => lineLength.length = linkCanvas.width
+        ease: "none",
+        onUpdate: () => {
+            let currentTime = Date.now();
+            if (currentTime - lastUpdateTime > updateInterval) {
+                drawLine(rc, linkCanvas, lineLength.length);
+                lastUpdateTime = currentTime;
+            }
+        },
+        onComplete: () => drawLine(rc, linkCanvas, linkCanvas.width) // Ensure the final state is rendered
     });
 }
 
