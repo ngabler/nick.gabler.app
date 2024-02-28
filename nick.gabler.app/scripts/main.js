@@ -3,6 +3,11 @@ window.onload = function () {
     let strokeWidth = 3;
     let roughness = 1.5;
     let padding = 20;
+    let duration = 1.5;
+    let linkDuration = 0.5;
+    let fillWeight = 3;
+    let hachureGap = 30;
+    let hachureAngle = -50;
 
     let title = document.getElementById('title');
     let canvas = document.createElement('canvas');
@@ -16,7 +21,7 @@ window.onload = function () {
     // Function to update canvas size and central X coordinate
     function updateCanvasSize() {
         canvas.width = window.innerWidth;
-        canvas.height = title.offsetHeight + (strokeWidth + padding * 2.5);
+        canvas.height = title.offsetHeight + (strokeWidth + padding * 3);
         canvas.style.top = `${title.getBoundingClientRect().top - padding - (strokeWidth / 2)}px`;
     }
 
@@ -53,9 +58,9 @@ window.onload = function () {
         rc.rectangle(newX, padding + borderPadding, newWidth, boxAnim.height - borderPadding * 2, {
             fill: fillStyle,
             fillStyle: 'zigzag',
-            hachureAngle: -45,
-            hachureGap: 30,
-            fillWeight: 6,
+            hachureAngle: hachureAngle,
+            hachureGap: hachureGap,
+            fillWeight: fillWeight,
             stroke: strokeStyle,
             strokeWidth: strokeWidth,
             roughness: roughness,
@@ -64,14 +69,14 @@ window.onload = function () {
 
     tl.to('#title', {
         opacity: 1,
-        duration: 1,
+        duration: duration,
         ease: "expoScale(0.5,7,power1.inOut)",
     });
 
     tl.to(boxAnim, {
         width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
         opacity: 1,
-        duration: 1,
+        duration: duration,
         ease: "expoScale(0.5,7,power1.inOut)",
         onUpdate: function () {
             let currentProgress = Math.round(this.progress() * 10) / 10;
@@ -86,7 +91,7 @@ window.onload = function () {
 
     tl.to('#social-links a', {
         opacity: 1,
-        duration: 0.5,
+        duration: linkDuration,
         stagger: 0.2,
         ease: "expoScale(0.5,7,power1.inOut)",
     });
