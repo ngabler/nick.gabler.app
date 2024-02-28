@@ -43,25 +43,28 @@ window.onload = function () {
     let centerY = canvas.height / 2;
     let lastProgressUpdate = -1;
 
+    function updateCanvasSize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight; // Adjust the canvas height to fill the screen or container as needed
+        let titleRect = title.getBoundingClientRect();
+        canvas.style.top = `${titleRect.top - padding}px`; // Adjust canvas position based on title position
+        canvas.style.left = `0px`; // Ensure canvas starts from the left edge of the viewport
+    }
+
     function drawRectangle(newWidth, newHeight, newOpacity) {
-        // Clear previous drawing
+        // Ensure height is dynamically updated based on title position
+        let titleRect = title.getBoundingClientRect();
+        let centerY = titleRect.top + titleRect.height / 2 + (strokeWidth + padding) - canvas.getBoundingClientRect().top;
+
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
-        // Calculate new dimensions considering padding
-        newWidth = Math.max(0, newWidth - padding * 2);
-        newHeight = Math.max(0, newHeight - padding * 2);
+        newWidth = Math.max(0, newWidth); // Ensure width is not negative
+        newHeight = Math.max(0, newHeight); // Ensure height is not negative
 
-        // Calculate position
-        let newX = centerX - newWidth / 2;
-        let newY = centerY - newHeight / 2;
+        // Calculate new X and Y considering the title's position
+        let newX = (canvas.width - newWidth) / 2; // Center horizontally in the canvas
+        let newY = centerY - newHeight / 2; // Align vertically with the title
 
-        // Adjustments for stroke width
-        newX += strokeWidth / 2;
-        newY += strokeWidth / 2;
-        newWidth -= strokeWidth;
-        newHeight -= strokeWidth;
-
-        // Setup styles
         let options = {
             fill: `rgba(200, 16, 46, ${newOpacity})`,
             stroke: `rgba(248, 248, 248, ${newOpacity})`,
@@ -70,12 +73,18 @@ window.onload = function () {
             hachureAngle: hachureAngle,
             hachureGap: hachureGap,
             fillWeight: fillWeight,
-            fillStyle: 'zigzag',
+            fillStyle: 'zigzag'
         };
 
-        // Draw the rectangle
         rc.rectangle(newX, newY, newWidth, newHeight, options);
     }
+
+    updateCanvasSize();
+    window.addEventListener('resize', function () {
+        updateCanvasSize();
+        // Redraw the rectangle with the updated dimensions and position
+        drawRectangle(boxAnim.width, boxAnim.height, boxAnim.opacity);
+    });
 
     tl.to('#title', {
         opacity: 1,
