@@ -21,16 +21,18 @@ window.onload = function () {
 
     // Function to update canvas size and central X coordinate
     function updateCanvasSize() {
-        let extraPadding = padding; // Extra padding around the title for the canvas background
         let titleRect = title.getBoundingClientRect();
+        let extraPadding = 20; // The amount of padding you want above and below the title
 
-        canvas.width = window.innerWidth;
-        // Set the canvas height based on the title's height plus extra padding
+        // Set canvas width and height based on the title size plus extra padding
+        canvas.width = titleRect.width + extraPadding * 2;
         canvas.height = titleRect.height + extraPadding * 2;
 
-        // Adjust the canvas top position to move it up by half the extra padding to center it vertically around the title
-        canvas.style.top = `${titleRect.top - extraPadding}px`;
-        canvas.style.left = `0px`; // Ensure canvas is aligned to the left edge of the viewport
+        // Position the canvas to center the title text within it
+        // Adjust the top position by subtracting half the extra padding to center the title vertically
+        // Adjust the left position by subtracting the extra padding to align with the start of the title
+        canvas.style.top = `${titleRect.top - (extraPadding / 2)}px`;
+        canvas.style.left = `${titleRect.left - extraPadding}px`;
     }
 
     // Initial canvas size update
