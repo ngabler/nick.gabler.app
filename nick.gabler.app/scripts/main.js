@@ -5,7 +5,7 @@ window.onload = function () {
     let linkDuration = 0.5;
     let extraPadding = 30;
     let lastBoxUpdate = 0;
-    let boxUpdateInterval = 100;
+    let boxUpdateInterval = 250;
     let animationInterval;
 
     let title = document.getElementById('title');
