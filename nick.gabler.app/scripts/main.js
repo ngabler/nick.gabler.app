@@ -21,9 +21,16 @@ window.onload = function () {
 
     // Function to update canvas size and central X coordinate
     function updateCanvasSize() {
+        let extraPadding = padding; // Extra padding around the title for the canvas background
+        let titleRect = title.getBoundingClientRect();
+
         canvas.width = window.innerWidth;
-        canvas.height = title.offsetHeight + (strokeWidth + padding * 4);
-        canvas.style.top = `${title.getBoundingClientRect().top - padding - (strokeWidth / 2)}px`;
+        // Set the canvas height based on the title's height plus extra padding
+        canvas.height = titleRect.height + extraPadding * 2;
+
+        // Adjust the canvas top position to move it up by half the extra padding to center it vertically around the title
+        canvas.style.top = `${titleRect.top - extraPadding}px`;
+        canvas.style.left = `0px`; // Ensure canvas is aligned to the left edge of the viewport
     }
 
     // Initial canvas size update
@@ -82,7 +89,7 @@ window.onload = function () {
     updateCanvasSize();
     window.addEventListener('resize', function () {
         updateCanvasSize();
-        // Redraw the rectangle with the updated dimensions and position
+        // Optionally, redraw the rectangle if needed to adjust to new dimensions
         drawRectangle(boxAnim.width, boxAnim.height, boxAnim.opacity);
     });
 
