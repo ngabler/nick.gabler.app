@@ -55,7 +55,7 @@ window.onload = function () {
             fillStyle: 'zigzag',
             hachureAngle: 45,
             hachureGap: 10,
-            fillWeight: 1.5,
+            fillWeight: 3,
             stroke: strokeStyle,
             strokeWidth: strokeWidth,
             roughness: roughness,
