@@ -15,7 +15,7 @@ body {
 }
 
 #title {
-  font-size: 13rem; /* Adjusted by media query below */
+  font-size: 14rem; /* Adjusted by media query below */
   font-weight: 100;
   text-align: center;
   color: #F8F8F8;
@@ -60,7 +60,7 @@ body {
   }
 
   #social-links {
-    font-size: 3rem; /* Adjust font size for better mobile visibility */
+    font-size: 4rem; /* Adjust font size for better mobile visibility */
   }
 }
 
