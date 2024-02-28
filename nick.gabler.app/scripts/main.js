@@ -53,8 +53,8 @@ window.onload = function () {
         rc.rectangle(newX, padding + borderPadding, newWidth, boxAnim.height - borderPadding * 2, {
             fill: fillStyle,
             fillStyle: 'zigzag',
-            hachureAngle: 45,
-            hachureGap: 20,
+            hachureAngle: -45,
+            hachureGap: 30,
             fillWeight: 6,
             stroke: strokeStyle,
             strokeWidth: strokeWidth,
