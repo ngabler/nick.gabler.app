@@ -1,7 +1,7 @@
 window.onload = function () {
     let tl = gsap.timeline();
     let strokeWidth = 3;
-    let roughness = 1;
+    let roughness = 1.5;
     let padding = 20;
 
     let title = document.getElementById('title');
