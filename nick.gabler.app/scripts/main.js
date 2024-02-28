@@ -10,7 +10,7 @@ window.onload = function () {
     canvas.width = window.innerWidth;
     canvas.height = title.offsetHeight + strokeWidth + padding * 2; // Adjusted for correct full height
     canvas.style.position = 'absolute';
-    canvas.style.left = `${title.getBoundingClientRect().left - padding * 2 - (strokeWidth / 2)}px`;
+    canvas.style.left = '0';
     canvas.style.top = `${title.getBoundingClientRect().top - padding - (strokeWidth / 2)}px`;
     canvas.style.zIndex = '-1';
 
