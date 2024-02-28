@@ -33,7 +33,6 @@ window.onload = function () {
         let context = cnv.getContext('2d');
         context.clearRect(0, 0, cnv.width, cnv.height);
 
-        // Calculate the starting position for the rectangle
         let startX = (cnv.width - width) / 2;
         let startY = (cnv.height - height) / 2;
 
@@ -48,12 +47,8 @@ window.onload = function () {
             fillStyle: 'zigzag'
         };
 
-        // Adjust the rectangle call to use the dynamic starting position
         rc.rectangle(startX, startY, width, height, options);
     }
-
-    let lastBoxUpdate = 0;
-    let boxUpdateInterval = 50; // Update every 50 milliseconds
 
     let tl = gsap.timeline();
     tl.to('#title', { opacity: 1, duration: duration, ease: 'expo.out' })
@@ -63,11 +58,14 @@ window.onload = function () {
             opacity: 1,
             duration: duration,
             ease: 'expo.out',
-            onUpdate: () => {
-                // Update the call to drawRectangle to include height
-                drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
+            onUpdate: function() {
+                let currentTime = Date.now();
+                if (currentTime - lastBoxUpdate > boxUpdateInterval) {
+                    drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
+                    lastBoxUpdate = currentTime;
+                }
             },
-            onComplete: () => drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1) // Ensure final state is rendered
+            onComplete: () => drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1)
         }, "<")
         .to('#social-links a', {
             opacity: 1,
@@ -107,9 +105,6 @@ function setupLinkCanvas(link, linkCanvas) {
 
 function animateLine(rc, linkCanvas) {
     let lineLength = { length: 0 };
-    let lastUpdateTime = 0;
-    let updateInterval = 50; // Update every 50 milliseconds
-
     gsap.to(lineLength, {
         length: linkCanvas.width,
         duration: 1,
@@ -121,7 +116,7 @@ function animateLine(rc, linkCanvas) {
                 lastUpdateTime = currentTime;
             }
         },
-        onComplete: () => drawLine(rc, linkCanvas, linkCanvas.width) // Ensure the final state is rendered
+        onComplete: () => drawLine(rc, linkCanvas, linkCanvas.width)
     });
 }
 
