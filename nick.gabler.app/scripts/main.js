@@ -1,5 +1,5 @@
 window.onload = function () {
-    let strokeWidth = 3;
+    let strokeWidth = 4;
     let padding = 20;
     let duration = 1;
     let linkDuration = 0.5;
@@ -45,9 +45,9 @@ window.onload = function () {
             strokeWidth: strokeWidth,
             roughness: 1.5,
             hachureAngle: 69,
-            hachureGap: 30,
-            fillWeight: 9,
-            fillStyle: 'hachure'
+            hachureGap: 10,
+            fillWeight: 2,
+            fillStyle: 'cross-hatch'
         };
 
         rc.rectangle(startX, startY, width, height, options);
