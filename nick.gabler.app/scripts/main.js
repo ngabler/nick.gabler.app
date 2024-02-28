@@ -44,32 +44,36 @@ window.onload = function () {
     let lastProgressUpdate = -1;
 
     function drawRectangle(newWidth, newHeight, newOpacity) {
-        // Ensure height is dynamically updated based on current canvas height
-        boxAnim.height = canvas.height - (strokeWidth + padding * 2);
-
+        // Clear previous drawing
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
-        let borderPadding = padding;
-        let newX = centerX - newWidth / 2 + borderPadding;
-        let newY = centerY - newHeight / 2 + borderPadding;
-        newWidth = newWidth - borderPadding * 2;
-        newHeight = newHeight - borderPadding * 2;
-        newWidth = Math.max(0, newWidth);
-        newHeight = Math.max(0, newHeight);
+        // Calculate new dimensions considering padding
+        newWidth = Math.max(0, newWidth - padding * 2);
+        newHeight = Math.max(0, newHeight - padding * 2);
 
-        let fillStyle = `rgba(200, 16, 46, ${newOpacity})`;
-        let strokeStyle = `rgba(248, 248, 248, ${newOpacity})`;
+        // Calculate position
+        let newX = centerX - newWidth / 2;
+        let newY = centerY - newHeight / 2;
 
-        rc.rectangle(newX, newY, padding + borderPadding, newWidth, newHeight, boxAnim.height - borderPadding * 2, {
-            fill: fillStyle,
-            fillStyle: 'zigzag',
-            hachureAngle: hachureAngle,
-            hachureGap: hachureGap,
-            fillWeight: fillWeight,
-            stroke: strokeStyle,
+        // Adjustments for stroke width
+        newX += strokeWidth / 2;
+        newY += strokeWidth / 2;
+        newWidth -= strokeWidth;
+        newHeight -= strokeWidth;
+
+        // Setup styles
+        let options = {
+            fill: `rgba(200, 16, 46, ${newOpacity})`,
+            stroke: `rgba(248, 248, 248, ${newOpacity})`,
             strokeWidth: strokeWidth,
             roughness: roughness,
-        });
+            hachureAngle: hachureAngle,
+            hachureGap: hachureGap,
+            fillStyle: 'solid' // Changed from 'zigzag' to 'solid' for better visibility
+        };
+
+        // Draw the rectangle
+        rc.rectangle(newX, newY, newWidth, newHeight, options);
     }
 
     tl.to('#title', {
