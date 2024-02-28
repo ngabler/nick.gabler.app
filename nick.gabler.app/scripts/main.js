@@ -60,7 +60,7 @@ window.onload = function () {
         let fillStyle = `rgba(200, 16, 46, ${newOpacity})`;
         let strokeStyle = `rgba(248, 248, 248, ${newOpacity})`;
 
-        rc.rectangle(newX, newY, padding + borderPadding, newWidth, boxAnim.height - borderPadding * 2, {
+        rc.rectangle(newX, newY, padding + borderPadding, newWidth, newHeight, boxAnim.height - borderPadding * 2, {
             fill: fillStyle,
             fillStyle: 'zigzag',
             hachureAngle: hachureAngle,
@@ -79,7 +79,8 @@ window.onload = function () {
     });
 
     tl.to(boxAnim, {
-        width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
+        width: canvas.width - strokeWidth - padding * 2,
+        height: canvas.height - strokeWidth - padding * 2,
         opacity: 1,
         duration: duration,
         ease: boxEase,
@@ -87,8 +88,9 @@ window.onload = function () {
             let currentProgress = Math.round(this.progress() * 10) / 10;
             if (currentProgress > lastProgressUpdate) {
                 let currentWidth = this.targets()[0].width;
+                let currentHeight = this.targets()[0].height;
                 let currentOpacity = this.targets()[0].opacity;
-                drawRectangle(currentWidth, currentOpacity);
+                drawRectangle(currentWidth, currentHeight, currentOpacity);
                 lastProgressUpdate = currentProgress;
             }
         }
