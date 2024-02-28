@@ -47,7 +47,7 @@ window.onload = function () {
             hachureAngle: -50,
             hachureGap: 60,
             fillWeight: 9,
-            fillStyle: 'dots'
+            fillStyle: 'zigzag'
         };
 
         rc.rectangle(startX, startY, width, height, options);
@@ -61,17 +61,17 @@ window.onload = function () {
             opacity: 1,
             duration: duration,
             ease: 'expo.out',
-            onUpdate: function() {
+            onUpdate: function () {
                 let currentTime = Date.now();
                 if (currentTime - lastBoxUpdate > boxUpdateInterval) {
                     drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
                     lastBoxUpdate = currentTime;
                 }
             },
-                        onComplete: function() {
+            onComplete: function () {
                 drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1);
                 if (animationInterval) clearInterval(animationInterval); // Clear existing interval if any
-                animationInterval = setInterval(function() {
+                animationInterval = setInterval(function () {
                     drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
                 }, 250); // Redraw every 250ms
             }
@@ -85,7 +85,7 @@ window.onload = function () {
 
     setupSocialLinks();
 
-    window.onunload = function() {
+    window.onunload = function () {
         if (animationInterval) clearInterval(animationInterval);
     };
 };
