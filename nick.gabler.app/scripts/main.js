@@ -7,7 +7,7 @@ window.onload = function () {
     let title = document.getElementById('title');
     let canvas = document.createElement('canvas');
     document.body.appendChild(canvas);
-    canvas.width = title.offsetWidth + strokeWidth + padding * 4; // Adjusted for correct full width
+    canvas.width = window.innerWidth;
     canvas.height = title.offsetHeight + strokeWidth + padding * 2; // Adjusted for correct full height
     canvas.style.position = 'absolute';
     canvas.style.left = `${title.getBoundingClientRect().left - padding * 2 - (strokeWidth / 2)}px`;
