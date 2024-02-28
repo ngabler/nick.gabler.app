@@ -45,7 +45,7 @@ window.onload = function () {
             strokeWidth: strokeWidth,
             roughness: 1.5,
             hachureAngle: 69,
-            hachureGap: 60,
+            hachureGap: 6,
             fillWeight: 9,
             fillStyle: 'hachure'
         };
