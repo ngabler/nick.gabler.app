@@ -2,10 +2,10 @@ window.onload = function () {
     let tl = gsap.timeline();
     let strokeWidth = 3;
     let roughness = 1.5;
-    let padding = 0;
+    let padding = 20;
     let duration = 1;
     let linkDuration = 0.5;
-    let fillWeight = 3;
+    let fillWeight = 6;
     let hachureGap = 30;
     let hachureAngle = -50;
     let boxEase = 'expoScale(0.5,7,none)';
@@ -22,7 +22,7 @@ window.onload = function () {
     // Function to update canvas size and central X coordinate
     function updateCanvasSize() {
         canvas.width = window.innerWidth;
-        canvas.height = title.offsetHeight + (strokeWidth + padding * 3);
+        canvas.height = title.offsetHeight + (strokeWidth + padding * 4);
         canvas.style.top = `${title.getBoundingClientRect().top - padding - (strokeWidth / 2)}px`;
     }
 
