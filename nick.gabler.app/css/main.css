@@ -15,6 +15,7 @@ body {
 }
 
 #title {
+  font-size: 13rem; /* Adjusted by media query below */
   font-weight: 100;
   text-align: center;
   color: #F8F8F8;
@@ -28,6 +29,7 @@ body {
 }
 
 #social-links {
+  font-size: 6.5rem; /* Adjusted by media query below */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -51,46 +53,23 @@ body {
   transform: scale(1.1);
 }
 
-/* Small Devices, Phones */
-@media (max-width: 767px) {
+/* Responsive design adjustments */
+@media (max-width: 768px) {
   #title {
-    font-size: 5rem;
+    font-size: 6rem; /* Smaller font size for mobile */
   }
 
-  #social-links a {
-    font-size: 2.5rem;
+  #social-links {
+    font-size: 3rem; /* Adjust font size for better mobile visibility */
   }
 }
 
-/* Medium Devices, Tablets */
-@media (min-width: 768px) and (max-width: 991px) {
+@media (max-width: 480px) {
   #title {
-    font-size: 8rem;
+    font-size: 4rem; /* Even smaller font size for very small devices */
   }
 
-  #social-links a {
-    font-size: 4rem;
-  }
-}
-
-/* Large Devices, Laptops/Desktops */
-@media (min-width: 992px) and (max-width: 1199px) {
-  #title {
-    font-size: 10rem;
-  }
-
-  #social-links a {
-    font-size: 5rem;
-  }
-}
-
-/* Extra Large Devices, Large Laptops/Desktops */
-@media (min-width: 1200px) {
-  #title {
-    font-size: 13rem;
-  }
-
-  #social-links a {
-    font-size: 6.5rem;
+  #social-links {
+    font-size: 2rem; /* Further adjust font size for small screens */
   }
 }
