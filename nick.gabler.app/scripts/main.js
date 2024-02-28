@@ -52,8 +52,8 @@ window.onload = function () {
 
     tl.to(boxAnim, {
         width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
-        opacity: 1, // Animate opacity to 1
-        duration: 1,
+        opacity: 1,
+        duration: 0.5,
         ease: "expoScale(0.5,7,power1.inOut)", // Adjusted ease for consistency
         onUpdate: function () {
             let currentProgress = Math.round(this.progress() * 10) / 10;
