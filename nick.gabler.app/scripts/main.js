@@ -1,181 +1,124 @@
-window.onload = function () {
-    let tl = gsap.timeline();
+window.onload = function() {
     let strokeWidth = 3;
-    let roughness = 1.5;
     let padding = 20;
     let duration = 1;
     let linkDuration = 0.5;
-    let fillWeight = 6;
-    let hachureGap = 30;
-    let hachureAngle = -50;
-    let boxEase = 'expoScale(0.5,7,none)';
+    let extraPadding = 20;
 
     let title = document.getElementById('title');
-    let canvas = document.createElement('canvas');
-    document.body.appendChild(canvas);
-    canvas.style.position = 'absolute';
-    canvas.style.left = '0';
-    canvas.style.zIndex = '-1';
-
+    let canvas = setupCanvas();
     let rc = rough.canvas(canvas);
+    let boxAnim = { width: 0, opacity: 0 };
 
-    // Function to update canvas size and central X coordinate
-    function updateCanvasSize() {
-        let titleRect = title.getBoundingClientRect();
-        let extraPadding = 20; // The amount of padding you want above and below the title
-
-        // Set canvas width and height based on the title size plus extra padding
-        canvas.width = titleRect.width + extraPadding * 2;
-        canvas.height = titleRect.height + extraPadding * 2;
-
-        // Position the canvas to center the title text within it
-        // Adjust the top position by subtracting half the extra padding to center the title vertically
-        // Adjust the left position by subtracting the extra padding to align with the start of the title
-        canvas.style.top = `${titleRect.top - (extraPadding / 2)}px`;
-        canvas.style.left = `${titleRect.left - extraPadding}px`;
+    function setupCanvas() {
+        let cnv = document.createElement('canvas');
+        document.body.appendChild(cnv);
+        cnv.style.position = 'absolute';
+        cnv.style.left = '0';
+        cnv.style.zIndex = '-1';
+        updateCanvasSize(cnv);
+        window.addEventListener('resize', () => updateCanvasSize(cnv));
+        return cnv;
     }
 
-    // Initial canvas size update
-    updateCanvasSize();
-
-    // Adjust canvas size on window resize
-    window.addEventListener('resize', function () {
-        updateCanvasSize();
-        // Recalculate the centerX based on the updated canvas width
-        centerX = canvas.width / 2;
-        // Redraw the rectangle with the updated dimensions
-        drawRectangle(boxAnim.width, boxAnim.opacity);
-    });
-
-    let boxAnim = { width: 0, height: 0, opacity: 0 }; // Updated to recalculate height dynamically
-    let centerX = canvas.width / 2;
-    let centerY = canvas.height / 2;
-    let lastProgressUpdate = -1;
-
-    function updateCanvasSize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight; // Adjust the canvas height to fill the screen or container as needed
+    function updateCanvasSize(cnv) {
         let titleRect = title.getBoundingClientRect();
-        canvas.style.top = `${titleRect.top - padding}px`; // Adjust canvas position based on title position
-        canvas.style.left = `0px`; // Ensure canvas starts from the left edge of the viewport
+        cnv.width = titleRect.width + extraPadding * 2;
+        cnv.height = titleRect.height + extraPadding * 2;
+        cnv.style.top = `${titleRect.top - (extraPadding / 2)}px`;
+        cnv.style.left = `${titleRect.left - extraPadding}px`;
     }
 
-    function drawRectangle(newWidth, newHeight, newOpacity) {
-        // Ensure height is dynamically updated based on title position
-        let titleRect = title.getBoundingClientRect();
-        let centerY = titleRect.top + titleRect.height / 2 + (strokeWidth + padding) - canvas.getBoundingClientRect().top;
-
-        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-
-        newWidth = Math.max(0, newWidth); // Ensure width is not negative
-        newHeight = Math.max(0, newHeight); // Ensure height is not negative
-
-        // Calculate new X and Y considering the title's position
-        let newX = (canvas.width - newWidth) / 2; // Center horizontally in the canvas
-        let newY = centerY - newHeight / 2; // Align vertically with the title
+    function drawRectangle(cnv, width, opacity) {
+        let context = cnv.getContext('2d');
+        context.clearRect(0, 0, cnv.width, cnv.height);
 
         let options = {
-            fill: `rgba(200, 16, 46, ${newOpacity})`,
-            stroke: `rgba(248, 248, 248, ${newOpacity})`,
+            fill: `rgba(200, 16, 46, ${opacity})`,
+            stroke: `rgba(248, 248, 248, ${opacity})`,
             strokeWidth: strokeWidth,
-            roughness: roughness,
-            hachureAngle: hachureAngle,
-            hachureGap: hachureGap,
-            fillWeight: fillWeight,
+            roughness: 1.5,
+            hachureAngle: -50,
+            hachureGap: 60,
+            fillWeight: 6,
             fillStyle: 'zigzag'
         };
 
-        rc.rectangle(newX, newY, newWidth, newHeight, options);
+        rc.rectangle(padding, padding, width, cnv.height - padding * 2, options);
     }
 
-    updateCanvasSize();
-    window.addEventListener('resize', function () {
-        updateCanvasSize();
-        // Optionally, redraw the rectangle if needed to adjust to new dimensions
-        drawRectangle(boxAnim.width, boxAnim.height, boxAnim.opacity);
-    });
+    let tl = gsap.timeline();
+    tl.to('#title', { opacity: 1, duration: duration, ease: 'expoScale(0.5,7,none)' })
+      .to(boxAnim, {
+          width: () => canvas.width - strokeWidth - padding * 2,
+          opacity: 1,
+          duration: duration,
+          ease: 'expoScale(0.5,7,none)',
+          onUpdate: () => drawRectangle(canvas, boxAnim.width, boxAnim.opacity)
+      }, "<")
+      .to('#social-links a', {
+          opacity: 1,
+          duration: linkDuration,
+          stagger: 0.2,
+          ease: "expoScale(0.5,7,power1.inOut)",
+      });
 
-    tl.to('#title', {
-        opacity: 1,
-        duration: duration,
-        ease: boxEase,
-    });
+    setupSocialLinks();
+};
 
-    tl.to(boxAnim, {
-        width: canvas.width - strokeWidth - padding * 2,
-        height: canvas.height - strokeWidth - padding * 2,
-        opacity: 1,
-        duration: duration,
-        ease: boxEase,
-        onUpdate: function () {
-            let currentProgress = Math.round(this.progress() * 10) / 10;
-            if (currentProgress > lastProgressUpdate) {
-                let currentWidth = this.targets()[0].width;
-                let currentHeight = this.targets()[0].height;
-                let currentOpacity = this.targets()[0].opacity;
-                drawRectangle(currentWidth, currentHeight, currentOpacity);
-                lastProgressUpdate = currentProgress;
-            }
-        }
-    }, "<");
-
-    tl.to('#social-links a', {
-        opacity: 1,
-        duration: linkDuration,
-        stagger: 0.2,
-        ease: "expoScale(0.5,7,power1.inOut)",
-    });
-
+function setupSocialLinks() {
     document.querySelectorAll('#social-links a').forEach(link => {
         link.style.position = 'relative';
-
-        link.addEventListener('mouseenter', function () {
-            if (!this.querySelector('canvas')) {
-                let canvas = document.createElement('canvas');
-                canvas.width = this.offsetWidth;
-                let height = 20;
-                canvas.height = height;
-                canvas.style.position = 'absolute';
-                canvas.style.left = '0';
-                canvas.style.top = `${this.offsetHeight - height}px`;
-                this.appendChild(canvas);
-
-                let rc = rough.canvas(canvas);
-                let lastProgressUpdate = -1;
-
-                function drawLine(newWidth) {
-                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-                    rc.line(0, 10, newWidth, 10, {
-                        stroke: '#F8F8F8',
-                        strokeWidth: strokeWidth,
-                        roughness: roughness,
-                    });
-                }
-
-                gsap.fromTo({ width: 0 }, {
-                    width: 0
-                }, {
-                    width: canvas.offsetWidth,
-                    duration: 1,
-                    ease: "expoScale(0.5,7,power1.inOut)",
-                    onUpdate: function () {
-                        let currentProgress = Math.round(this.progress() * 10) / 10;
-                        if (currentProgress > lastProgressUpdate) {
-                            let currentWidth = this.targets()[0].width;
-                            drawLine(currentWidth);
-                            lastProgressUpdate = currentProgress;
-                        }
-                    },
-                    yoyo: true,
-                });
-            }
-        });
-
-        link.addEventListener('mouseleave', function () {
-            let canvas = this.querySelector('canvas');
-            if (canvas) {
-                this.removeChild(canvas);
-            }
-        });
+        link.addEventListener('mouseenter', createLineAnimation);
+        link.addEventListener('mouseleave', removeLineAnimation);
     });
-};
+}
+
+function createLineAnimation() {
+    if (!this.querySelector('canvas')) {
+        let linkCanvas = document.createElement('canvas');
+        setupLinkCanvas(this, linkCanvas);
+        let rc = rough.canvas(linkCanvas);
+        animateLine(rc, linkCanvas);
+    }
+}
+
+function setupLinkCanvas(link, linkCanvas) {
+    linkCanvas.width = link.offsetWidth;
+    linkCanvas.height = 20;
+    linkCanvas.style.position = 'absolute';
+    linkCanvas.style.left = '0';
+    linkCanvas.style.top = `${link.offsetHeight - linkCanvas.height}px`;
+    link.appendChild(linkCanvas);
+}
+
+function animateLine(rc, linkCanvas) {
+    gsap.fromTo(
+        { width: 0 }, 
+        { width: linkCanvas.offsetWidth, duration: 1, ease: "expoScale(0.5,7,power1.inOut)" },
+        {
+            onUpdate: function() {
+                let width = this.targets()[0].width;
+                drawLine(rc, linkCanvas, width);
+            },
+            yoyo: true,
+        }
+    );
+}
+
+function drawLine(rc, linkCanvas, width) {
+    let context = linkCanvas.getContext('2d');
+    context.clearRect(0, 0, linkCanvas.width, linkCanvas.height);
+    rc.line(0, 10, width, 10, {
+        stroke: '#F8F8F8',
+        strokeWidth: 3,
+        roughness: 1.5,
+    });
+}
+
+function removeLineAnimation() {
+    let linkCanvas = this.querySelector('canvas');
+    if (linkCanvas) {
+        this.removeChild(linkCanvas);
+    }
+}
