@@ -3,66 +3,70 @@ window.onload = function () {
     let strokeWidth = 2;
     let roughness = 1;
     let padding = 10;
+
+    // Create the canvas and set initial properties immediately, without waiting for the title animation.
+    let title = document.getElementById('title');
+    let canvas = document.createElement('canvas');
+    document.body.appendChild(canvas);
+    canvas.width = title.offsetWidth + strokeWidth + padding * 4; // Adjusted for correct full width
+    canvas.height = title.offsetHeight + strokeWidth + padding * 2; // Adjusted for correct full height
+    canvas.style.position = 'absolute';
+    canvas.style.left = `${title.getBoundingClientRect().left - padding * 2 - (strokeWidth / 2)}px`;
+    canvas.style.top = `${title.getBoundingClientRect().top - padding - (strokeWidth / 2)}px`;
+    canvas.style.zIndex = '-1';
+
+    let rc = rough.canvas(canvas);
+    let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2), opacity: 0 };
+    let centerX = canvas.width / 2;
+    let lastProgressUpdate = -1;
+
+    // Animate title opacity and box drawing simultaneously.
     tl.to('#title', {
         opacity: 1,
         duration: 1,
         ease: "expoScale(0.5,7,none)",
-    }).add(() => {
-        let title = document.getElementById('title');
-        let canvas = document.createElement('canvas');
-        document.body.appendChild(canvas);
-        canvas.width = title.offsetWidth + strokeWidth + padding * 4; // Adjusted for correct full width
-        canvas.height = title.offsetHeight + strokeWidth + padding * 2; // Adjusted for correct full height
-        canvas.style.position = 'absolute';
-        canvas.style.left = `${title.getBoundingClientRect().left - padding * 2 - (strokeWidth / 2)}px`;
-        canvas.style.top = `${title.getBoundingClientRect().top - padding - (strokeWidth / 2)}px`;
-        canvas.style.zIndex = '-1';
+    });
 
-        let rc = rough.canvas(canvas);
-        let boxAnim = { width: 0, height: canvas.height - (strokeWidth + padding * 2), opacity: 0 };
-        let lastProgressUpdate = -1;
-        let centerX = canvas.width / 2;
+    tl.to(boxAnim, {
+        width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
+        opacity: 1, // Animate opacity to 1
+        duration: 1,
+        ease: "expoScale(0.5,7,power1.inOut)", // Adjusted ease for consistency
+        onStart: function () { // Use onStart to ensure it runs in parallel with the title animation
+            function drawRectangle(newWidth, newOpacity) {
+                // Clear previous frame
+                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
-        function drawRectangle(newWidth, newOpacity) {
-            // Clear previous frame
-            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+                // Calculate new X position to start drawing from, expanding from the center
+                let newX = centerX - newWidth / 2;
 
-            // Calculate new X position to start drawing from, expanding from the center
-            let newX = centerX - newWidth / 2;
+                // Adjust styles to include dynamic opacity
+                let fillStyle = `rgba(200, 16, 46, ${newOpacity})`; // Adjust fill color opacity
+                let strokeStyle = `rgba(248, 248, 248, ${newOpacity})`; // Adjust stroke color opacity
 
-            // Adjust styles to include dynamic opacity
-            let fillStyle = `rgba(200, 16, 46, ${newOpacity})`; // Adjust fill color opacity
-            let strokeStyle = `rgba(248, 248, 248, ${newOpacity})`; // Adjust stroke color opacity
-
-            // Draw the rectangle with dynamic width, adjusted X position, and opacity
-            rc.rectangle(newX, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
-                fill: fillStyle,
-                fillStyle: 'cross-hatch',
-                hachureAngle: -45,
-                hachureGap: 10,
-                fillWeight: 1,
-                stroke: strokeStyle,
-                strokeWidth: strokeWidth,
-                roughness: roughness,
-            });
-        }
-
-        gsap.to(boxAnim, {
-            width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
-            opacity: 1, // Animate opacity to 1
-            duration: 1,
-            ease: "expoScale(0.5,7,power1.inOut)", // Adjusted ease for consistency
-            onUpdate: function () {
-                let currentProgress = Math.round(this.progress() * 10) / 10;
-                if (currentProgress > lastProgressUpdate) {
-                    let currentWidth = this.targets()[0].width;
-                    let currentOpacity = this.targets()[0].opacity;
-                    drawRectangle(currentWidth, currentOpacity);
-                    lastProgressUpdate = currentProgress;
-                }
+                // Draw the rectangle with dynamic width, adjusted X position, and opacity
+                rc.rectangle(newX, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
+                    fill: fillStyle,
+                    fillStyle: 'cross-hatch',
+                    hachureAngle: -45,
+                    hachureGap: 10,
+                    fillWeight: 1,
+                    stroke: strokeStyle,
+                    strokeWidth: strokeWidth,
+                    roughness: roughness,
+                });
             }
-        });
-    }, "+=0");
+        },
+        onUpdate: function () {
+            let currentProgress = Math.round(this.progress() * 10) / 10;
+            if (currentProgress > lastProgressUpdate) {
+                let currentWidth = this.targets()[0].width;
+                let currentOpacity = this.targets()[0].opacity;
+                drawRectangle(currentWidth, currentOpacity);
+                lastProgressUpdate = currentProgress;
+            }
+        }
+    }, "<");
 
     tl.to('#social-links a', {
         opacity: 1,
