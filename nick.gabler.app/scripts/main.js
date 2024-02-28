@@ -16,7 +16,7 @@ window.onload = function () {
     // Function to update canvas size and central X coordinate
     function updateCanvasSize() {
         canvas.width = window.innerWidth;
-        canvas.height = title.offsetHeight + (strokeWidth + padding * 2);
+        canvas.height = title.offsetHeight + (strokeWidth + padding * 2.5);
         canvas.style.top = `${title.getBoundingClientRect().top - padding - (strokeWidth / 2)}px`;
     }
 
