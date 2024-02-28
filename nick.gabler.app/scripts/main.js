@@ -43,7 +43,7 @@ window.onload = function () {
     let centerY = canvas.height / 2;
     let lastProgressUpdate = -1;
 
-    function drawRectangle(newWidth, newOpacity) {
+    function drawRectangle(newWidth, newHeight, newOpacity) {
         // Ensure height is dynamically updated based on current canvas height
         boxAnim.height = canvas.height - (strokeWidth + padding * 2);
 
