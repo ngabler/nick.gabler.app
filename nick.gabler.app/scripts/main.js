@@ -40,7 +40,7 @@ window.onload = function() {
             roughness: 1.5,
             hachureAngle: -50,
             hachureGap: 60,
-            fillWeight: 6,
+            fillWeight: 9,
             fillStyle: 'zigzag'
         };
 
@@ -79,7 +79,8 @@ function createLineAnimation() {
     if (!this.querySelector('canvas')) {
         let linkCanvas = document.createElement('canvas');
         setupLinkCanvas(this, linkCanvas);
-        animateLine(linkCanvas);
+        let rc = rough.canvas(linkCanvas);
+        animateLine(rc, linkCanvas);
     }
 }
 
@@ -92,39 +93,30 @@ function setupLinkCanvas(link, linkCanvas) {
     link.appendChild(linkCanvas);
 }
 
-function animateLine(linkCanvas) {
-    let context = linkCanvas.getContext('2d');
-    context.clearRect(0, 0, linkCanvas.width, linkCanvas.height);
-
-    // Animate the line drawing from left to right
-    gsap.fromTo(linkCanvas,
-        { width: 0 },
-        {
-            width: linkCanvas.width,
-            duration: 1,
-            ease: "none",
-            onUpdate: () => drawLine(context, linkCanvas.width * gsap.getProperty(linkCanvas, "width") / linkCanvas.width)
-        }
-    );
+function animateLine(rc, linkCanvas) {
+    let lineLength = { length: 0 };
+    gsap.to(lineLength, {
+        length: linkCanvas.width,
+        duration: 1,
+        ease: "none",
+        onUpdate: () => drawLine(rc, linkCanvas, lineLength.length),
+        onComplete: () => lineLength.length = linkCanvas.width // Ensure line stays after animation completes
+    });
 }
 
-function drawLine(context, width) {
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    context.beginPath();
-    context.moveTo(0, 10);
-    context.lineTo(width, 10);
-    context.strokeStyle = '#F8F8F8';
-    context.strokeWidth = 3;
-    context.stroke();
+function drawLine(rc, linkCanvas, width) {
+    let context = linkCanvas.getContext('2d');
+    context.clearRect(0, 0, linkCanvas.width, linkCanvas.height);
+    rc.line(0, 10, width, 10, {
+        stroke: '#F8F8F8',
+        strokeWidth: 3,
+        roughness: 1.5,
+    });
 }
 
 function removeLineAnimation() {
     let linkCanvas = this.querySelector('canvas');
     if (linkCanvas) {
-        gsap.to(linkCanvas, {
-            opacity: 0,
-            duration: 0.5,
-            onComplete: () => this.removeChild(linkCanvas)
-        });
+        this.removeChild(linkCanvas);
     }
 }
