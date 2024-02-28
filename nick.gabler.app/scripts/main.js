@@ -8,7 +8,7 @@ window.onload = function() {
     let title = document.getElementById('title');
     let canvas = setupCanvas();
     let rc = rough.canvas(canvas);
-    let boxAnim = { width: 0, opacity: 0 };
+    let boxAnim = { width: 0, height: 0, opacity: 0 };
 
     function setupCanvas() {
         let cnv = document.createElement('canvas');
@@ -25,11 +25,11 @@ window.onload = function() {
         let titleRect = title.getBoundingClientRect();
         cnv.width = titleRect.width + extraPadding * 2;
         cnv.height = titleRect.height + extraPadding * 2;
-        cnv.style.top = `${titleRect.top - (extraPadding / 2)}px`;
+        cnv.style.top = `${titleRect.top - extraPadding}px`;
         cnv.style.left = `${titleRect.left - extraPadding}px`;
     }
 
-    function drawRectangle(cnv, width, opacity) {
+    function drawRectangle(cnv, width, height, opacity) {
         let context = cnv.getContext('2d');
         context.clearRect(0, 0, cnv.width, cnv.height);
 
@@ -44,23 +44,24 @@ window.onload = function() {
             fillStyle: 'zigzag'
         };
 
-        rc.rectangle(padding, padding, width, cnv.height - padding * 2, options);
+        rc.rectangle(padding, padding, width, height, options);
     }
 
     let tl = gsap.timeline();
-    tl.to('#title', { opacity: 1, duration: duration, ease: 'expoScale(0.5,7,none)' })
+    tl.to('#title', { opacity: 1, duration: duration, ease: 'expo.out' })
       .to(boxAnim, {
           width: () => canvas.width - strokeWidth - padding * 2,
+          height: () => canvas.height - strokeWidth - padding * 2,
           opacity: 1,
           duration: duration,
-          ease: 'expoScale(0.5,7,none)',
-          onUpdate: () => drawRectangle(canvas, boxAnim.width, boxAnim.opacity)
+          ease: 'expo.out',
+          onUpdate: () => drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity)
       }, "<")
       .to('#social-links a', {
           opacity: 1,
           duration: linkDuration,
           stagger: 0.2,
-          ease: "expoScale(0.5,7,power1.inOut)",
+          ease: "expo.out",
       });
 
     setupSocialLinks();
@@ -88,20 +89,23 @@ function setupLinkCanvas(link, linkCanvas) {
     linkCanvas.height = 20;
     linkCanvas.style.position = 'absolute';
     linkCanvas.style.left = '0';
-    linkCanvas.style.top = `${link.offsetHeight - linkCanvas.height}px`;
+    linkCanvas.style.top = `${link.offsetHeight}px`;
     link.appendChild(linkCanvas);
 }
 
 function animateLine(rc, linkCanvas) {
-    gsap.fromTo(
-        { width: 0 }, 
-        { width: linkCanvas.offsetWidth, duration: 1, ease: "expoScale(0.5,7,power1.inOut)" },
+    gsap.fromTo(rc,
+        { width: 0 },
         {
+            width: linkCanvas.offsetWidth,
+            duration: 1,
+            ease: "power1.inOut",
             onUpdate: function() {
                 let width = this.targets()[0].width;
                 drawLine(rc, linkCanvas, width);
             },
             yoyo: true,
+            repeat: 1
         }
     );
 }
