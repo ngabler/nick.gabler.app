@@ -79,8 +79,7 @@ function createLineAnimation() {
     if (!this.querySelector('canvas')) {
         let linkCanvas = document.createElement('canvas');
         setupLinkCanvas(this, linkCanvas);
-        let rc = rough.canvas(linkCanvas);
-        animateLine(rc, linkCanvas);
+        animateLine(linkCanvas);
     }
 }
 
@@ -93,21 +92,39 @@ function setupLinkCanvas(link, linkCanvas) {
     link.appendChild(linkCanvas);
 }
 
-function animateLine(rc, linkCanvas) {
+function animateLine(linkCanvas) {
     let context = linkCanvas.getContext('2d');
-    // Clear the canvas before drawing the new line
     context.clearRect(0, 0, linkCanvas.width, linkCanvas.height);
-    // Draw the line across the full width of the link
-    rc.line(0, 10, linkCanvas.width, 10, {
-        stroke: '#F8F8F8',
-        strokeWidth: 3,
-        roughness: 1.5,
-    });
+
+    // Animate the line drawing from left to right
+    gsap.fromTo(linkCanvas,
+        { width: 0 },
+        {
+            width: linkCanvas.width,
+            duration: 1,
+            ease: "none",
+            onUpdate: () => drawLine(context, linkCanvas.width * gsap.getProperty(linkCanvas, "width") / linkCanvas.width)
+        }
+    );
+}
+
+function drawLine(context, width) {
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    context.beginPath();
+    context.moveTo(0, 10);
+    context.lineTo(width, 10);
+    context.strokeStyle = '#F8F8F8';
+    context.strokeWidth = 3;
+    context.stroke();
 }
 
 function removeLineAnimation() {
     let linkCanvas = this.querySelector('canvas');
     if (linkCanvas) {
-        this.removeChild(linkCanvas);
+        gsap.to(linkCanvas, {
+            opacity: 0,
+            duration: 0.5,
+            onComplete: () => this.removeChild(linkCanvas)
+        });
     }
 }
