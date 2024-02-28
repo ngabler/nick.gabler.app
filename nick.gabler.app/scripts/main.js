@@ -24,7 +24,7 @@ window.onload = function () {
         // Clear previous frame
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
-        let borderPadding = 5; // Extra padding to ensure border lines are not clipped, adjust as needed
+        let borderPadding = padding; // Extra padding to ensure border lines are not clipped, adjust as needed
 
         // Adjust newX to start drawing from, factoring in the borderPadding
         let newX = centerX - newWidth / 2 + borderPadding;
