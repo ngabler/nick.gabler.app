@@ -98,9 +98,9 @@ function animateLine(rc, linkCanvas) {
     gsap.to(lineLength, {
         length: linkCanvas.width,
         duration: 1,
-        ease: "none",
+        ease: "expo.out",
         onUpdate: () => drawLine(rc, linkCanvas, lineLength.length),
-        onComplete: () => lineLength.length = linkCanvas.width // Ensure line stays after animation completes
+        onComplete: () => lineLength.length = linkCanvas.width
     });
 }
 
