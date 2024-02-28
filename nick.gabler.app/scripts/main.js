@@ -112,7 +112,7 @@ function setupLinkCanvas(link, linkCanvas) {
     linkCanvas.height = 20;
     linkCanvas.style.position = 'absolute';
     linkCanvas.style.left = '0';
-    linkCanvas.style.top = `${link.offsetHeight}px`;
+    linkCanvas.style.top = `${link.offsetHeight - 10}px`;
     link.appendChild(linkCanvas);
 }
 
