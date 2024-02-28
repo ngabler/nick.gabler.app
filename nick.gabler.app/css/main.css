@@ -29,7 +29,7 @@ body {
 }
 
 #social-links {
-  font-size: 6.5rem; /* Adjusted by media query below */
+  font-size: 7rem; /* Adjusted by media query below */
   display: flex;
   flex-direction: column;
   justify-content: center;
