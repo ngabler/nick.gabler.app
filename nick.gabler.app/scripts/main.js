@@ -8,6 +8,7 @@ window.onload = function () {
     let fillWeight = 3;
     let hachureGap = 30;
     let hachureAngle = -50;
+    let boxEase = 'expoScale(0.5,7,none)';
 
     let title = document.getElementById('title');
     let canvas = document.createElement('canvas');
@@ -70,14 +71,14 @@ window.onload = function () {
     tl.to('#title', {
         opacity: 1,
         duration: duration,
-        ease: "expoScale(0.5,7,power1.inOut)",
+        ease: boxEase,
     });
 
     tl.to(boxAnim, {
         width: canvas.width - strokeWidth - padding * 2, // Target width adjusted for stroke and padding
         opacity: 1,
         duration: duration,
-        ease: "expoScale(0.5,7,power1.inOut)",
+        ease: boxEase,
         onUpdate: function () {
             let currentProgress = Math.round(this.progress() * 10) / 10;
             if (currentProgress > lastProgressUpdate) {
