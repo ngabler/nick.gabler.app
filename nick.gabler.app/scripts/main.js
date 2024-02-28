@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
     let strokeWidth = 3;
     let padding = 20;
     let duration = 1;
@@ -33,6 +33,10 @@ window.onload = function() {
         let context = cnv.getContext('2d');
         context.clearRect(0, 0, cnv.width, cnv.height);
 
+        // Calculate the starting position for the rectangle
+        let startX = (cnv.width - width) / 2;
+        let startY = (cnv.height - height) / 2;
+
         let options = {
             fill: `rgba(200, 16, 46, ${opacity})`,
             stroke: `rgba(248, 248, 248, ${opacity})`,
@@ -44,35 +48,33 @@ window.onload = function() {
             fillStyle: 'zigzag'
         };
 
-        rc.rectangle(padding, padding, width, height, options);
+        // Adjust the rectangle call to use the dynamic starting position
+        rc.rectangle(startX, startY, width, height, options);
     }
-    
+
     let lastBoxUpdate = 0;
     let boxUpdateInterval = 50; // Update every 50 milliseconds
 
     let tl = gsap.timeline();
     tl.to('#title', { opacity: 1, duration: duration, ease: 'expo.out' })
-      .to(boxAnim, {
-          width: () => canvas.width - strokeWidth - padding * 2,
-          height: () => canvas.height - strokeWidth - padding * 2,
-          opacity: 1,
-          duration: duration,
-          ease: 'expo.out',
-          onUpdate: () => {
-              let currentTime = Date.now();
-              if (currentTime - lastBoxUpdate > boxUpdateInterval) {
-                  drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
-                  lastBoxUpdate = currentTime;
-              }
-          },
-          onComplete: () => drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1) // Ensure final state is rendered
-      }, "<")
-      .to('#social-links a', {
-          opacity: 1,
-          duration: linkDuration,
-          stagger: 0.2,
-          ease: "expo.out",
-      });
+        .to(boxAnim, {
+            width: () => canvas.width - strokeWidth - padding * 2,
+            height: () => canvas.height - strokeWidth - padding * 2,
+            opacity: 1,
+            duration: duration,
+            ease: 'expo.out',
+            onUpdate: () => {
+                // Update the call to drawRectangle to include height
+                drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
+            },
+            onComplete: () => drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1) // Ensure final state is rendered
+        }, "<")
+        .to('#social-links a', {
+            opacity: 1,
+            duration: linkDuration,
+            stagger: 0.2,
+            ease: "expo.out",
+        });
 
     setupSocialLinks();
 };
