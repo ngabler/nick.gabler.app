@@ -7,7 +7,7 @@ window.onload = function () {
     let title = document.getElementById('title');
     let canvas = document.createElement('canvas');
     document.body.appendChild(canvas);
-    canvas.style.position = 'absolute';
+    canvas.style.position = 'relative';
     canvas.style.left = '0';
     canvas.style.zIndex = '-1';
 
