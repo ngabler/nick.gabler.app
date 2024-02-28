@@ -24,18 +24,26 @@ window.onload = function () {
         // Clear previous frame
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
-        // Calculate new X position to start drawing from, expanding from the center
-        let newX = centerX - newWidth / 2;
+        let borderPadding = 5; // Extra padding to ensure border lines are not clipped, adjust as needed
+
+        // Adjust newX to start drawing from, factoring in the borderPadding
+        let newX = centerX - newWidth / 2 + borderPadding;
+
+        // Adjust newWidth to factor in borderPadding on both sides
+        newWidth = newWidth - borderPadding * 2;
+
+        // Ensure that the adjusted width is not negative
+        newWidth = Math.max(0, newWidth);
 
         // Adjust styles to include dynamic opacity
         let fillStyle = `rgba(200, 16, 46, ${newOpacity})`; // Adjust fill color opacity
         let strokeStyle = `rgba(248, 248, 248, ${newOpacity})`; // Adjust stroke color opacity
 
         // Draw the rectangle with dynamic width, adjusted X position, and opacity
-        rc.rectangle(newX, padding, newWidth, canvas.height - strokeWidth - padding * 2, {
+        rc.rectangle(newX, padding + borderPadding, newWidth, canvas.height - strokeWidth - padding * 2 - borderPadding * 2, {
             fill: fillStyle,
             fillStyle: 'cross-hatch',
-            hachureAngle: -45,
+            hachureAngle: 45,
             hachureGap: 10,
             fillWeight: 1,
             stroke: strokeStyle,
