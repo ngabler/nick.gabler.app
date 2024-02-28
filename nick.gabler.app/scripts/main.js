@@ -40,6 +40,7 @@ window.onload = function () {
 
     let boxAnim = { width: 0, height: 0, opacity: 0 }; // Updated to recalculate height dynamically
     let centerX = canvas.width / 2;
+    let centerY = canvas.height / 2;
     let lastProgressUpdate = -1;
 
     function drawRectangle(newWidth, newOpacity) {
@@ -50,13 +51,16 @@ window.onload = function () {
 
         let borderPadding = padding;
         let newX = centerX - newWidth / 2 + borderPadding;
+        let newY = centerY - newHeight / 2 + borderPadding;
         newWidth = newWidth - borderPadding * 2;
+        newHeight = newHeight - borderPadding * 2;
         newWidth = Math.max(0, newWidth);
+        newHeight = Math.max(0, newHeight);
 
         let fillStyle = `rgba(200, 16, 46, ${newOpacity})`;
         let strokeStyle = `rgba(248, 248, 248, ${newOpacity})`;
 
-        rc.rectangle(newX, padding + borderPadding, newWidth, boxAnim.height - borderPadding * 2, {
+        rc.rectangle(newX, newY, padding + borderPadding, newWidth, boxAnim.height - borderPadding * 2, {
             fill: fillStyle,
             fillStyle: 'zigzag',
             hachureAngle: hachureAngle,
