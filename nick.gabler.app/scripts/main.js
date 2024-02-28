@@ -45,7 +45,7 @@ window.onload = function () {
             fillStyle: 'cross-hatch',
             hachureAngle: 45,
             hachureGap: 10,
-            fillWeight: 1,
+            fillWeight: 1.5,
             stroke: strokeStyle,
             strokeWidth: strokeWidth,
             roughness: roughness,
