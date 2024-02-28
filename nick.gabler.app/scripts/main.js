@@ -3,7 +3,7 @@ window.onload = function () {
     let padding = 20;
     let duration = 1;
     let linkDuration = 0.5;
-    let extraPadding = 20;
+    let extraPadding = 0;
     let lastBoxUpdate = 0;
     let boxUpdateInterval = 100;
 
