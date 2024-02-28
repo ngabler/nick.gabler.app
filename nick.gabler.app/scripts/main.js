@@ -6,6 +6,7 @@ window.onload = function () {
     let extraPadding = 30;
     let lastBoxUpdate = 0;
     let boxUpdateInterval = 100;
+    let animationInterval;
 
     let title = document.getElementById('title');
     let canvas = setupCanvas();
@@ -67,7 +68,13 @@ window.onload = function () {
                     lastBoxUpdate = currentTime;
                 }
             },
-            onComplete: () => drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1)
+                        onComplete: function() {
+                drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1);
+                if (animationInterval) clearInterval(animationInterval); // Clear existing interval if any
+                animationInterval = setInterval(function() {
+                    drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
+                }, 250); // Redraw every 250ms
+            }
         }, "<")
         .to('#social-links a', {
             opacity: 1,
@@ -77,6 +84,10 @@ window.onload = function () {
         });
 
     setupSocialLinks();
+
+    window.onunload = function() {
+        if (animationInterval) clearInterval(animationInterval);
+    };
 };
 
 function setupSocialLinks() {
