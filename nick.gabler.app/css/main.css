@@ -54,11 +54,11 @@ body {
 /* Small Devices, Phones */
 @media (max-width: 767px) {
   #title {
-    font-size: 6rem;
+    font-size: 5rem;
   }
 
   #social-links a {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 }
 
