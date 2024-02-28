@@ -94,26 +94,11 @@ function setupLinkCanvas(link, linkCanvas) {
 }
 
 function animateLine(rc, linkCanvas) {
-    gsap.fromTo(rc,
-        { width: 0 },
-        {
-            width: linkCanvas.offsetWidth,
-            duration: 1,
-            ease: "power1.inOut",
-            onUpdate: function() {
-                let width = this.targets()[0].width;
-                drawLine(rc, linkCanvas, width);
-            },
-            yoyo: true,
-            repeat: 1
-        }
-    );
-}
-
-function drawLine(rc, linkCanvas, width) {
     let context = linkCanvas.getContext('2d');
+    // Clear the canvas before drawing the new line
     context.clearRect(0, 0, linkCanvas.width, linkCanvas.height);
-    rc.line(0, 10, width, 10, {
+    // Draw the line across the full width of the link
+    rc.line(0, 10, linkCanvas.width, 10, {
         stroke: '#F8F8F8',
         strokeWidth: 3,
         roughness: 1.5,
