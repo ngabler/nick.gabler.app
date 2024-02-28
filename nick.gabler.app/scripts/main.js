@@ -75,19 +75,19 @@ window.onload = function () {
             }, 250); // Redraw every 250ms
         }
     })
-    .to('#title', { opacity: 1, duration: duration, ease: 'expo.out' })
-    .to('#social-links a', {
-        opacity: 1,
-        duration: linkDuration,
-        stagger: 0.2,
-        ease: "expo.out",
-    }, "<");
+        .to('#title', { opacity: 1, duration: duration, ease: 'expo.out' })
+        .to('#social-links a', {
+            opacity: 1,
+            duration: linkDuration,
+            stagger: 0.2,
+            ease: "expo.out",
+        }, "<");
 
     setupSocialLinks();
 
-    window.onunload = function () {
+    window.addEventListener('pagehide', function () {
         if (animationInterval) clearInterval(animationInterval);
-    };
+    });
 };
 
 function setupSocialLinks() {
