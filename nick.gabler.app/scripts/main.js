@@ -5,9 +5,7 @@ window.onload = function () {
     let linkDuration = 0.5;
     let extraPadding = 20;
     let lastBoxUpdate = 0;
-    let lastUpdateTime = 0;
     let boxUpdateInterval = 50;
-    let updateInterval = 50;
 
     let title = document.getElementById('title');
     let canvas = setupCanvas();
@@ -109,6 +107,8 @@ function setupLinkCanvas(link, linkCanvas) {
 
 function animateLine(rc, linkCanvas) {
     let lineLength = { length: 0 };
+    let lastUpdateTime = 0;
+    let updateInterval = 50;
     gsap.to(lineLength, {
         length: linkCanvas.width,
         duration: 1,
