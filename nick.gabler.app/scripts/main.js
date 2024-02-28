@@ -69,7 +69,7 @@ window.onload = function () {
             roughness: roughness,
             hachureAngle: hachureAngle,
             hachureGap: hachureGap,
-            fillStyle: 'solid' // Changed from 'zigzag' to 'solid' for better visibility
+            fillStyle: 'zigzag',
         };
 
         // Draw the rectangle
