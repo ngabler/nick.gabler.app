@@ -69,6 +69,7 @@ window.onload = function () {
             roughness: roughness,
             hachureAngle: hachureAngle,
             hachureGap: hachureGap,
+            fillWeight: fillWeight,
             fillStyle: 'zigzag',
         };
 
