@@ -46,6 +46,9 @@ window.onload = function() {
 
         rc.rectangle(padding, padding, width, height, options);
     }
+    
+    let lastBoxUpdate = 0;
+    let boxUpdateInterval = 50; // Update every 50 milliseconds
 
     let tl = gsap.timeline();
     tl.to('#title', { opacity: 1, duration: duration, ease: 'expo.out' })
@@ -55,7 +58,14 @@ window.onload = function() {
           opacity: 1,
           duration: duration,
           ease: 'expo.out',
-          onUpdate: () => drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity)
+          onUpdate: () => {
+              let currentTime = Date.now();
+              if (currentTime - lastBoxUpdate > boxUpdateInterval) {
+                  drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
+                  lastBoxUpdate = currentTime;
+              }
+          },
+          onComplete: () => drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1) // Ensure final state is rendered
       }, "<")
       .to('#social-links a', {
           opacity: 1,
