@@ -44,7 +44,7 @@ window.onload = function () {
             stroke: `rgba(248, 248, 248, ${opacity})`,
             strokeWidth: strokeWidth,
             roughness: 1.5,
-            hachureAngle: -50,
+            hachureAngle: 0,
             hachureGap: 60,
             fillWeight: 9,
             fillStyle: 'zigzag'
