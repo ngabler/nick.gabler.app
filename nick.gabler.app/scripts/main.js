@@ -4,6 +4,8 @@ window.onload = function () {
     let duration = 1;
     let linkDuration = 0.5;
     let extraPadding = 20;
+    let lastBoxUpdate = 0; // Initialize lastBoxUpdate here
+    let boxUpdateInterval = 50; // Update every 50 milliseconds
 
     let title = document.getElementById('title');
     let canvas = setupCanvas();
