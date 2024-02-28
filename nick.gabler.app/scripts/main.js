@@ -54,34 +54,34 @@ window.onload = function () {
     }
 
     let tl = gsap.timeline();
-    tl.to('#title', { opacity: 1, duration: duration, ease: 'expo.out' })
-        .to(boxAnim, {
-            width: () => canvas.width - strokeWidth - padding * 2,
-            height: () => canvas.height - strokeWidth - padding * 2,
-            opacity: 1,
-            duration: duration,
-            ease: 'expo.out',
-            onUpdate: function () {
-                let currentTime = Date.now();
-                if (currentTime - lastBoxUpdate > boxUpdateInterval) {
-                    drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
-                    lastBoxUpdate = currentTime;
-                }
-            },
-            onComplete: function () {
-                drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1);
-                if (animationInterval) clearInterval(animationInterval); // Clear existing interval if any
-                animationInterval = setInterval(function () {
-                    drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
-                }, 250); // Redraw every 250ms
+    tl.to(boxAnim, {
+        width: () => canvas.width - strokeWidth - padding * 2,
+        height: () => canvas.height - strokeWidth - padding * 2,
+        opacity: 1,
+        duration: duration,
+        ease: 'expo.out',
+        onUpdate: function () {
+            let currentTime = Date.now();
+            if (currentTime - lastBoxUpdate > boxUpdateInterval) {
+                drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
+                lastBoxUpdate = currentTime;
             }
-        }, "<")
+        },
+        onComplete: function () {
+            drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1);
+            if (animationInterval) clearInterval(animationInterval); // Clear existing interval if any
+            animationInterval = setInterval(function () {
+                drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
+            }, 250); // Redraw every 250ms
+        }
+    })
+        .to('#title', { opacity: 1, duration: duration, ease: 'expo.out' }, "<")
         .to('#social-links a', {
             opacity: 1,
             duration: linkDuration,
             stagger: 0.2,
             ease: "expo.out",
-        });
+        }, "<");
 
     setupSocialLinks();
 
