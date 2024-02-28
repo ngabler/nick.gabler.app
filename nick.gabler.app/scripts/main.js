@@ -5,7 +5,7 @@ window.onload = function () {
     let linkDuration = 0.5;
     let extraPadding = 20;
     let lastBoxUpdate = 0;
-    let boxUpdateInterval = 50;
+    let boxUpdateInterval = 100;
 
     let title = document.getElementById('title');
     let canvas = setupCanvas();
