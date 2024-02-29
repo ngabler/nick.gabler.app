@@ -72,7 +72,7 @@ window.onload = function () {
             if (animationInterval) clearInterval(animationInterval); // Clear existing interval if any
             animationInterval = setInterval(function () {
                 drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
-            }, 250); // Redraw every 250ms
+            }, 41.6664); // 24 fps
         }
     })
         .to('#title', { opacity: 1, duration: duration, ease: 'expo.out' })
