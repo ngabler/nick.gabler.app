@@ -7,6 +7,8 @@ window.onload = function () {
     let lastBoxUpdate = 0;
     let boxUpdateInterval = 25;
     let animationInterval;
+    let frameCounter = 0;
+    const updateThreshold = 5;
 
     let title = document.getElementById('title');
     let canvas = setupCanvas();
@@ -61,18 +63,19 @@ window.onload = function () {
         duration: duration,
         ease: 'expo.out',
         onUpdate: function () {
-            let currentTime = Date.now();
-            if (currentTime - lastBoxUpdate > boxUpdateInterval) {
+            // Increment the frame counter on each frame
+            frameCounter++;
+
+            // Perform the update only every x frames
+            if (frameCounter >= updateThreshold) {
                 drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
-                lastBoxUpdate = currentTime;
+                // Reset the frame counter after the update
+                frameCounter = 0;
             }
         },
         onComplete: function () {
+            // Ensure the final state is rendered at the end of the animation
             drawRectangle(canvas, canvas.width - strokeWidth - padding * 2, canvas.height - strokeWidth - padding * 2, 1);
-            if (animationInterval) clearInterval(animationInterval); // Clear existing interval if any
-            animationInterval = setInterval(function () {
-                drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
-            }, 41.6664); // 24 fps
         }
     })
         .to('#title', { opacity: 1, duration: duration, ease: 'expo.out' })
