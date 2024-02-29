@@ -1,7 +1,7 @@
 window.onload = function () {
     let strokeWidth = 4;
     let padding = 20;
-    let duration = 1;
+    let duration = 0.25;
     let linkDuration = 0.5;
     let extraPadding = 30;
     let lastBoxUpdate = 0;
