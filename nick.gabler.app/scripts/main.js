@@ -5,7 +5,7 @@ window.onload = function () {
     let linkDuration = 0.5;
     let extraPadding = 30;
     let lastBoxUpdate = 0;
-    let boxUpdateInterval = 150;
+    let boxUpdateInterval = 10;
     let animationInterval;
 
     let title = document.getElementById('title');
@@ -72,7 +72,7 @@ window.onload = function () {
             if (animationInterval) clearInterval(animationInterval); // Clear existing interval if any
             animationInterval = setInterval(function () {
                 drawRectangle(canvas, boxAnim.width, boxAnim.height, boxAnim.opacity);
-            }, 10); // Redraw every 10ms
+            }, 250); // Redraw every 250ms
         }
     })
         .to('#title', { opacity: 1, duration: duration, ease: 'expo.out' })
